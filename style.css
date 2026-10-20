@@ -135,3 +135,22 @@ body:has(.boas-vindas) main {
 .opcoes a:hover {
     background-color: #e8f7ff;
 }
+.pagina-login {
+    margin: 35px auto;
+}
+
+.botao-voltar {
+    display: inline-block;
+    align-self: flex-start;
+    background-color: #e8f7ff;
+    color: #36566b;
+    text-decoration: none;
+    padding: 10px 16px;
+    border-radius: 12px;
+    font-size: 13px;
+    margin-bottom: 15px;
+}
+
+.botao-voltar:hover {
+    background-color: #d5efff;
+}
