@@ -2,38 +2,135 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Formar um Ninho</title>
+
+    <!-- Fonte original do projeto -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300..700&display=swap" rel="stylesheet">
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Formar um Ninho</title>
+
+    <!-- CSS -->
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
-    
-        <a href="index.html" class="botao-voltar">← Voltar</a>
 
-    <main>
-        <h1>Vamos formar seu Ninho!</h1>
-        <p>Comece criando um espaço para sua família.</p>
+    <main class="cadastro-container">
+
+        <a href="index.html" class="botao-voltar">
+            ← Voltar
+        </a>
+
+        <section class="cabecalho">
+            <h1>Construa seu Ninho</h1>
+            <p>
+                Um espaço para organizar sua casa
+                e cuidar de quem você ama.
+            </p>
+        </section>
+
         <form id="formularioNinho">
-            <label for="nomeNinho">Qual vai ser o nome do seu Ninho?</label>
-            <input type="text" id="nomeNinho" placeholder="Ex.: Ninho da família" required>
 
-            <label for="nomeResponsavel">Qual é o seu nome?</label>
-            <input type="text" id="nomeResponsavel" placeholder="Como podemos te chamar?" required>
+            <div class="campo">
+                <label for="nomeNinho">
+                    Nome do Ninho
+                </label>
 
-            <label for="email">Seu e-mail:</label>
-            <input type="email" id="email" placeholder="voce@exemplo.com" required>
+                <input
+                    type="text"
+                    id="nomeNinho"
+                    name="nomeNinho"
+                    placeholder="Ex.: Ninho da família"
+                    required
+                >
+            </div>
 
-            <label for="papel">Qual é o seu papel na família?</label>
-            <input type="text" id="papel" placeholder="Ex.: Mãe, Pai, Tio..." required>
+            <div class="campo">
+                <label for="nome">
+                    Seu nome
+                </label>
 
-            <button type="submit">Criar meu Ninho</button>
+                <input
+                    type="text"
+                    id="nome"
+                    name="nome"
+                    placeholder="Digite seu nome"
+                    required
+                >
+            </div>
+
+            <div class="campo">
+                <label for="email">
+                    E-mail
+                </label>
+
+                <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    placeholder="voce@exemplo.com"
+                    required
+                >
+            </div>
+
+            <div class="campo">
+                <label for="senha">
+                    Senha
+                </label>
+
+                <input
+                    type="password"
+                    id="senha"
+                    name="senha"
+                    placeholder="Crie uma senha"
+                    minlength="6"
+                    required
+                >
+            </div>
+
+            <div class="campo">
+                <label for="papel">
+                    Qual será sua função no Ninho?
+                </label>
+
+                <select id="papel" name="papel" required>
+                    <option value="" selected disabled>
+                        Selecione uma opção
+                    </option>
+
+                    <option value="RESPONSAVEL">
+                        Responsável do Ninho
+                    </option>
+
+                    <option value="MEMBRO">
+                        Membro do Ninho
+                    </option>
+                </select>
+
+                <small class="ajuda">
+                    O responsável administra o Ninho.
+                    Os membros participam da organização da casa.
+                </small>
+            </div>
+
+            <button type="submit" class="botao-principal">
+                Formar meu Ninho
+            </button>
+
+            <p id="mensagem" class="mensagem" role="status" aria-live="polite"></p>
 
         </form>
+
+        <footer>
+            <p>Seu lar, mais organizado. Seu Ninho, mais unido.</p>
+        </footer>
+
     </main>
+
     <script src="script.js"></script>
+
 </body>
 </html>
