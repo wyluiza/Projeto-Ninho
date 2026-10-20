@@ -301,3 +301,106 @@ body:has(.painel-ninho) {
         padding: 25px 16px;
     }
 }
+
+/* Mais personalidade para os cartões do Ninho */
+.painel-ninho .cartao-funcao {
+    position: relative;
+    overflow: hidden;
+    border-radius: 24px;
+    padding: 25px;
+    border: 1px solid #dceefa;
+    box-shadow: 0 6px 18px rgba(87, 145, 183, 0.10);
+}
+
+.painel-ninho .cartao-funcao::after {
+    content: "";
+    position: absolute;
+    width: 85px;
+    height: 85px;
+    right: -25px;
+    bottom: -35px;
+    border-radius: 50%;
+    background: rgba(200, 235, 255, 0.35);
+    pointer-events: none;
+}
+
+.painel-ninho .cartao-funcao h3 {
+    color: #365f82;
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+.painel-ninho .cartao-funcao p {
+    line-height: 1.7;
+}
+
+.painel-ninho .seta-funcao {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background-color: #e4f4ff;
+    color: #477da3;
+    font-size: 22px;
+    flex-shrink: 0;
+}
+
+.painel-ninho .cartao-funcao:hover {
+    border-color: #b9def5;
+    transform: translateY(-4px);
+    box-shadow: 0 10px 24px rgba(87, 145, 183, 0.16);
+}
+
+.painel-ninho .cartao-funcao > div {
+    position: relative;
+    z-index: 1;
+}
+
+.painel-ninho .seta-funcao {
+    position: relative;
+    z-index: 1;
+}
+
+/* Cabeçalho delicado do Ninho */
+.painel-ninho .cabecalho-ninho {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.cabecalho-ninho {
+    max-width: 1050px;
+    margin: 0 auto 24px;
+    padding: 12px 20px;
+    box-sizing: border-box;
+    background-color: rgba(255, 255, 255, 0.65);
+    border: 1px solid #e0f1fc;
+    border-radius: 22px;
+}
+
+.logo-ninho {
+    color: #477ba2;
+    font-family: 'Comfortaa', sans-serif;
+    font-size: 28px;
+    font-weight: 700;
+    text-decoration: none;
+    letter-spacing: -1px;
+}
+
+.botao-sair {
+    color: #477ba2;
+    background-color: #e4f4ff;
+    text-decoration: none;
+    font-size: 12px;
+    padding: 12px 16px;
+    border-radius: 14px;
+    transition: background-color 0.2s;
+}
+
+.botao-sair:hover {
+    background-color: #c8ebff;
+}
