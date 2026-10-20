@@ -1,9 +1,137 @@
 
+
 body {
     background-color: #c8ebff;
-        font-family: Comfortaa !important;
-        text-align: center;
+    font-family: 'Comfortaa', sans-serif;
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 45px 0;
+    box-sizing: border-box;
 }
-    button{
-        font-family: Comfortaa !important;
-    }
+
+main {
+    width: 90%;
+    max-width: 450px;
+    text-align: center;
+    background-color: white;
+    padding: 35px;
+    border-radius: 25px;
+    box-sizing: border-box;
+}
+
+
+h1 {
+    color: #36566b;
+    font-size: 28px;
+}
+
+p {
+    color: #617b8b;
+    margin-bottom: 30px;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    text-align: left;
+}
+
+label {
+    font-size: 14px;
+    color: #36566b;
+    margin-top: 8px;
+}
+
+input {
+    font-family: 'Comfortaa', sans-serif;
+    padding: 13px;
+    border: 1px solid #c8ebff;
+    border-radius: 12px;
+    outline: none;
+    box-sizing: border-box;
+    width: 100%;
+}
+
+input:focus {
+    border-color: #75bce5;
+}
+
+button {
+    font-family: 'Comfortaa', sans-serif;
+    background-color: #a5dcfa;
+    color: #24465b;
+    border: none;
+    border-radius: 15px;
+    padding: 14px;
+    margin-top: 15px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+button:hover {
+    background-color: #8dcef3;
+}
+
+a {
+    display: inline-block;
+    font-family: 'Comfortaa', sans-serif;
+    text-decoration: none;
+    background-color: white;
+    color: #36566b;
+    padding: 15px 22px;
+    border-radius: 15px;
+    margin: 8px;
+    font-weight: bold;
+}
+
+a:hover {
+    background-color: #e8f7ff;
+}
+
+/* Organização da página inicial */
+body:has(.boas-vindas) {
+    align-items: flex-start;
+}
+
+body:has(.boas-vindas) main {
+    max-width: 650px;
+    margin: 35px auto;
+    background: transparent;
+    padding: 15px;
+}
+
+.boas-vindas {
+    background-color: white;
+    padding: 30px 20px;
+    border-radius: 25px;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.opcoes {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+}
+
+.opcoes a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    min-height: 100px;
+    padding: 20px;
+    margin: 0;
+    box-sizing: border-box;
+    border-radius: 20px;
+    background-color: white;
+    transition: background-color 0.2s;
+}
+
+.opcoes a:hover {
+    background-color: #e8f7ff;
+}
