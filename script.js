@@ -19,3 +19,14 @@ formulario.addEventListener("submit", function(evento) {
     localStorage.setItem("email", email);
     localStorage.setItem("papel", papel);
 })
+
+const tituloBoasVindas = document.getElementById("boasVindas");
+
+if (tituloBoasVindas) {
+    const nomeNinho = localStorage.getItem("nomeNinho");
+
+    if (nomeNinho) {
+        tituloBoasVindas.textContent = `Bem-vinda ao ${nomeNinho}!`;
+    }
+}
+

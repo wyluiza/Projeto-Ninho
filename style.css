@@ -404,3 +404,638 @@ body:has(.painel-ninho) {
 .botao-sair:hover {
     background-color: #c8ebff;
 }
+/* PÁGINA INICIAL DO NINHO */
+
+body.pagina-inicial {
+    min-height: 100vh;
+    margin: 0;
+    padding: 30px 16px;
+    box-sizing: border-box;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background:
+        radial-gradient(circle at 15% 15%, #ffffff 0, transparent 30%),
+        linear-gradient(145deg, #dff3ff, #c8ebff, #eef9ff);
+
+    font-family: 'Comfortaa', sans-serif;
+}
+
+.cartao-inicial {
+    width: 100%;
+    max-width: 520px;
+    padding: 35px 35px 25px;
+    box-sizing: border-box;
+
+    background: rgba(255, 255, 255, 0.88);
+    border: 1px solid rgba(255, 255, 255, 0.95);
+    border-radius: 32px;
+
+    box-shadow: 0 15px 45px rgba(92, 151, 190, 0.13);
+    text-align: center;
+}
+
+.ilustracao-ninho {
+    position: relative;
+    height: 145px;
+    margin-bottom: 15px;
+    overflow: hidden;
+    border-radius: 25px;
+    background: linear-gradient(180deg, #eaf8ff, #d9efff);
+}
+
+.nuvem {
+    position: absolute;
+    width: 100px;
+    height: 35px;
+    border-radius: 50px;
+    background: rgba(255, 255, 255, 0.8);
+}
+
+.nuvem::before,
+.nuvem::after {
+    content: "";
+    position: absolute;
+    border-radius: 50%;
+    background: inherit;
+}
+
+.nuvem::before {
+    width: 40px;
+    height: 40px;
+    left: 17px;
+    top: -18px;
+}
+
+.nuvem::after {
+    width: 30px;
+    height: 30px;
+    right: 18px;
+    top: -12px;
+}
+
+.nuvem-esquerda {
+    left: 20px;
+    top: 40px;
+}
+
+.nuvem-direita {
+    right: 15px;
+    top: 75px;
+    transform: scale(0.75);
+}
+
+.passarinhos {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 24px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+}
+
+.passarinho {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    color: #669ac0;
+    background: #ffffff;
+    box-shadow: 0 5px 12px rgba(93, 151, 190, 0.12);
+}
+
+.passarinho-um {
+    width: 48px;
+    height: 48px;
+    font-size: 30px;
+    transform: rotate(-15deg);
+}
+
+.passarinho-dois {
+    width: 62px;
+    height: 62px;
+    font-size: 38px;
+    color: #8bb9d8;
+}
+
+.passarinho-tres {
+    width: 42px;
+    height: 42px;
+    font-size: 26px;
+    transform: rotate(15deg);
+}
+
+.raminho {
+    position: absolute;
+    bottom: -17px;
+    left: 0;
+    right: 0;
+    color: #8bb9a7;
+    font-size: 80px;
+    line-height: 1;
+}
+
+.etiqueta-inicial {
+    color: #8aaac2;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    line-height: 1.8;
+}
+
+.pagina-inicial .boas-vindas h1 {
+    margin: 15px 0;
+    color: #365f82;
+    font-size: clamp(27px, 5vw, 35px);
+    line-height: 1.4;
+}
+
+.pagina-inicial .boas-vindas h1 span {
+    color: #78a9cf;
+}
+
+.pagina-inicial .boas-vindas > p:last-child {
+    max-width: 360px;
+    margin: 0 auto;
+    color: #7892a8;
+    font-size: 14px;
+    line-height: 1.9;
+}
+
+.pagina-inicial .opcoes {
+    display: flex;
+    flex-direction: column;
+    gap: 13px;
+    margin-top: 30px;
+}
+
+.botao-inicial {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+
+    padding: 17px 20px;
+    border-radius: 17px;
+    box-sizing: border-box;
+
+    font-family: 'Comfortaa', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    text-decoration: none;
+
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.botao-inicial span {
+    font-size: 22px;
+}
+
+.botao-cadastrar {
+    color: #ffffff;
+    background: linear-gradient(135deg, #8fc7ec, #73b3df);
+    box-shadow: 0 6px 15px rgba(115, 179, 223, 0.2);
+}
+
+.botao-entrar {
+    color: #527d9e;
+    background: #edf8ff;
+    border: 1px solid #dceefa;
+}
+
+.botao-inicial:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(93, 151, 190, 0.17);
+}
+
+.rodape-inicial {
+    margin: 28px 0 0;
+    color: #9ab4c8;
+    font-size: 10px;
+    line-height: 1.8;
+}
+
+@media (max-width: 480px) {
+    .cartao-inicial {
+        padding: 25px 20px 22px;
+        border-radius: 26px;
+    }
+
+    .ilustracao-ninho {
+        height: 125px;
+    }
+}
+/* =================================
+   NINHO — PÁGINA DE BOAS-VINDAS
+================================= */
+
+body.pagina-inicial {
+    min-height: 100vh;
+    margin: 0;
+    padding: 65px 20px;
+    box-sizing: border-box;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    font-family: 'Nunito', sans-serif;
+
+    background:
+        radial-gradient(ellipse at 10% 15%, #ffffff 0%, transparent 35%),
+        radial-gradient(ellipse at 90% 85%, #ffffff 0%, transparent 30%),
+        linear-gradient(145deg, #eaf7ff, #c8ebff 55%, #eaf8ff);
+}
+
+/* Cartão principal */
+
+.pagina-inicial .cartao-inicial {
+    position: relative;
+    width: 100%;
+    max-width: 620px;
+    padding: 0 48px 32px;
+    box-sizing: border-box;
+
+    background: rgba(255, 255, 255, 0.94);
+    border: 2px solid #d2ecff;
+    border-radius: 38px;
+
+    box-shadow: 0 20px 60px rgba(94, 158, 199, 0.16);
+    text-align: center;
+}
+
+/* Ilustração superior */
+
+.decoracao-ninho {
+    position: relative;
+    height: 170px;
+    margin: 0 -20px 12px;
+}
+
+.familia-passaros {
+    position: absolute;
+    z-index: 2;
+    top: 38px;
+    left: 0;
+    right: 0;
+
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    gap: 7px;
+}
+
+.passaro {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+    background: linear-gradient(145deg, #d9efff, #a8d8f7);
+    color: #669fca;
+    border: 3px solid #ffffff;
+
+    box-shadow: 0 7px 15px rgba(103, 162, 202, 0.12);
+}
+
+.passaro-1 {
+    width: 65px;
+    height: 65px;
+    font-size: 19px;
+    transform: rotate(-12deg);
+}
+
+.passaro-2 {
+    width: 80px;
+    height: 80px;
+    font-size: 23px;
+    background: linear-gradient(145deg, #c5e7ff, #8dc5ed);
+}
+
+.passaro-3 {
+    width: 54px;
+    height: 54px;
+    font-size: 16px;
+    transform: rotate(12deg);
+}
+
+.ninho-desenho {
+    position: absolute;
+    z-index: 3;
+    top: 108px;
+    left: 0;
+    right: 0;
+
+    color: #c99f79;
+    font-size: 37px;
+    font-weight: 800;
+    letter-spacing: -13px;
+    transform: rotate(-4deg);
+}
+
+.nuvem {
+    position: absolute;
+    width: 95px;
+    height: 32px;
+    border-radius: 50px;
+    background: #eaf6ff;
+}
+
+.nuvem::before,
+.nuvem::after {
+    content: "";
+    position: absolute;
+    border-radius: 50%;
+    background: inherit;
+}
+
+.nuvem::before {
+    width: 43px;
+    height: 43px;
+    top: -19px;
+    left: 15px;
+}
+
+.nuvem::after {
+    width: 34px;
+    height: 34px;
+    top: -12px;
+    right: 13px;
+}
+
+.nuvem-1 {
+    top: 62px;
+    left: 8px;
+}
+
+.nuvem-2 {
+    top: 82px;
+    right: 8px;
+    transform: scale(0.8);
+}
+
+/* Marca */
+
+.marca-ninho h1 {
+    margin: 0;
+    color: #5d96c4;
+    font-family: 'Comfortaa', sans-serif;
+    font-size: clamp(44px, 8vw, 61px);
+    font-weight: 700;
+    letter-spacing: -3px;
+}
+
+.folhinha {
+    display: inline-block;
+    margin-left: 5px;
+    color: #8bb9aa;
+    font-size: 32px;
+    transform: rotate(-25deg);
+}
+
+.marca-ninho p {
+    margin: 8px 0 26px;
+    color: #80a5c5;
+    font-size: 17px;
+}
+
+/* Divisor decorativo */
+
+.divisor-ninho {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 23px;
+}
+
+.divisor-ninho span {
+    flex: 1;
+    height: 2px;
+    background: #d8edfc;
+}
+
+.divisor-ninho p {
+    margin: 0;
+    padding: 12px 16px;
+    border-radius: 30px;
+    background: #edf7ff;
+
+    color: #77a7cf;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 1.6px;
+}
+
+/* Mensagem principal */
+
+.pagina-inicial .boas-vindas h2 {
+    margin: 0;
+    color: #477ba4;
+    font-family: 'Comfortaa', sans-serif;
+    font-size: clamp(27px, 5vw, 37px);
+    line-height: 1.35;
+}
+
+.pagina-inicial .boas-vindas h2 span {
+    display: block;
+    color: #81c5ef;
+}
+
+.detalhe-coracao {
+    margin: 8px 0 18px;
+    color: #a2cfee;
+    font-size: 23px;
+}
+
+.detalhe-coracao span {
+    color: #efc9a6;
+    font-size: 20px;
+}
+
+.pagina-inicial .boas-vindas > p {
+    max-width: 370px;
+    margin: 0 auto 27px;
+    color: #789bb9;
+    font-size: 15px;
+    line-height: 1.9;
+}
+
+/* Botões */
+
+.pagina-inicial .opcoes {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    margin: 0 auto;
+    max-width: 420px;
+}
+
+.pagina-inicial .botao-inicial {
+    display: grid;
+    grid-template-columns: 32px 1fr 24px;
+    align-items: center;
+    gap: 10px;
+
+    min-height: 66px;
+    padding: 14px 20px;
+    box-sizing: border-box;
+    border-radius: 40px;
+
+    font-family: 'Nunito', sans-serif;
+    font-size: 15px;
+    font-weight: 800;
+    text-decoration: none;
+
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.pagina-inicial .botao-cadastrar {
+    color: #ffffff;
+    background: linear-gradient(115deg, #8acaf0, #69afe0);
+    border: 1px solid #8cc9ee;
+    box-shadow: 0 8px 18px rgba(105, 175, 224, 0.23);
+}
+
+.pagina-inicial .botao-entrar {
+    color: #5889b3;
+    background: #ffffff;
+    border: 2px solid #c5e6ff;
+    box-shadow: 0 5px 14px rgba(105, 175, 224, 0.08);
+}
+
+.pagina-inicial .icone-botao {
+    font-size: 25px;
+}
+
+.pagina-inicial .seta-botao {
+    font-size: 25px;
+    font-weight: 600;
+}
+
+.pagina-inicial .botao-inicial:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 23px rgba(105, 175, 224, 0.22);
+}
+
+/* Rodapé */
+
+.rodape-inicial {
+    margin-top: 27px;
+    color: #89a9c4;
+}
+
+.linha-coracao {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 13px;
+    color: #8fc5eb;
+}
+
+.linha-coracao span {
+    width: 75px;
+    height: 1px;
+    background: #d0e9fa;
+}
+
+.rodape-inicial p {
+    margin: 12px 0 0;
+    font-size: 12px;
+}
+
+/* Celulares */
+
+@media (max-width: 520px) {
+    body.pagina-inicial {
+        padding: 25px 13px;
+    }
+
+    .pagina-inicial .cartao-inicial {
+        padding: 0 22px 25px;
+        border-radius: 28px;
+    }
+
+    .decoracao-ninho {
+        height: 145px;
+    }
+
+    .divisor-ninho {
+        gap: 7px;
+    }
+
+    .divisor-ninho p {
+        padding: 10px;
+        font-size: 8px;
+        letter-spacing: 1px;
+    }
+
+    .marca-ninho p {
+        font-size: 14px;
+    }
+
+    .pagina-inicial .botao-inicial {
+        min-height: 60px;
+        padding: 12px 15px;
+        font-size: 13px;
+    }
+}
+.pagina-inicial .decoracao-ninho {
+    display: none;
+}
+/* Ajustes finais da página inicial */
+
+body.pagina-inicial {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 35px 18px;
+    box-sizing: border-box;
+}
+
+.pagina-inicial .cartao-inicial {
+    width: 100%;
+    max-width: 620px;
+    margin: auto;
+    padding: 35px 40px;
+    box-sizing: border-box;
+    border-radius: 30px;
+}
+
+.pagina-inicial .decoracao-ninho {
+    display: none;
+}
+
+.pagina-inicial .marca-ninho {
+    margin-top: 0;
+}
+
+.pagina-inicial .divisor-ninho {
+    margin-top: 25px;
+}
+
+.pagina-inicial .boas-vindas {
+    margin: 0 auto;
+    text-align: center;
+}
+
+.pagina-inicial .opcoes {
+    width: 100%;
+    max-width: 420px;
+    margin: 25px auto 0;
+}
+
+.pagina-inicial .rodape-inicial {
+    text-align: center;
+}
+
+@media (max-width: 520px) {
+    .pagina-inicial .cartao-inicial {
+        padding: 28px 20px;
+    }
+}
