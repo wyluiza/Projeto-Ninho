@@ -404,3 +404,20 @@ body:has(.painel-ninho) {
 .botao-sair:hover {
     background-color: #c8ebff;
 }
+select {
+    font-family: 'Comfortaa', sans-serif;
+    font-size: 13px;
+    color: #36566b;
+    background-color: white;
+    padding: 13px;
+    border: 1px solid #c8ebff;
+    border-radius: 12px;
+    outline: none;
+    box-sizing: border-box;
+    width: 100%;
+    cursor: pointer;
+}
+
+select:focus {
+    border-color: #75bce5;
+}
