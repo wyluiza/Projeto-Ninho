@@ -1,0 +1,147 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Minhas tarefas | Projeto Ninho</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;500;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="tarefas.css">
+  <script src="tarefas.js" defer></script>
+</head>
+
+<body>
+  <header class="topbar">
+    <a href="index.html" class="logo">
+      <span class="logo-icon">⌂</span>
+      <span>Projeto <strong>Ninho</strong></span>
+    </a>
+
+    <div class="profile-area">
+      <label for="perfil">Visualizar como:</label>
+      <select id="perfil">
+        <option value="pai">Responsável</option>
+        <option value="filho1">Ana</option>
+        <option value="filho2">Pedro</option>
+        <option value="filho3">Lia</option>
+      </select>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="welcome">
+      <div>
+        <span class="eyebrow">NOSSO LAR, NOSSO TIME</span>
+        <h1 id="titulo">Vamos cuidar do nosso ninho? 🏡</h1>
+        <p id="subtitulo">Pequenas atitudes fazem uma grande diferença!</p>
+      </div>
+      <div class="welcome-icon">🌱</div>
+    </section>
+
+    <section class="summary">
+      <article class="summary-card">
+        <div class="summary-icon blue">☑</div>
+        <div>
+          <p>Tarefas atribuídas</p>
+          <h2 id="totalTarefas">0</h2>
+        </div>
+      </article>
+
+      <article class="summary-card">
+        <div class="summary-icon green">✓</div>
+        <div>
+          <p>Concluídas</p>
+          <h2 id="totalConcluidas">0</h2>
+        </div>
+      </article>
+
+      <article class="summary-card">
+        <div class="summary-icon yellow">★</div>
+        <div>
+          <p>Minhas estrelas</p>
+          <h2 id="totalEstrelas">0</h2>
+        </div>
+      </article>
+    </section>
+
+    <section class="panel form-panel" id="painelCriacao">
+      <div class="section-heading">
+        <div>
+          <span class="eyebrow">ORGANIZAÇÃO DA FAMÍLIA</span>
+          <h2>Nova tarefa</h2>
+          <p>Escolha a atividade e quem ficará responsável.</p>
+        </div>
+        <span class="heading-icon">✏️</span>
+      </div>
+
+      <form id="formTarefa">
+        <div class="form-grid">
+          <div class="field field-wide">
+            <label for="nomeTarefa">Nome da atividade</label>
+            <input id="nomeTarefa" type="text"
+              placeholder="Ex.: Organizar o quarto" maxlength="100" required>
+          </div>
+
+          <div class="field">
+            <label for="responsavel">Quem fará?</label>
+            <select id="responsavel" required>
+              <option value="filho1">Ana</option>
+              <option value="filho2">Pedro</option>
+              <option value="filho3">Lia</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="prazo">Prazo</label>
+            <input id="prazo" type="date">
+          </div>
+
+          <div class="field field-wide">
+            <label for="descricao">Detalhes da atividade</label>
+            <textarea id="descricao" rows="2"
+              placeholder="Explique o que precisa ser feito..."></textarea>
+          </div>
+        </div>
+
+        <button class="primary-button" type="submit">
+          + Adicionar tarefa
+        </button>
+      </form>
+    </section>
+
+    <section class="panel">
+      <div class="section-heading">
+        <div>
+          <span class="eyebrow">DIA A DIA</span>
+          <h2 id="tituloLista">Lista de tarefas</h2>
+          <p id="descricaoLista">Acompanhe cada pequena conquista.</p>
+        </div>
+        <span class="heading-icon">📋</span>
+      </div>
+
+      <div class="filters" id="filtros">
+        <button class="filter active" data-filtro="todas">Todas</button>
+        <button class="filter" data-filtro="pendentes">Pendentes</button>
+        <button class="filter" data-filtro="revisao">Em avaliação</button>
+        <button class="filter" data-filtro="concluidas">Concluídas</button>
+      </div>
+
+      <div id="listaTarefas" class="task-list"></div>
+
+      <div id="vazio" class="empty-state" hidden>
+        <span>🌷</span>
+        <h3>Nenhuma tarefa por aqui!</h3>
+        <p>Novas atividades aparecerão aqui quando forem adicionadas.</p>
+      </div>
+    </section>
+
+    <footer>
+      <span>♡</span> Feito com carinho para o nosso Ninho.
+    </footer>
+  </main>
+</body>
+</html>
