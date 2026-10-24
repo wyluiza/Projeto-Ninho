@@ -1,0 +1,11 @@
+
+{
+  "name": "Ninho - Organização Familiar",
+  "short_name": "Ninho",
+  "description": "Um lar cheio de cuidado e carinho. Organize a rotina e aproveite os momentos em família.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#c8ebff",
+  "theme_color": "#c8ebff"
+}
