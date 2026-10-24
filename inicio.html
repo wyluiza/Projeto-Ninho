@@ -5,6 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    <meta name="theme-color" content="#C8EBFF">
+    <link rel="manifest" href="./manifest.json">
+
     <title>Meu Ninho</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -12,100 +15,238 @@
     <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300..700&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="app.css">
 </head>
 
 <body>
-        <header class="cabecalho-ninho">
-            <a href="inicio.html" class="logo-ninho">Ninho</a>
+
+    <div class="layout-ninho">
+
+        <!-- MENU LATERAL: COMPUTADOR -->
+        <aside class="menu-lateral">
+
+            <a href="inicio.html" class="logo-ninho">
+                Ninho<span>.</span>
+            </a>
+
+            <p class="menu-legenda">NOSSO LAR</p>
+
+            <nav class="links-menu">
+
+                <a href="inicio.html" class="link-menu ativo">
+                    <span>⌂</span> Início
+                </a>
+
+                <a href="refeicoes.html" class="link-menu">
+                    <span>♨</span> Refeições
+                </a>
+
+                <a href="geladeira.html" class="link-menu">
+                    <span>▤</span> Geladeira
+                </a>
+
+                <a href="tarefas.html" class="link-menu">
+                    <span>✓</span> Tarefas
+                </a>
+
+                <a href="calendario.html" class="link-menu">
+                    <span>▦</span> Calendário
+                </a>
+
+                <a href="compras.html" class="link-menu">
+                    <span>🛒</span> Lista de compras
+                </a>
+
+                <a href="pontuacao.html" class="link-menu">
+                    <span>☆</span> Pontuação
+                </a>
+
+            </nav>
+
+            <div class="mensagem-menu">
+                <span>☁</span>
+                <p>Um lar organizado deixa mais espaço para o carinho.</p>
+            </div>
 
             <a href="index.html" class="botao-sair">
                 Voltar ao início
             </a>
-        </header>
+
+        </aside>
 
 
-    <main class="painel-ninho">
+        <!-- CONTEÚDO PRINCIPAL -->
+        <div class="conteudo-ninho">
 
-        <section class="boas-vindas">
-            <h1 id="boasVindas">Bem-vindo(a) ao seu Ninho!</h1>
+            <!-- CABEÇALHO: CELULAR -->
+            <header class="topo-mobile">
 
-            <p>
-                Um lar cheio de cuidado e carinho.
-                Organize a rotina e aproveite os momentos em família.
-            </p>
-
-            <p class="frase-carinhosa">
-                Juntos, tudo fica mais leve!
-            </p>
-        </section>
-
-        <section class="secao-funcoes">
-            <h2 class="titulo-funcoes">Nossas funções</h2>
-
-            <p class="subtitulo-funcoes">
-                O que vamos organizar hoje?
-            </p>
-
-            <div class="funcoes">
-
-                <a href="refeicoes.html" class="cartao-funcao cartao-refeicoes">
-                    <div>
-                        <h3>Refeições</h3>
-                        <p>Planeje as refeições e descubra receitas.</p>
-                    </div>
-                    <span class="seta-funcao">→</span>
+                <a href="inicio.html" class="logo-ninho">
+                    Ninho<span>.</span>
                 </a>
 
-                <a href="geladeira.html" class="cartao-funcao cartao-geladeira">
-                    <div>
-                        <h3>Geladeira</h3>
-                        <p>Controle os ingredientes disponíveis.</p>
+                <span class="detalhe-topo">
+                    Nosso cantinho em família ☁
+                </span>
+
+            </header>
+
+
+            <main class="painel-ninho">
+
+                <!-- BOAS-VINDAS -->
+                <section class="boas-vindas">
+
+                    <span class="etiqueta-boas-vindas">
+                        NOSSO CANTINHO
+                    </span>
+
+                    <h1 id="boasVindas">
+                        Bem-vindo(a) ao seu Ninho!
+                    </h1>
+
+                    <p>
+                        Um lar cheio de cuidado e carinho.
+                        Organize a rotina e aproveite os momentos em família.
+                    </p>
+
+                    <p class="frase-carinhosa">
+                        Juntos, tudo fica mais leve! ♡
+                    </p>
+
+                    <span class="nuvem-decorativa" aria-hidden="true">
+                        ☁
+                    </span>
+
+                </section>
+
+
+                <!-- CARTÕES DAS FUNÇÕES -->
+                <section class="secao-funcoes">
+
+                    <h2 class="titulo-funcoes">
+                        Nossas funções
+                    </h2>
+
+                    <p class="subtitulo-funcoes">
+                        O que vamos organizar hoje?
+                    </p>
+
+                    <div class="funcoes">
+
+                        <a href="refeicoes.html"
+                           class="cartao-funcao cartao-refeicoes">
+                            <div>
+                                <h3>Refeições</h3>
+                                <p>Planeje as refeições e descubra receitas.</p>
+                            </div>
+                            <span class="seta-funcao">→</span>
+                        </a>
+
+                        <a href="geladeira.html"
+                           class="cartao-funcao cartao-geladeira">
+                            <div>
+                                <h3>Geladeira</h3>
+                                <p>Controle os ingredientes disponíveis.</p>
+                            </div>
+                            <span class="seta-funcao">→</span>
+                        </a>
+
+                        <a href="tarefas.html"
+                           class="cartao-funcao cartao-tarefas">
+                            <div>
+                                <h3>Tarefas</h3>
+                                <p>Divida os afazeres e cuide do lar em equipe.</p>
+                            </div>
+                            <span class="seta-funcao">→</span>
+                        </a>
+
+                        <a href="calendario.html"
+                           class="cartao-funcao cartao-calendario">
+                            <div>
+                                <h3>Calendário</h3>
+                                <p>Organize os compromissos da família.</p>
+                            </div>
+                            <span class="seta-funcao">→</span>
+                        </a>
+
+                        <a href="compras.html"
+                           class="cartao-funcao cartao-compras">
+                            <div>
+                                <h3>Lista de compras</h3>
+                                <p>Anote o que está faltando em casa.</p>
+                            </div>
+                            <span class="seta-funcao">→</span>
+                        </a>
+
+                        <a href="pontuacao.html"
+                           class="cartao-funcao cartao-pontuacao">
+                            <div>
+                                <h3>Pontuação</h3>
+                                <p>Ganhe estrelas ajudando nas tarefas.</p>
+                            </div>
+                            <span class="seta-funcao">→</span>
+                        </a>
+
                     </div>
-                    <span class="seta-funcao">→</span>
+
+                </section>
+
+
+                <footer class="rodape-ninho">
+                    <p>Feito com carinho para o nosso lar. ♡</p>
+                </footer>
+
+            </main>
+
+
+            <!-- MENU INFERIOR: CELULAR -->
+            <nav class="menu-inferior" aria-label="Navegação principal">
+
+                <a href="inicio.html" class="link-inferior ativo">
+                    <span>⌂</span>
+                    <small>Início</small>
                 </a>
 
-                <a href="tarefas.html" class="cartao-funcao cartao-tarefas">
-                    <div>
-                        <h3>Tarefas</h3>
-                        <p>Divida os afazeres e cuide do lar em equipe.</p>
-                    </div>
-                    <span class="seta-funcao">→</span>
+                <a href="refeicoes.html" class="link-inferior">
+                    <span>♨</span>
+                    <small>Refeições</small>
                 </a>
 
-                <a href="calendario.html" class="cartao-funcao cartao-calendario">
-                    <div>
-                        <h3>Calendário</h3>
-                        <p>Organize os compromissos da família.</p>
-                    </div>
-                    <span class="seta-funcao">→</span>
+                <a href="geladeira.html" class="link-inferior">
+                    <span>▤</span>
+                    <small>Geladeira</small>
                 </a>
 
-                <a href="compras.html" class="cartao-funcao cartao-compras">
-                    <div>
-                        <h3>Lista de compras</h3>
-                        <p>Anote o que está faltando em casa.</p>
-                    </div>
-                    <span class="seta-funcao">→</span>
+                <a href="calendario.html" class="link-inferior">
+                    <span>▦</span>
+                    <small>Agenda</small>
                 </a>
 
-                <a href="pontuacao.html" class="cartao-funcao cartao-pontuacao">
-                    <div>
-                        <h3>Pontuação</h3>
-                        <p>Ganhe estrelas ajudando nas tarefas.</p>
-                    </div>
-                    <span class="seta-funcao">→</span>
+                <a href="compras.html" class="link-inferior">
+                    <span>🛒</span>
+                    <small>Compras</small>
                 </a>
 
-            </div>
-        </section>
+            </nav>
 
-        <footer class="rodape-ninho">
-            <p>Feito com carinho para o nosso lar.</p>
-        </footer>
+        </div>
 
-    </main>
+    </div>
+
 
     <script src="script.js"></script>
+
+    <script>
+        if ("serviceWorker" in navigator && window.isSecureContext) {
+            window.addEventListener("load", () => {
+                navigator.serviceWorker.register("./service-worker.js")
+                    .catch((erro) => {
+                        console.error("Erro no service worker:", erro);
+                    });
+            });
+        }
+    </script>
 
 </body>
 </html>

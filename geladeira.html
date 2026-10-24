@@ -319,6 +319,337 @@
                     line-height: 1.5;
                     font-weight: 700;
                 }
+                
+/* =====================================
+   NINHO — GELADEIRA RENOVADA
+===================================== */
+
+body {
+    padding: 38px 28px;
+    background:
+        radial-gradient(
+            circle at 8% 10%,
+            #E4F4FF 0,
+            transparent 27%
+        ),
+        radial-gradient(
+            circle at 95% 90%,
+            #F1EDFF 0,
+            transparent 28%
+        ),
+        #F3FAFE;
+    color: #35566B;
+}
+
+/* Aproveita melhor o espaço no PC */
+.pagina {
+    width: 100%;
+    max-width: 1160px;
+    margin: 0 auto;
+}
+
+.voltar {
+    display: inline-block;
+    margin-bottom: 28px;
+    padding: 12px 18px;
+    border: 1px solid #E2EFF6;
+    border-radius: 30px;
+    background: white;
+    color: #477C9D;
+    font-weight: 700;
+    transition: 0.2s;
+}
+
+.voltar:hover {
+    background: #DFF2FF;
+    transform: translateY(-2px);
+}
+
+.titulo {
+    margin-bottom: 34px;
+}
+
+.titulo h1 {
+    color: #35566B;
+    font-size: clamp(28px, 3vw, 38px);
+    letter-spacing: -1px;
+}
+
+.titulo p {
+    max-width: 540px;
+    margin: 0 auto;
+    font-size: 13px;
+    line-height: 1.9;
+}
+
+/* A geladeira fica maior no computador */
+.geladeira {
+    width: 100%;
+    max-width: 920px;
+    padding: 17px;
+    border: 1px solid #C6DDEB;
+    border-radius: 30px;
+    background: linear-gradient(145deg, #D8E8F1, #C5DBE8);
+    box-shadow: 0 18px 40px rgba(53, 86, 107, 0.12);
+}
+
+.porta {
+    padding: 25px;
+    border: 1px solid #E2EFF6;
+    border-radius: 23px;
+    background: linear-gradient(145deg, #FFFFFF, #F7FBFE);
+}
+
+.topo-geladeira {
+    padding: 8px 8px 22px;
+}
+
+.marca {
+    color: #638EAC;
+    font-size: 12px;
+    letter-spacing: 2.5px;
+}
+
+.prateleira {
+    margin-bottom: 18px;
+    padding: 22px 18px 23px;
+    border: 1px solid #DCEEF8;
+    border-bottom: 7px solid #D2E6F1;
+    border-radius: 16px;
+    background: linear-gradient(180deg, #F5FBFF, #EAF6FD);
+}
+
+.nome-prateleira {
+    margin-bottom: 18px;
+    font-size: 11px;
+    letter-spacing: 1.3px;
+}
+
+/* Cartões de alimentos mais confortáveis */
+.alimentos {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 13px;
+}
+
+.alimento {
+    min-height: 145px;
+    padding: 17px 9px;
+    border: 1px solid #E2EFF6;
+    border-radius: 16px;
+    background: #FFFFFF;
+    box-shadow: 0 4px 12px rgba(53, 86, 107, 0.04);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.alimento:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 18px rgba(53, 86, 107, 0.09);
+}
+
+.emoji {
+    margin-bottom: 10px;
+    font-size: 32px;
+}
+
+.alimento h3 {
+    font-size: 11px;
+    line-height: 1.6;
+}
+
+.quantidade {
+    padding: 6px 8px;
+    background: #DFF2FF;
+    color: #477C9D;
+    font-size: 10px;
+}
+
+.acoes-alimento {
+    gap: 7px;
+    margin-top: 13px;
+}
+
+.acoes-alimento button {
+    min-width: 29px;
+    min-height: 29px;
+    padding: 5px 9px;
+    border: 1px solid #DCEEF6;
+    border-radius: 9px;
+    background: #EAF6FF;
+    transition: background 0.2s;
+}
+
+.acoes-alimento button:hover {
+    background: #C8EBFF;
+}
+
+.acoes-alimento .remover:hover {
+    background: #FFE3E9;
+}
+
+.gaveta {
+    padding: 17px;
+    border: 1px solid #D1E6F2;
+    border-radius: 14px;
+    background: #E5F3FB;
+    color: #477C9D;
+    font-size: 11px;
+    line-height: 1.8;
+}
+
+/* Botão de adicionar */
+.botao-adicionar {
+    width: 100%;
+    max-width: 920px;
+    margin: 24px auto 0;
+    padding: 17px;
+    border: 1px solid #A9D9F2;
+    border-radius: 15px;
+    background: #76B9DC;
+    color: white;
+    font-size: 13px;
+    box-shadow: 0 7px 17px rgba(118, 185, 220, 0.2);
+    transition: 0.2s;
+}
+
+.botao-adicionar:hover {
+    background: #5CA5CC;
+    transform: translateY(-2px);
+}
+
+/* Formulário combina com os outros cartões do Ninho */
+.formulario-alimento {
+    width: 100%;
+    max-width: 920px;
+    margin: 22px auto 0;
+    padding: 28px;
+    border: 1px solid #E2EFF6;
+    border-radius: 22px;
+    background: #FFFFFF;
+    box-shadow: 0 8px 24px rgba(53, 86, 107, 0.07);
+}
+
+.formulario-alimento h2 {
+    color: #35566B;
+    line-height: 1.6;
+}
+
+.formulario-alimento input,
+.formulario-alimento select {
+    min-height: 46px;
+    border-color: #DCEAF2;
+    border-radius: 12px;
+    background: #F8FCFF;
+    outline: none;
+}
+
+.formulario-alimento input:focus,
+.formulario-alimento select:focus {
+    border-color: #76B9DC;
+    box-shadow: 0 0 0 3px rgba(118, 185, 220, 0.15);
+}
+
+.botao-salvar {
+    min-height: 48px;
+    background: #76B9DC;
+    color: white;
+    transition: 0.2s;
+}
+
+.botao-salvar:hover {
+    background: #5CA5CC;
+}
+
+.mensagem-estoque {
+    color: #638EAC;
+    line-height: 1.8;
+}
+
+.observacao {
+    max-width: 650px;
+    margin: 28px auto 0;
+    color: #8199AA;
+    line-height: 2;
+}
+
+/* Telas médias */
+@media (min-width: 761px) and (max-width: 1000px) {
+    .pagina {
+        max-width: 850px;
+    }
+
+    .geladeira,
+    .botao-adicionar,
+    .formulario-alimento {
+        max-width: 760px;
+    }
+
+    .alimentos {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+}
+
+/* Celular */
+@media (max-width: 760px) {
+    body {
+        padding: 22px 15px;
+    }
+
+    .titulo {
+        margin-bottom: 25px;
+    }
+
+    .titulo h1 {
+        font-size: 27px;
+        line-height: 1.4;
+    }
+
+    .geladeira {
+        padding: 9px;
+        border-radius: 23px;
+    }
+
+    .porta {
+        padding: 13px;
+        border-radius: 17px;
+    }
+
+    .prateleira {
+        padding: 16px 10px 17px;
+    }
+
+    .alimentos {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 9px;
+    }
+
+    .alimento {
+        min-height: 130px;
+        padding: 13px 5px;
+    }
+
+    .formulario-alimento {
+        padding: 21px 17px;
+    }
+
+    .linha-formulario {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .observacao {
+        font-size: 10px;
+    }
+}
+
+@media (max-width: 360px) {
+    .linha-formulario {
+        grid-template-columns: 1fr;
+    }
+
+    .titulo h1 {
+        font-size: 23px;
+    }
+}
+
     </style>
 </head>
 
