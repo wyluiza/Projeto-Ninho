@@ -1,245 +1,255 @@
 
-/* LOGIN DO NINHO */
+* {
+    box-sizing: border-box;
+}
 
-body {
+body.pagina-acesso {
     margin: 0;
     min-height: 100vh;
-    padding: 24px;
-    box-sizing: border-box;
-
+    padding: 100px 28px 40px;
     display: flex;
-    flex-direction: column;
     align-items: center;
     justify-content: center;
-
-    background:
-        radial-gradient(circle at 10% 15%, #e4f5ff 0, transparent 28%),
-        radial-gradient(circle at 90% 85%, #eee9ff 0, transparent 30%),
-        #F3FAFE;
-
-    color: #35566B;
-    font-family: "Comfortaa", sans-serif;
+    font-family: 'Comfortaa', sans-serif;
+    background: linear-gradient(
+    135deg,
+    #e5f5ff 0%,
+    #f5f0ff 55%,
+    #e7f6ff 100%
+);
 }
 
-/* Botão voltar */
+/* ===== BOTÃO VOLTAR ===== */
 
-.botao-voltar {
-    position: absolute;
-    top: 24px;
-    left: 24px;
-
-    padding: 12px 18px;
-    border-radius: 30px;
-
-    background: #FFFFFF;
-    color: #35566B;
-    text-decoration: none;
+body.pagina-acesso .botao-voltar {
+    position: fixed;
+    top: 28px;
+    left: 30px;
+    z-index: 10;
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    padding: 13px 19px;
+    border: 1px solid #d9e9f7;
+    border-radius: 16px;
+    background: rgba(255, 255, 255, 0.9);
+    box-shadow: 0 6px 22px rgba(89, 130, 173, 0.10);
+    color: #547895;
     font-size: 13px;
     font-weight: 700;
-
-    border: 1px solid #E2EFF6;
-    box-shadow: 0 4px 14px rgba(53, 86, 107, 0.06);
-    transition: 0.2s;
+    text-decoration: none;
+    transition: 0.25s ease;
 }
 
-.botao-voltar:hover {
-    background: #C8EBFF;
-    transform: translateY(-2px);
+body.pagina-acesso .botao-voltar:hover {
+    background: #fff;
+    color: #8b79bd;
+    transform: translateX(-3px);
 }
 
-/* Cartão principal */
+/* ===== CARTÃO PRINCIPAL ===== */
 
-main {
+body.pagina-acesso .cartao-acesso {
     width: 100%;
-    max-width: 430px;
-    box-sizing: border-box;
-    padding: 42px 36px;
+    max-width: 940px;
+    min-height: 510px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 0.9fr 1.1fr;
+    gap: 0;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.9);
+    border-radius: 32px;
+    background: #fff;
+    box-shadow: 0 25px 70px rgba(91, 130, 177, 0.16);
+}
 
-    background: #FFFFFF;
-    border: 1px solid #E2EFF6;
+/* ===== ÁREA AZUL DO CÉU ===== */
+
+body.pagina-acesso .apresentacao-acesso {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 0;
+    margin: 12px;
+    padding: 42px 30px;
     border-radius: 28px;
-    box-shadow: 0 12px 35px rgba(53, 86, 107, 0.09);
+    overflow: hidden;
+    background:
+    radial-gradient(
+        circle at 20% 15%,
+        rgba(255, 255, 255, 0.8),
+        transparent 35%
+    ),
+    radial-gradient(
+        circle at 85% 85%,
+        rgba(255, 255, 255, 0.5),
+        transparent 30%
+    ),
+    linear-gradient(155deg, #d9f0ff, #e9e4ff);
+}
 
+body.pagina-acesso .texto-apresentacao {
+    position: relative;
+    z-index: 1;
+    width: 100%;
     text-align: center;
 }
 
-main h1 {
-    margin: 0 0 14px;
-    color: #35566B;
-    font-size: clamp(24px, 4vw, 30px);
+body.pagina-acesso .texto-apresentacao h1 {
+    margin: 0;
+    color: #426b8b;
+    font-size: clamp(27px, 3vw, 36px);
+    line-height: 1.45;
+}
+
+/* ===== FORMULÁRIO ===== */
+
+body.pagina-acesso .formulario-acesso {
+    align-self: center;
+    width: 100%;
+    min-width: 0;
+    padding: 48px 52px;
+    background: #fff;
+}
+
+body.pagina-acesso .formulario-acesso h2 {
+    margin: 0 0 12px;
+    color: #456d8a;
+    font-size: 24px;
     line-height: 1.4;
 }
 
-main p {
+body.pagina-acesso .formulario-acesso p {
     margin: 0 0 30px;
-    color: #718B9B;
-    font-size: 14px;
+    color: #8a9caf;
+    font-size: 13px;
     line-height: 1.8;
 }
 
-/* Formulário */
-
-form {
+body.pagina-acesso .formulario-acesso form {
     display: flex;
     flex-direction: column;
-    gap: 10px;
-    text-align: left;
+    width: 100%;
+    margin: 0;
 }
 
-form label {
-    margin-top: 8px;
-    color: #35566B;
+body.pagina-acesso .formulario-acesso label {
+    margin: 0 0 9px;
+    color: #58758c;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+body.pagina-acesso .formulario-acesso input {
+    width: 100%;
+    min-width: 0;
+    height: 48px;
+    margin: 0 0 23px;
+    padding: 0 14px;
+    border: 1px solid #dce9f5;
+    border-radius: 13px;
+    outline: none;
+    background: #f8fbff;
+    color: #45647c;
+    font-family: inherit;
+    font-size: 12px;
+    transition: 0.2s ease;
+}
+
+body.pagina-acesso .formulario-acesso input:focus {
+    border-color: #a8c9f2;
+    box-shadow: 0 0 0 3px rgba(168, 201, 242, 0.2);
+}
+
+body.pagina-acesso .formulario-acesso button {
+    width: 100%;
+    min-height: 49px;
+    margin-top: 5px;
+    padding: 14px;
+    border: none;
+    border-radius: 14px;
+    background: linear-gradient(110deg, #8bc9ed, #a69be0);
+    box-shadow: 0 8px 20px rgba(140, 167, 219, 0.24);
+    color: #fff;
+    font-family: inherit;
     font-size: 13px;
     font-weight: 700;
-}
-
-form input {
-    width: 100%;
-    box-sizing: border-box;
-    padding: 15px 16px;
-
-    border: 1px solid #DCEAF2;
-    border-radius: 14px;
-    background: #F8FCFF;
-
-    color: #35566B;
-    font-family: inherit;
-    font-size: 14px;
-
-    outline: none;
-    transition: 0.2s;
-}
-
-form input:focus {
-    border-color: #76B9DC;
-    background: #FFFFFF;
-    box-shadow: 0 0 0 4px rgba(118, 185, 220, 0.16);
-}
-
-form input::placeholder {
-    color: #A5BAC7;
-}
-
-/* Botão entrar */
-
-form button {
-    width: 100%;
-    margin-top: 18px;
-    padding: 16px;
-
-    border: none;
-    border-radius: 15px;
-
-    background: #76B9DC;
-    color: #FFFFFF;
-
-    font-family: inherit;
-    font-size: 14px;
-    font-weight: 700;
-
     cursor: pointer;
-    transition: 0.2s;
+    transition: 0.25s ease;
 }
 
-form button:hover {
-    background: #5CA5CC;
+body.pagina-acesso .formulario-acesso button:hover {
     transform: translateY(-2px);
-    box-shadow: 0 6px 16px rgba(92, 165, 204, 0.22);
+    box-shadow: 0 11px 24px rgba(140, 167, 219, 0.32);
 }
 
-form button:active {
-    transform: translateY(0);
+/* ===== TABLET ===== */
+
+@media (max-width: 760px) {
+    body.pagina-acesso {
+        padding: 90px 20px 30px;
+    }
+
+    body.pagina-acesso .cartao-acesso {
+        max-width: 520px;
+        min-height: auto;
+        grid-template-columns: 1fr;
+    }
+
+    body.pagina-acesso .apresentacao-acesso {
+        min-height: 175px;
+        margin: 12px 12px 0;
+        padding: 32px 24px;
+        border-radius: 26px;
+    }
+
+    body.pagina-acesso .texto-apresentacao h1 {
+        font-size: 27px;
+    }
+
+    body.pagina-acesso .formulario-acesso {
+        padding: 34px 35px 38px;
+    }
 }
 
-/* Ajustes para celular */
+/* ===== CELULAR ===== */
 
 @media (max-width: 480px) {
-    body {
-        padding: 80px 18px 24px;
+    body.pagina-acesso {
+        padding: 82px 14px 24px;
+        justify-content: flex-start;
     }
 
-    .botao-voltar {
-        top: 18px;
-        left: 18px;
+    body.pagina-acesso .botao-voltar {
+        top: 16px;
+        left: 14px;
+        padding: 11px 15px;
+        font-size: 12px;
     }
 
-    main {
-        padding: 34px 24px;
-        border-radius: 24px;
-    }
-}
-
-/* LOGIN: identidade visual do Ninho no computador */
-
-@media (min-width: 900px) {
-    body {
-        position: relative;
-        overflow-x: hidden;
-        padding: 50px;
-        flex-direction: row;
-        justify-content: center;
-        gap: 70px;
+    body.pagina-acesso .cartao-acesso {
+        width: 100%;
+        border-radius: 26px;
     }
 
-    body::before {
-        content: "Um cantinho para organizar a vida em família.";
-        display: block;
-        width: 360px;
-        max-width: 35vw;
-        color: #35566B;
-        font-size: 30px;
-        font-weight: 700;
-        line-height: 1.6;
-        text-align: left;
+    body.pagina-acesso .apresentacao-acesso {
+        min-height: 145px;
+        margin: 9px 9px 0;
+        padding: 26px 20px;
+        border-radius: 22px;
     }
 
-    body::after {
-        content: "💙  Rotinas, momentos e tarefas em um só lugar.";
-        position: absolute;
-        left: calc(50% - 530px);
-        bottom: 70px;
-        width: 340px;
-        color: #718B9B;
-        font-size: 13px;
-        line-height: 2;
+    body.pagina-acesso .texto-apresentacao h1 {
+        font-size: 24px;
     }
 
-    main {
-        flex: 0 1 450px;
-        max-width: 450px;
-        padding: 48px 42px;
+    body.pagina-acesso .formulario-acesso {
+        padding: 28px 22px 30px;
     }
-}
 
-/* Pequenos detalhes para combinar com o Ninho */
-
-main {
-    position: relative;
-    overflow: hidden;
-}
-
-main::before {
-    content: "";
-    display: block;
-    width: 58px;
-    height: 6px;
-    margin: 0 auto 24px;
-    border-radius: 10px;
-    background: #C8EBFF;
-}
-
-main h1 {
-    letter-spacing: -1px;
-}
-
-form input,
-form button {
-    min-height: 50px;
-}
-
-@media (max-width: 899px) {
-    body::before,
-    body::after {
-        display: none;
+    body.pagina-acesso .formulario-acesso h2 {
+        font-size: 21px;
     }
 }

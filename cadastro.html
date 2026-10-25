@@ -12,69 +12,104 @@
     <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300..700&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="cadastro.css">
 </head>
-<body>
 
-    <main class="cadastro-container">
+<body class="pagina-cadastro">
 
-        <a href="index.html" class="botao-voltar">← Voltar</a>
+    <a href="index.html" class="botao-voltar">← Voltar</a>
 
-        <header class="cabecalho">
-            <h1>Construa seu Ninho</h1>
-            <p>Um espaço para organizar sua casa e cuidar de quem você ama.</p>
-        </header>
+    <main class="cadastro-layout">
 
-        <form id="formularioNinho">
-
-            <div class="campo">
-                <label for="nomeNinho">Nome do Ninho</label>
-                <input type="text" id="nomeNinho" name="nomeNinho"
-                    placeholder="Ex.: Ninho da família" required>
+        <section class="cadastro-apresentacao">
+            <div class="marca-ninho">
+                <div class="simbolo-ninho">⌂</div>
+                <h1>Ninho</h1>
             </div>
 
-            <div class="campo">
-                <label for="nome">Seu nome</label>
-                <input type="text" id="nome" name="nome"
-                    placeholder="Digite seu nome" required>
+            <p class="frase-ninho">
+                Organização hoje,<br>
+                mais momentos juntos amanhã.
+            </p>
+
+            <div class="ilustracao-ninho" aria-hidden="true">
+                <div class="nuvem nuvem-1"></div>
+                <div class="nuvem nuvem-2"></div>
+                <div class="casinha">
+                    <span>♥</span>
+                </div>
+                <div class="base-ninho"></div>
+                <span class="coracao coracao-1">♥</span>
+                <span class="coracao coracao-2">♥</span>
             </div>
 
-            <div class="campo">
-                <label for="email">E-mail</label>
-                <input type="email" id="email" name="email"
-                    placeholder="voce@exemplo.com" required>
-            </div>
+            <p class="mensagem-apresentacao">
+                Um lar mais organizado começa<br>
+                com pequenas coisas feitas juntos.
+            </p>
+        </section>
 
-            <div class="campo">
-                <label for="senha">Senha</label>
-                <input type="password" id="senha" name="senha"
-                    placeholder="Crie uma senha" minlength="6" required>
-            </div>
+        <section class="cadastro-formulario">
 
-            <div class="campo campo-funcao">
-                <label for="papel">Qual será sua função no Ninho?</label>
+            <header class="cabecalho-cadastro">
+                <span class="etiqueta-cadastro">SEU ESPAÇO EM FAMÍLIA</span>
+                <h2>Construa seu Ninho</h2>
+                <p>Um espaço para organizar sua casa e cuidar de quem você ama.</p>
+            </header>
 
-                <select id="papel" name="papel" required>
-                    <option value="" selected disabled>Selecione uma opção</option>
-                    <option value="RESPONSAVEL">Responsável do Ninho</option>
-                    <option value="MEMBRO">Membro do Ninho</option>
-                </select>
+            <form id="formularioNinho">
 
-                <small class="ajuda">
-                    O responsável administra o Ninho. Os membros participam da organização da casa.
-                </small>
-            </div>
+                <div class="campo">
+                    <label for="nomeNinho">Nome do Ninho</label>
+                    <input type="text" id="nomeNinho" name="nomeNinho"
+                        placeholder="Ex.: Ninho da família" required>
+                </div>
 
-            <button type="submit" class="botao-principal">
-                Formar meu Ninho
-            </button>
+                <div class="campo">
+                    <label for="nome">Seu nome</label>
+                    <input type="text" id="nome" name="nome"
+                        placeholder="Digite seu nome" required>
+                </div>
 
-            <p id="mensagem" class="mensagem" role="status" aria-live="polite"></p>
+                <div class="campo">
+                    <label for="email">E-mail</label>
+                    <input type="email" id="email" name="email"
+                        placeholder="voce@exemplo.com" required>
+                </div>
 
-        </form>
+                <div class="campo">
+                    <label for="senha">Senha</label>
+                    <input type="password" id="senha" name="senha"
+                        placeholder="Crie uma senha" minlength="6" required>
+                </div>
 
-        <footer>
-            Seu lar, mais organizado. Seu Ninho, mais unido.
-        </footer>
+                <div class="campo campo-funcao">
+                    <label for="papel">Qual será sua função no Ninho?</label>
+
+                    <select id="papel" name="papel" required>
+                        <option value="" selected disabled>Selecione uma opção</option>
+                        <option value="RESPONSAVEL">Responsável do Ninho</option>
+                        <option value="MEMBRO">Membro do Ninho</option>
+                    </select>
+
+                    <small class="ajuda">
+                        O responsável administra o Ninho. Os membros participam da organização da casa.
+                    </small>
+                </div>
+
+                <button type="submit" class="botao-principal">
+                    ♥ &nbsp; Formar meu Ninho
+                </button>
+
+                <p id="mensagem" class="mensagem" role="status" aria-live="polite"></p>
+
+            </form>
+
+            <footer class="rodape-cadastro">
+                Seu lar, mais organizado. Seu Ninho, mais unido.
+            </footer>
+
+        </section>
 
     </main>
 
