@@ -1,0 +1,53 @@
+/* O menu lateral, o topo mobile e a barra inferior usam os estilos originais de app.css. */
+body{margin:0;background:#f3fafe;color:#35566B;font-family:"Comfortaa",sans-serif}
+.layout-ninho{min-height:100vh}
+.conteudo-ninho{min-width:0}
+.topo-mobile,.menu-inferior{display:none}
+.pagina-tarefas{max-width:1150px;margin:0 auto;padding:38px 42px 60px}
+.cabecalho-pagina{display:flex;align-items:center;justify-content:space-between;gap:20px;margin-bottom:27px}
+.sobretitulo{font-size:10px;letter-spacing:2px;font-weight:700;color:#8abbd5}
+h1{font-size:clamp(26px,3vw,36px);margin:12px 0;color:#426e87;letter-spacing:-1.3px}
+h1 span{color:#a6dff9;font-size:30px}
+.cabecalho-pagina p,.titulo-cartao p,.lista-cabecalho p{font-size:12px;color:#89a4b4;line-height:1.7;margin:0}
+.nuvem-decorativa{font-size:78px;color:#d1efff;margin-right:20px}
+.cartao{background:#fff;border:1px solid #e2f0f8;border-radius:23px;padding:25px;box-shadow:0 8px 25px #b7d9e51a;margin-bottom:24px}
+.titulo-cartao>div{display:flex;align-items:center;gap:13px;margin-bottom:20px}
+.icone-cartao{width:42px;height:42px;display:grid;place-items:center;border-radius:14px;background:#e7f6ff;color:#5b9cc0;font-size:25px}
+h2{font-size:17px;color:#4a7188;margin:0 0 6px}
+.grade-formulario{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:15px}
+.campo{display:flex;flex-direction:column;gap:8px;font-size:11px;font-weight:700;color:#66899d}
+.campo-largo{grid-column:1/-1}
+.campo input,.campo select,.campo textarea,.lista-cabecalho select{width:100%;border:1px solid #dcecf5;background:#fbfdff;border-radius:12px;padding:12px 13px;font:500 12px 'Comfortaa',sans-serif;color:#47697e;outline:none}
+.campo input:focus,.campo select:focus,.campo textarea:focus,.lista-cabecalho select:focus{border-color:#8bcdf0;box-shadow:0 0 0 3px #bfe8fb55}
+.campo textarea{resize:vertical}
+.botao-principal{margin-top:18px;border:0;border-radius:13px;background:#a8def8;color:#315d76;padding:13px 18px;font:700 12px 'Comfortaa',sans-serif;cursor:pointer;transition:.2s}
+.botao-principal:hover{background:#8dcef1;transform:translateY(-1px)}
+.botao-principal:disabled{opacity:.6;cursor:wait;transform:none}
+.resumo-tarefas{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:15px;margin:25px 0 32px}
+.mini-resumo{display:flex;align-items:center;gap:14px;background:#fff;border:1px solid #e4f0f7;border-radius:18px;padding:18px}
+.resumo-icone{display:grid;place-items:center;width:42px;height:42px;flex-shrink:0;background:#eaf7ff;color:#6da8c7;border-radius:14px;font-size:23px}
+.mini-resumo strong,.mini-resumo span:not(.resumo-icone){display:block}
+.mini-resumo strong{font-size:22px;color:#4e7890;margin-bottom:5px}
+.mini-resumo div span{font-size:10px;color:#91a9b7}
+.lista-cabecalho{display:flex;align-items:center;justify-content:space-between;gap:15px;margin-bottom:16px}
+.lista-cabecalho select{width:auto;max-width:190px;padding:10px;font-size:11px}
+.lista-tarefas{display:grid;gap:12px}
+.tarefa{background:#fff;border:1px solid #e1eef6;border-radius:18px;padding:18px 20px;display:flex;align-items:flex-start;gap:15px}
+.tarefa-marcador{width:39px;height:39px;flex:0 0 39px;border-radius:13px;background:#e9f7ff;color:#5f9fc0;display:grid;place-items:center;font-size:21px}
+.tarefa-conteudo{min-width:0;flex:1}
+.tarefa-topo{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
+.tarefa h3{font-size:13px;margin:3px 0 7px;color:#4a7188;overflow-wrap:anywhere}
+.tarefa p{font-size:11px;line-height:1.7;color:#88a2b1;margin:0 0 10px;overflow-wrap:anywhere}
+.meta-tarefa{display:flex;flex-wrap:wrap;gap:7px}
+.pilula{font-size:9px;padding:6px 9px;border-radius:20px;background:#f0f8fc;color:#7394a7;font-weight:700}
+.pilula.atrasada{background:#fff0ef;color:#c87979}.pilula.concluida{background:#eaf9f0;color:#599879}.pilula.confirmar{background:#fff8e8;color:#ad914f}
+.estrelas{white-space:nowrap;color:#e5bd61;font-size:13px;letter-spacing:1px}
+.acoes-tarefa{display:flex;flex-wrap:wrap;gap:7px;margin-top:13px}
+.botao-acao{border:0;border-radius:10px;padding:9px 11px;background:#e9f7ff;color:#5485a0;font:700 10px 'Comfortaa',sans-serif;cursor:pointer}
+.botao-acao:hover{background:#d9f0fd}.botao-acao.secundario{background:#f5f8fa;color:#8299a7}.botao-acao.confirmar{background:#e9f8ef;color:#4e936f}
+.estado-vazio{text-align:center;padding:38px 15px;background:#fff;border:1px dashed #d3e8f4;border-radius:20px}
+.estado-vazio>span{font-size:42px;color:#a9def7}.estado-vazio h3{font-size:14px;color:#5d8197}.estado-vazio p{font-size:11px;color:#91a9b7}
+.aviso{margin:0 0 18px;padding:13px 16px;border-radius:12px;background:#e8f8ef;color:#4e8b6d;font-size:12px;line-height:1.6}
+.aviso.erro{background:#fff0ef;color:#b96e6e}
+@media(max-width:1100px) and (min-width:761px){.pagina-tarefas{padding:28px 24px}}
+@media(max-width:760px){.layout-ninho{display:block}.conteudo-ninho{margin-left:0;padding-bottom:94px}.topo-mobile{display:flex}.menu-inferior{display:flex}.pagina-tarefas{padding:22px 19px 25px}.nuvem-decorativa{font-size:48px;margin:0}.cabecalho-pagina{align-items:flex-start}.grade-formulario{grid-template-columns:1fr}.campo-largo{grid-column:auto}.resumo-tarefas{gap:8px}.mini-resumo{padding:12px 9px;gap:8px;flex-direction:column;align-items:flex-start}.resumo-icone{width:32px;height:32px;font-size:18px}.mini-resumo strong{font-size:18px}.mini-resumo div span{font-size:9px}.lista-cabecalho{align-items:flex-start;flex-direction:column}.lista-cabecalho select{max-width:none;width:100%}.tarefa{padding:14px;gap:10px}.tarefa-topo{flex-direction:column}.botao-principal{width:100%}}

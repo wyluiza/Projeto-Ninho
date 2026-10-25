@@ -13,6 +13,9 @@ const formulario = document.getElementById("formularioNinho");
 if (formulario) {
     const parametros = new URLSearchParams(window.location.search);
     const tokenConvite = parametros.get("convite");
+    if (tokenConvite) {
+    localStorage.setItem("convitePendente", tokenConvite);
+    }
 
     const campoNinho = document.getElementById("campoNomeNinho");
     const campoNomeNinho = document.getElementById("nomeNinho");
@@ -22,44 +25,45 @@ if (formulario) {
     const etiquetaCadastro = document.querySelector(".etiqueta-cadastro");
 
     if (tokenConvite) {
-        if (campoNinho) {
-            campoNinho.hidden = true;
-        }
-
-        if (campoNomeNinho) {
-            campoNomeNinho.required = false;
-        }
-
-        if (campoPapel) {
-            campoPapel.value = "MEMBRO";
-            campoPapel.required = false;
-
-            const grupoPapel = campoPapel.closest(".campo");
-
-            if (grupoPapel) {
-                grupoPapel.hidden = true;
-            }
-        }
-
-        if (tituloCadastro) {
-            tituloCadastro.textContent = "Entre no Ninho";
-        }
-
-        if (etiquetaCadastro) {
-            etiquetaCadastro.textContent = "VOCÊ FOI CONVIDADO(A)";
-        }
-
-        if (botaoCadastro) {
-            botaoCadastro.textContent = "Entrar no Ninho";
-        }
+    if (campoNinho) {
+        campoNinho.hidden = true;
+        campoNinho.style.display = "none";
     }
 
+    if (campoNomeNinho) {
+        campoNomeNinho.required = false;
+    }
+
+    if (campoPapel) {
+        campoPapel.value = "MEMBRO";
+    }
+
+    if (tituloCadastro) {
+        tituloCadastro.textContent = "Entre no Ninho";
+    }
+
+    if (etiquetaCadastro) {
+        etiquetaCadastro.textContent = "VOCÊ FOI CONVIDADO(A)";
+    }
+
+    if (botaoCadastro) {
+        botaoCadastro.textContent = "Entrar no Ninho";
+    }
+}
     formulario.addEventListener("submit", async (evento) => {
         evento.preventDefault();
 
-        const nome = document.getElementById("nome").value.trim();
-        const email = document.getElementById("email").value.trim();
-        const senha = document.getElementById("senha").value;
+        const campoNome = document.getElementById("nome");
+            const campoEmail = document.getElementById("email");
+            const campoSenha = document.getElementById("senha");
+
+            console.log("Campo nome:", campoNome);
+            console.log("Campo e-mail:", campoEmail);
+            console.log("Campo senha:", campoSenha);
+
+            const nome = campoNome?.value?.trim() ?? "";
+            const email = campoEmail?.value?.trim() ?? "";
+            const senha = campoSenha?.value ?? "";
         const nomeNinho = campoNomeNinho
             ? campoNomeNinho.value.trim()
             : "";
@@ -165,7 +169,7 @@ if (formulario) {
             }
         }
     });
-}
+
 
 // BOAS-VINDAS
 const tituloBoasVindas = document.getElementById("boasVindas");
@@ -220,4 +224,5 @@ if (botaoCopiar) {
                 "Selecione o link e copie com Ctrl+C.";
         }
     });
+}
 }

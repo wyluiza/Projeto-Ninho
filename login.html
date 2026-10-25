@@ -41,7 +41,6 @@
             </section>
 
         </main>
-        
             <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
             <script>
             const SUPABASE_URL = "https://ncqimbutzmngrkgvtnqt.supabase.co";
@@ -74,7 +73,41 @@
                     botao.textContent = "Entrar no meu Ninho";
                     return;
                 }
+                 const convitePendente = localStorage.getItem("convitePendente");
 
+                    if (convitePendente) {
+                        const nomeConvidado =
+                            data.user.user_metadata?.nome ||
+                            data.user.user_metadata?.name;
+
+                        if (!nomeConvidado) {
+                            alert("Não encontramos seu nome. Entre em contato com a responsável do Ninho.");
+                            botao.disabled = false;
+                            botao.textContent = "Entrar no meu Ninho";
+                            return;
+                        }
+
+                        const { data: ninhoConvidado, error: erroConvite } =
+                            await supabaseClient.rpc("entrar_com_convite", {
+                                p_token: convitePendente,
+                                p_nome: nomeConvidado
+                            });
+
+                        if (erroConvite) {
+                            console.error("Erro ao aceitar convite:", erroConvite);
+                            alert("Não foi possível concluir o convite: " + erroConvite.message);
+                            botao.disabled = false;
+                            botao.textContent = "Entrar no meu Ninho";
+                            return;
+                        }
+
+                        localStorage.removeItem("convitePendente");
+
+                        if (ninhoConvidado) {
+                            localStorage.setItem("ninhoId", ninhoConvidado);
+                            localStorage.setItem("nomeUsuario", nomeConvidado);
+                        }
+}
                 const { data: membro, error: erroMembro } = await supabaseClient
                     .from("membros")
                     .select("ninho_id, nome")

@@ -1,0 +1,627 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Membros do Ninho</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            min-height: 100vh;
+            padding: 30px 16px;
+            background: linear-gradient(180deg, #eaf8ff, #f8fcff);
+            color: #35566b;
+            font-family: 'Comfortaa', sans-serif;
+        }
+
+        .pagina {
+            width: 100%;
+            max-width: 850px;
+            margin: auto;
+        }
+
+        .voltar {
+            display: inline-block;
+            margin-bottom: 25px;
+            color: #5486a3;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        .cabecalho {
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        .cabecalho h1 {
+            margin-bottom: 12px;
+            color: #426e89;
+            font-size: clamp(25px, 5vw, 34px);
+        }
+
+        .cabecalho p {
+            color: #7896a9;
+            font-size: 13px;
+            line-height: 1.8;
+        }
+
+        .cartao {
+            margin-bottom: 20px;
+            padding: 25px;
+            border: 1px solid #dceef8;
+            border-radius: 22px;
+            background: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 8px 25px rgba(115, 165, 193, 0.09);
+        }
+
+        .cartao h2 {
+            margin-bottom: 10px;
+            color: #426e89;
+            font-size: 18px;
+        }
+
+        .descricao {
+            margin-bottom: 18px;
+            color: #829cad;
+            font-size: 12px;
+            line-height: 1.8;
+        }
+
+        .botao {
+            display: inline-block;
+            padding: 13px 17px;
+            border: none;
+            border-radius: 12px;
+            background: #a5dcfa;
+            color: #294f66;
+            font-family: inherit;
+            font-size: 12px;
+            font-weight: 700;
+            text-align: center;
+            text-decoration: none;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .botao:hover {
+            background: #8dcef3;
+            transform: translateY(-1px);
+        }
+
+        .botao:disabled {
+            cursor: wait;
+            opacity: 0.6;
+            transform: none;
+        }
+
+        .botao-remover {
+            padding: 10px 12px;
+            border: 1px solid #f2d9df;
+            border-radius: 10px;
+            background: #fff3f5;
+            color: #b66d80;
+            font-family: inherit;
+            font-size: 11px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .botao-remover:hover {
+            background: #ffe6eb;
+        }
+
+        .mensagem {
+            display: none;
+            margin-bottom: 18px;
+            padding: 14px;
+            border-radius: 12px;
+            background: #e4f5ff;
+            color: #426e89;
+            font-size: 12px;
+            line-height: 1.7;
+            overflow-wrap: anywhere;
+        }
+
+        .mensagem.visivel {
+            display: block;
+        }
+
+        .mensagem.erro {
+            background: #fff0f2;
+            color: #a94f65;
+        }
+
+        .resumo {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            margin-bottom: 18px;
+        }
+
+        .contador {
+            padding: 9px 12px;
+            border-radius: 30px;
+            background: #e7f6ff;
+            color: #5886a1;
+            font-size: 11px;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+
+        .lista {
+            display: grid;
+            gap: 12px;
+        }
+
+        .membro {
+            display: flex;
+            align-items: center;
+            gap: 13px;
+            padding: 15px;
+            border: 1px solid #e5f0f7;
+            border-radius: 16px;
+            background: #fbfdff;
+        }
+
+        .avatar {
+            display: flex;
+            flex-shrink: 0;
+            align-items: center;
+            justify-content: center;
+            width: 47px;
+            height: 47px;
+            border-radius: 15px;
+            background: #e3f4ff;
+            color: #5686a2;
+            font-size: 18px;
+            font-weight: 700;
+        }
+
+        .dados {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .dados h3 {
+            margin-bottom: 7px;
+            color: #42647a;
+            font-size: 13px;
+            overflow-wrap: anywhere;
+        }
+
+        .papel {
+            display: inline-block;
+            padding: 6px 8px;
+            border-radius: 20px;
+            background: #edf7fc;
+            color: #668ca3;
+            font-size: 9px;
+            font-weight: 700;
+        }
+
+        .papel.responsavel {
+            background: #f0eaff;
+            color: #8873b5;
+        }
+
+        .estado {
+            padding: 24px 10px;
+            color: #8099a9;
+            font-size: 12px;
+            line-height: 1.9;
+            text-align: center;
+        }
+
+        .convite-gerado {
+            display: none;
+            margin-top: 18px;
+            padding: 15px;
+            border-radius: 14px;
+            background: #f0f9ff;
+        }
+
+        .convite-gerado.visivel {
+            display: block;
+        }
+
+        .convite-gerado p {
+            margin-bottom: 10px;
+            font-size: 12px;
+            line-height: 1.8;
+        }
+
+        .link-convite {
+            display: block;
+            margin-bottom: 12px;
+            padding: 12px;
+            border: 1px solid #d7eaf6;
+            border-radius: 10px;
+            background: white;
+            color: #426e89;
+            font-size: 11px;
+            line-height: 1.7;
+            overflow-wrap: anywhere;
+            word-break: break-word;
+        }
+
+        .observacao {
+            margin-top: 14px;
+            color: #8aa2b1;
+            font-size: 10px;
+            line-height: 1.8;
+        }
+
+        @media (max-width: 480px) {
+            .cartao {
+                padding: 18px;
+            }
+
+            .membro {
+                flex-wrap: wrap;
+            }
+
+            .botao-remover {
+                margin-left: 60px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <main class="pagina">
+        <a class="voltar" href="inicio.html">← Voltar para o Ninho</a>
+
+        <header class="cabecalho">
+            <h1>Nossa família</h1>
+            <p>Um cantinho para ver quem faz parte do seu Ninho. 💙</p>
+        </header>
+
+        <div id="mensagem" class="mensagem" role="status"></div>
+
+        <section class="cartao" id="areaConvite" hidden>
+            <h2>Convide alguém para o Ninho</h2>
+            <p class="descricao">
+                Gere um link de convite e compartilhe com quem você quer
+                ter pertinho na organização da casa.
+            </p>
+
+            <button class="botao" id="botaoConvite" type="button">
+                + Gerar convite
+            </button>
+
+            <div class="convite-gerado" id="conviteGerado">
+                <p>Prontinho! Compartilhe este link com a pessoa convidada:</p>
+                <a id="linkConvite" class="link-convite" href="#"></a>
+                <button class="botao" id="botaoCopiar" type="button">
+                    Copiar link
+                </button>
+            </div>
+
+            <p class="observacao">
+                O convite deve ser feito pela responsável do Ninho.
+            </p>
+        </section>
+
+        <section class="cartao">
+            <div class="resumo">
+                <h2>Membros do Ninho</h2>
+                <span class="contador" id="contador">Carregando...</span>
+            </div>
+
+            <p class="descricao">
+                Aqui aparecem as pessoas que pertencem ao mesmo Ninho.
+            </p>
+
+            <div id="listaMembros" class="lista">
+                <div class="estado">Carregando os membros...</div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        const SUPABASE_URL = "https://ncqimbutzmngrkgvtnqt.supabase.co";
+        const SUPABASE_ANON_KEY = "sb_publishable_kM4EsVr5Y22pWEgpn8CTdg_ag3m7aDE";
+
+        const db = window.supabase.createClient(
+            SUPABASE_URL,
+            SUPABASE_ANON_KEY
+        );
+
+        const $ = (id) => document.getElementById(id);
+
+        let usuarioAtual = null;
+        let membroAtual = null;
+        let membros = [];
+        let linkAtual = "";
+
+        function ehResponsavel() {
+            return String(membroAtual?.papel || "").toUpperCase() === "RESPONSAVEL";
+        }
+
+        function escapar(valor = "") {
+            return String(valor).replace(/[&<>"']/g, (c) => ({
+                "&": "&amp;",
+                "<": "&lt;",
+                ">": "&gt;",
+                '"': "&quot;",
+                "'": "&#39;"
+            }[c]));
+        }
+
+        function mostrarMensagem(texto, erro = false) {
+            const elemento = $("mensagem");
+            elemento.textContent = texto;
+            elemento.classList.add("visivel");
+            elemento.classList.toggle("erro", erro);
+        }
+
+        function nomeDoMembro(membro) {
+            return membro.nome || membro.nome_completo || "Nome não informado";
+        }
+
+        async function iniciar() {
+            try {
+                const {
+                    data: { user },
+                    error: erroAuth
+                } = await db.auth.getUser();
+
+                if (erroAuth) throw erroAuth;
+
+                if (!user) {
+                    $("listaMembros").innerHTML = `
+                        <div class="estado">
+                            Você precisa entrar na sua conta para ver os membros.<br>
+                            <a href="login.html">Ir para o login</a>
+                        </div>`;
+                    $("contador").textContent = "Sem login";
+                    mostrarMensagem("Faça login para acessar seu Ninho.", true);
+                    return;
+                }
+
+                usuarioAtual = user;
+
+                // Descobre o Ninho pelo perfil do usuário autenticado.
+                // Não confia em um ninhoId antigo salvo no navegador.
+                const { data: perfil, error: erroPerfil } = await db
+                    .from("membros")
+                    .select("id, nome, papel, ninho_id, criado_em")
+                    .eq("id", user.id)
+                    .maybeSingle();
+
+                if (erroPerfil) throw erroPerfil;
+
+                if (!perfil) {
+                    localStorage.removeItem("ninhoId");
+                    throw new Error(
+                        "Sua conta não tem um perfil na tabela membros. " +
+                        "O cadastro ou o convite pode não ter sido concluído."
+                    );
+                }
+
+                membroAtual = perfil;
+                localStorage.setItem("ninhoId", perfil.ninho_id);
+
+                if (ehResponsavel()) {
+                    $("areaConvite").hidden = false;
+                } else {
+                    $("areaConvite").hidden = true;
+                }
+
+                await carregarMembros();
+
+            } catch (erro) {
+                console.error("Erro ao abrir membros:", erro);
+                $("contador").textContent = "Erro";
+                $("listaMembros").innerHTML = `
+                    <div class="estado">
+                        Não foi possível carregar os membros.<br>
+                        ${escapar(erro.message || "Confira o Supabase e tente novamente.")}
+                    </div>`;
+                mostrarMensagem(erro.message || "Erro ao carregar os membros.", true);
+            }
+        }
+
+        async function carregarMembros() {
+            const { data, error } = await db
+                .from("membros")
+                .select("id, nome, papel, ninho_id, criado_em")
+                .eq("ninho_id", membroAtual.ninho_id)
+                .order("criado_em", { ascending: true });
+
+            if (error) throw error;
+            console.log("Ninho atual:", membroAtual.ninho_id);
+            console.log("Membros retornados pelo Supabase:", data);
+
+            membros = data || [];
+
+            $("contador").textContent =
+                membros.length + (membros.length === 1 ? " pessoa" : " pessoas");
+
+            if (membros.length === 0) {
+                $("listaMembros").innerHTML = `
+                    <div class="estado">
+                        Ainda não encontramos membros neste Ninho.
+                    </div>`;
+                return;
+            }
+
+            $("listaMembros").innerHTML = membros.map((membro) => {
+                const responsavel =
+                    String(membro.papel || "").toUpperCase() === "RESPONSAVEL";
+
+                const nome = nomeDoMembro(membro);
+                const inicial = nome.trim().charAt(0).toUpperCase() || "?";
+
+                // A responsável não pode remover a própria conta.
+                const podeRemover =
+                    ehResponsavel() &&
+                    membro.id !== usuarioAtual.id &&
+                    !responsavel;
+
+                return `
+                    <article class="membro">
+                        <div class="avatar">${escapar(inicial)}</div>
+
+                        <div class="dados">
+                            <h3>${escapar(nome)}</h3>
+                            <span class="papel ${responsavel ? "responsavel" : ""}">
+                                ${responsavel ? "Responsável" : "Membro"}
+                            </span>
+                        </div>
+
+                        ${podeRemover ? `
+                            <button
+                                class="botao-remover"
+                                type="button"
+                                data-remover="${escapar(membro.id)}">
+                                Remover
+                            </button>
+                        ` : ""}
+                    </article>`;
+            }).join("");
+        }
+
+        async function gerarConvite() {
+            const botao = $("botaoConvite");
+            botao.disabled = true;
+            botao.textContent = "Gerando convite...";
+
+            try {
+                if (!ehResponsavel()) {
+                    throw new Error("Somente a responsável pode gerar convites.");
+                }
+
+                // Usa a função de convite já existente no Supabase.
+                const { data, error } = await db.rpc("criar_convite");
+
+                if (error) throw error;
+
+                // Aceita retorno UUID direto ou retorno em objeto.
+                let token = data;
+
+                if (Array.isArray(token)) token = token[0];
+
+                if (token && typeof token === "object") {
+                    token = token.token || token.convite_token || token.criar_convite;
+                }
+
+                if (typeof token !== "string" || !token.trim()) {
+                    throw new Error(
+                        "O Supabase não retornou o código do convite. " +
+                        "Precisamos conferir o retorno da função criar_convite."
+                    );
+                }
+
+                const url = new URL("cadastro.html", window.location.href);
+                url.searchParams.set("convite", token);
+
+                linkAtual = url.href;
+
+                $("linkConvite").textContent = linkAtual;
+                $("linkConvite").href = linkAtual;
+                $("conviteGerado").classList.add("visivel");
+
+                mostrarMensagem("Convite gerado! Compartilhe o link com a pessoa.");
+
+            } catch (erro) {
+                console.error("Erro ao gerar convite:", erro);
+                mostrarMensagem(
+                    erro.message || "Não foi possível gerar o convite.",
+                    true
+                );
+            } finally {
+                botao.disabled = false;
+                botao.textContent = "+ Gerar convite";
+            }
+        }
+
+        async function copiarConvite() {
+            if (!linkAtual) return;
+
+            try {
+                await navigator.clipboard.writeText(linkAtual);
+                mostrarMensagem("Link copiado! Agora é só enviar para a pessoa.");
+            } catch {
+                mostrarMensagem(
+                    "Não consegui copiar automaticamente. Selecione e copie o link exibido acima.",
+                    true
+                );
+            }
+        }
+
+        async function removerMembro(id) {
+            if (!ehResponsavel()) {
+                mostrarMensagem("Somente a responsável pode remover membros.", true);
+                return;
+            }
+
+            const membro = membros.find((m) => m.id === id);
+
+            if (!membro) return;
+
+            if (membro.id === usuarioAtual.id) {
+                mostrarMensagem("Você não pode remover a própria conta por aqui.", true);
+                return;
+            }
+
+            if (String(membro.papel || "").toUpperCase() === "RESPONSAVEL") {
+                mostrarMensagem("A responsável não pode ser removida por esta tela.", true);
+                return;
+            }
+
+            const confirmado = confirm(
+                `Tem certeza que deseja remover ${nomeDoMembro(membro)} deste Ninho?`
+            );
+
+            if (!confirmado) return;
+
+            try {
+                // Exclui somente a participação desta pessoa neste Ninho.
+                const { error } = await db
+                    .from("membros")
+                    .delete()
+                    .eq("id", id)
+                    .eq("ninho_id", membroAtual.ninho_id);
+
+                if (error) throw error;
+
+                mostrarMensagem("Membro removido do Ninho.");
+                await carregarMembros();
+
+            } catch (erro) {
+                console.error("Erro ao remover membro:", erro);
+                mostrarMensagem(
+                    "Não foi possível remover o membro. Confira as políticas de acesso (RLS) da tabela membros no Supabase.",
+                    true
+                );
+            }
+        }
+
+        $("botaoConvite").addEventListener("click", gerarConvite);
+        $("botaoCopiar").addEventListener("click", copiarConvite);
+
+        $("listaMembros").addEventListener("click", (evento) => {
+            const botao = evento.target.closest("[data-remover]");
+            if (!botao) return;
+
+            removerMembro(botao.dataset.remover);
+        });
+
+        iniciar();
+    </script>
+</body>
+</html>

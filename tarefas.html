@@ -1,51 +1,138 @@
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tarefas | Ninho</title>
-
-    <link rel="stylesheet" href="tarefas.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tarefas | Ninho</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="app.css">
+  <link rel="stylesheet" href="tarefas.css">
 </head>
 <body>
+  <div class="layout-ninho">
+    <aside class="menu-lateral">
+      <a class="logo-ninho" href="inicio.html">Ninho<span>.</span></a>
+      <div class="menu-legenda">NOSSO LAR</div>
+        <nav class="links-menu" aria-label="Menu principal">
+            <a href="inicio.html" class="link-menu">
+                <span>⌂</span> Início
+            </a>
+            <a href="refeicoes.html" class="link-menu">
+                <span>♨</span> Refeições
+            </a>
+            <a href="geladeira.html" class="link-menu">
+                <span>▤</span> Geladeira
+            </a>
+            <a href="tarefas.html" class="link-menu ativo" aria-current="page">
+                <span>✓</span> Tarefas
+            </a>
+            <a href="calendario.html" class="link-menu">
+                <span>▦</span> Calendário
+            </a>
+            <a href="compras.html" class="link-menu">
+                <span>🛒</span> Lista de compras
+            </a>
+            <a href="pontuacao.html" class="link-menu">
+                <span>☆</span> Pontuação
+            </a>
+            <a href="membros.html" class="link-menu">
+                <span>𐀪</span> Membros
+            </a>
+        </nav>
 
-    <main class="pagina-tarefas">
-        <header class="cabecalho-tarefas">
-            <h1>Tarefas do Ninho</h1>
-            <p>Pequenas tarefas, grandes conquistas!</p>
-        </header>
+      <div class="mensagem-menu"><span>☁</span><p>Um lar organizado deixa mais espaço para o carinho.</p></div>
+      <a class="botao-sair" href="index.html">← Voltar ao início</a>
+    </aside>
 
-        <section class="resumo-estrelas">
-            <h2>Minhas estrelas</h2>
-            <p id="total-estrelas">⭐ 0 estrelas</p>
-        </section>
+    <main class="conteudo-ninho">
+      <header class="topo-mobile">
+        <a class="logo-ninho" href="inicio.html">Ninho<span>.</span></a>
+        <span>Nosso cantinho em família ☁</span>
+      </header>
 
-        <section class="lista-tarefas">
-            <h2>Minhas tarefas</h2>
-            <div id="tarefas-container">
-                <p>Nenhuma tarefa cadastrada ainda.</p>
+      <section class="pagina-tarefas">
+        <div class="cabecalho-pagina">
+          <div>
+            <span class="sobretitulo">NOSSO LAR, NOSSO CUIDADO</span>
+            <h1>Nossas tarefas <span>☁</span></h1>
+            <p>Pequenas atitudes deixam nosso cantinho ainda mais especial.</p>
+          </div>
+          <div class="nuvem-decorativa" aria-hidden="true">☁</div>
+        </div>
+
+        <div id="aviso" class="aviso" role="status" hidden></div>
+        <section id="painelResponsavel" class="cartao criar-tarefa" hidden>
+          <div class="titulo-cartao">
+            <div><span class="icone-cartao">＋</span><div><h2>Adicionar uma tarefa</h2><p>Organize quem faz o quê e até quando.</p></div></div>
+          </div>
+          <form id="formTarefa">
+            <div class="grade-formulario">
+              <label class="campo campo-largo">Nome da tarefa
+                <input id="titulo" name="titulo" maxlength="100" placeholder="Ex.: Guardar os brinquedos" required>
+              </label>
+              <label class="campo">Responsável pela tarefa
+                <select id="membroAtribuido" name="membroAtribuido" required><option value="">Carregando membros...</option></select>
+              </label>
+              <label class="campo">Prazo
+                <input id="prazo" name="prazo" type="date" required>
+              </label>
+              <label class="campo">Estrelas ao concluir
+                <select id="estrelas" name="estrelas"><option value="1">1 estrela</option><option value="2" selected>2 estrelas</option><option value="3">3 estrelas</option><option value="5">5 estrelas</option></select>
+              </label>
+              <label class="campo campo-largo">Detalhes (opcional)
+                <textarea id="descricao" name="descricao" rows="2" maxlength="500" placeholder="Ex.: Guardar os brinquedos na caixa azul."></textarea>
+              </label>
             </div>
+            <button class="botao-principal" type="submit">Criar tarefa <span>♡</span></button>
+          </form>
         </section>
 
-        <section class="cadastro-tarefa" id="cadastro-tarefa">
-            <h2>Cadastrar tarefa</h2>
-
-            <form id="form-tarefa">
-                <label for="nome-tarefa">Nome da tarefa</label>
-                <input type="text" id="nome-tarefa" required>
-
-                <label for="responsavel-tarefa">Responsável</label>
-                <input type="text" id="responsavel-tarefa" required>
-
-                <label for="prazo-tarefa">Prazo</label>
-                <input type="datetime-local" id="prazo-tarefa" required>
-
-                <button type="submit">Adicionar tarefa</button>
-            </form>
+        <section class="resumo-tarefas" aria-label="Resumo das tarefas">
+          <div class="mini-resumo"><span class="resumo-icone">☷</span><div><strong id="totalTarefas">0</strong><span>Tarefas no total</span></div></div>
+          <div class="mini-resumo"><span class="resumo-icone">✓</span><div><strong id="totalPendentes">0</strong><span>Em andamento</span></div></div>
+          <div class="mini-resumo"><span class="resumo-icone">☆</span><div><strong id="totalAguardando">0</strong><span>Aguardando confirmação</span></div></div>
         </section>
+
+        <section class="lista-secao">
+          <div class="lista-cabecalho"><div><h2>Lista de tarefas</h2><p>Um passinho de cada vez 💙</p></div>
+            <select id="filtroTarefas" aria-label="Filtrar tarefas"><option value="todas">Todas as tarefas</option><option value="pendentes">Em andamento</option><option value="confirmacao">Aguardando confirmação</option><option value="concluidas">Concluídas</option></select>
+          </div>
+          <div id="listaTarefas" class="lista-tarefas"><div class="estado-vazio"><span>☁</span><h3>Preparando nosso cantinho...</h3><p>Estamos carregando as tarefas da família.</p></div></div>
+        </section>
+      </section>
+      
+        <nav class="menu-inferior" aria-label="Navegação principal">
+            <a href="inicio.html" class="link-inferior">
+                <span>⌂</span>
+                <small>Início</small>
+            </a>
+
+            <a href="refeicoes.html" class="link-inferior">
+                <span>♨</span>
+                <small>Refeições</small>
+            </a>
+
+            <a href="geladeira.html" class="link-inferior">
+                <span>▤</span>
+                <small>Geladeira</small>
+            </a>
+
+            <a href="calendario.html" class="link-inferior">
+                <span>▦</span>
+                <small>Agenda</small>
+            </a>
+
+            <a href="compras.html" class="link-inferior">
+                <span>🛒</span>
+                <small>Compras</small>
+            </a>
+        </nav>
+
     </main>
-
-    <script src="tarefas.js"></script>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="tarefas.js"></script>
 </body>
 </html>
