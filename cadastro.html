@@ -13,6 +13,7 @@
 
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="cadastro.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 
 <body class="pagina-cadastro">
@@ -59,11 +60,11 @@
 
             <form id="formularioNinho">
 
-                <div class="campo">
+                <div class="campo" id="campoNomeNinho">
                     <label for="nomeNinho">Nome do Ninho</label>
-                    <input type="text" id="nomeNinho" name="nomeNinho"
-                        placeholder="Ex.: Ninho da família" required>
+                    <input type="text" id="nomeNinho" name="nomeNinho" required>
                 </div>
+
 
                 <div class="campo">
                     <label for="nome">Seu nome</label>

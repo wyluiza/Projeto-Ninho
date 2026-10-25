@@ -1,47 +1,100 @@
 
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300..700&display=swap" rel="stylesheet">
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Entrar em um Ninho</title>
+    <!DOCTYPE html>
+    <html lang="pt-BR">
+    <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300..700&display=swap" rel="stylesheet">
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Entrar em um Ninho</title>
 
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="login.css">
-</head>
+        <link rel="stylesheet" href="style.css">
+        <link rel="stylesheet" href="login.css">
+    </head>
 
-<body class="pagina-acesso">
+    <body class="pagina-acesso">
 
-    <main class="cartao-acesso">
+        <main class="cartao-acesso">
 
-        <section class="apresentacao-acesso">
-            <a href="index.html" class="botao-voltar">← Voltar</a>
+            <section class="apresentacao-acesso">
+                <a href="index.html" class="botao-voltar">← Voltar</a>
 
-            <div class="texto-apresentacao">
-                <h1>Que bom ter você de volta!</h1>
-            </div>
-        </section>
+                <div class="texto-apresentacao">
+                    <h1>Que bom ter você de volta!</h1>
+                </div>
+            </section>
 
-        <section class="formulario-acesso">
-            <h2>Entre no seu Ninho</h2>
-            <p>Fique pertinho de quem você ama.</p>
+            <section class="formulario-acesso">
+                <h2>Entre no seu Ninho</h2>
+                <p>Fique pertinho de quem você ama.</p>
 
-            <form>
-                <label for="email">Qual é o seu e-mail?</label>
-                <input type="email" id="email" placeholder="voce@exemplo.com" required>
+                <form id="formularioLogin">
+                    <label for="email">Qual é o seu e-mail?</label>
+                    <input type="email" id="email" placeholder="voce@exemplo.com" required>
 
-                <label for="senha">Qual é a sua senha?</label>
-                <input type="password" id="senha" placeholder="Digite sua senha" required>
+                    <label for="senha">Qual é a sua senha?</label>
+                    <input type="password" id="senha" placeholder="Digite sua senha" required>
 
-                <button type="submit">Entrar no meu Ninho</button>
-            </form>
-        </section>
+                    <button type="submit">Entrar no meu Ninho</button>
+                </form>
+            </section>
 
-    </main>
+        </main>
+        
+            <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+            <script>
+            const SUPABASE_URL = "https://ncqimbutzmngrkgvtnqt.supabase.co";
+            const SUPABASE_ANON_KEY = "sb_publishable_kM4EsVr5Y22pWEgpn8CTdg_ag3m7aDE";
 
-</body>
+            const supabaseClient = window.supabase.createClient(
+                SUPABASE_URL,
+                SUPABASE_ANON_KEY
+            );
 
-</html>
+            document.getElementById("formularioLogin").addEventListener("submit", async function(event) {
+                event.preventDefault();
+
+                const email = document.getElementById("email").value.trim();
+                const senha = document.getElementById("senha").value;
+                const botao = this.querySelector("button");
+
+                botao.disabled = true;
+                botao.textContent = "Entrando...";
+
+                const { data, error } = await supabaseClient.auth.signInWithPassword({
+                    email: email,
+                    password: senha
+                });
+
+                if (error) {
+                    alert("Não foi possível entrar. Confira seu e-mail e sua senha.");
+                    console.error(error);
+                    botao.disabled = false;
+                    botao.textContent = "Entrar no meu Ninho";
+                    return;
+                }
+
+                const { data: membro, error: erroMembro } = await supabaseClient
+                    .from("membros")
+                    .select("ninho_id, nome")
+                    .eq("id", data.user.id)
+                    .single();
+
+                if (erroMembro || !membro) {
+                    alert("Sua conta entrou, mas não encontramos seu Ninho. Verifique se o cadastro foi concluído.");
+                    console.error(erroMembro);
+                    botao.disabled = false;
+                    botao.textContent = "Entrar no meu Ninho";
+                    return;
+                }
+
+                localStorage.setItem("ninhoId", membro.ninho_id);
+                localStorage.setItem("nomeUsuario", membro.nome);
+
+                window.location.href = "inicio.html";
+            });
+            </script>
+            </body>
+
+    </html>

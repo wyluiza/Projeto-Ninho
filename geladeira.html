@@ -10,6 +10,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="geladeira.css">
+    <link rel="stylesheet" href="app.css">
     
     <style>
 
@@ -651,321 +652,218 @@ body {
     }
 }
 
+/* Geladeira integrada ao layout original do Ninho */
+body:has(.layout-ninho) {
+    min-height: 100vh;
+    padding: 0;
+    background: #F3FAFE;
+}
+
+.layout-ninho {
+    min-height: 100vh;
+}
+
+.conteudo-ninho > .pagina {
+    width: 100%;
+    max-width: 1160px;
+    margin: 0 auto;
+    padding: 30px 35px;
+}
+
+@media (max-width: 760px) {
+    .conteudo-ninho > .pagina {
+        padding: 22px 15px 95px;
+    }
+}
+
     </style>
 </head>
 
+
 <body>
-    <main class="pagina">
-        <a class="voltar" href="inicio.html">← Voltar para o Ninho</a>
+    <div class="layout-ninho">
 
-        <header class="titulo">
-            <h1>🧊 Nossa geladeira</h1>
-            <p>Tudo fresquinho e organizado para cuidar da nossa família.</p>
-        </header>
+        <!-- MENU LATERAL: COMPUTADOR -->
+        <aside class="menu-lateral">
 
-        <section class="geladeira">
-            <div class="porta">
-                <div class="topo-geladeira">
-                    <span class="marca">NINHO HOME</span>
-                    <span class="luz"></span>
-                </div>
+            <a href="inicio.html" class="logo-ninho">
+                Ninho<span>.</span>
+            </a>
 
-                <div class="prateleira">
-                    <p class="nome-prateleira">Alimentos da Geladeira</p>
-                    <div class="alimentos"></div>
+            <p class="menu-legenda">NOSSO LAR</p>
+
+            <nav class="links-menu">
+                <a href="inicio.html" class="link-menu">
+                    <span>⌂</span> Início
+                </a>
+
+                <a href="refeicoes.html" class="link-menu">
+                    <span>♨</span> Refeições
+                </a>
+
+                <a href="geladeira.html" class="link-menu ativo" aria-current="page">
+                    <span>▤</span> Geladeira
+                </a>
+
+                <a href="tarefas.html" class="link-menu">
+                    <span>✓</span> Tarefas
+                </a>
+
+                <a href="calendario.html" class="link-menu">
+                    <span>▦</span> Calendário
+                </a>
+
+                <a href="compras.html" class="link-menu">
+                    <span>🛒</span> Lista de compras
+                </a>
+
+                <a href="pontuacao.html" class="link-menu">
+                    <span>☆</span> Pontuação
+                </a>
+            </nav>
+
+            <div class="mensagem-menu">
+                <span>☁</span>
+                <p>Um lar organizado deixa mais espaço para o carinho.</p>
+            </div>
+
+            <a href="index.html" class="botao-sair">
+                Voltar ao início
+            </a>
+        </aside>
+
+        <!-- CONTEÚDO PRINCIPAL -->
+        <div class="conteudo-ninho">
+
+            <!-- CABEÇALHO PARA CELULAR -->
+            <header class="topo-mobile">
+                <a href="inicio.html" class="logo-ninho">
+                    Ninho<span>.</span>
+                </a>
+
+                <span class="detalhe-topo">
+                    Nosso cantinho em família ☁
+                </span>
+            </header>
+
+            <main class="pagina">
+                <header class="titulo">
+                    <h1>🧊 Nossa geladeira</h1>
+                    <p>Tudo fresquinho e organizado para cuidar da nossa família.</p>
+                </header>
+
+                <section class="geladeira">
+                    <div class="porta">
+                        <div class="topo-geladeira">
+                            <span class="marca">NINHO HOME</span>
+                            <span class="luz"></span>
+                        </div>
+
+                        <div class="prateleira">
+                            <p class="nome-prateleira">Alimentos da Geladeira</p>
+                            <div class="alimentos"></div>
+                        </div>
+
+                        <div class="gaveta">SUA GELADEIRA TEM:</div>
+                        <div class="puxador"></div>
                     </div>
+                </section>
 
-                <div class="gaveta">SUA GELADEIRA TEM:</div>
-                <div class="puxador"></div>
-            </div>
-        </section>
+                <button class="botao-adicionar" type="button"
+                    onclick="abrirFormulario()">
+                    + Adicionar alimento
+                </button>
 
-        <button class="botao-adicionar" type="button"
-    onclick="abrirFormulario()">
-    + Adicionar alimento
-</button>
+                <section class="formulario-alimento" id="formularioAlimento">
+                    <h2>🧺 O que chegou na geladeira?</h2>
 
-<section class="formulario-alimento" id="formularioAlimento">
-    <h2>🧺 O que chegou na geladeira?</h2>
+                    <form id="formAlimento">
+                        <label for="nomeAlimento">Nome do alimento</label>
+                        <input id="nomeAlimento" type="text"
+                            placeholder="Ex.: Queijo colonial" required maxlength="60">
 
-    <form id="formAlimento">
-        <label for="nomeAlimento">Nome do alimento</label>
-        <input id="nomeAlimento" type="text"
-            placeholder="Ex.: Queijo colonial" required maxlength="60">
+                        <div class="linha-formulario">
+                            <div>
+                                <label for="quantidadeAlimento">Quantidade</label>
+                                <input id="quantidadeAlimento" type="number"
+                                    min="0.01" step="any" placeholder="Ex.: 2" required>
+                            </div>
 
-        <div class="linha-formulario">
-            <div>
-                <label for="quantidadeAlimento">Quantidade</label>
-                <input id="quantidadeAlimento" type="number"
-                    min="0.01" step="any" placeholder="Ex.: 2" required>
-            </div>
+                            <div>
+                                <label for="unidadeAlimento">Unidade</label>
+                                <select id="unidadeAlimento">
+                                    <option value="un.">Unidades</option>
+                                    <option value="kg">Quilos (kg)</option>
+                                    <option value="g">Gramas (g)</option>
+                                    <option value="L">Litros (L)</option>
+                                    <option value="ml">Mililitros (ml)</option>
+                                    <option value="cx.">Caixas</option>
+                                    <option value="pct.">Pacotes</option>
+                                    <option value="pote(s)">Potes</option>
+                                    <option value="lata(s)">Latas</option>
+                                    <option value="cacho(s)">Cachos</option>
+                                </select>
+                            </div>
+                        </div>
 
-            <div>
-                <label for="unidadeAlimento">Unidade</label>
-                <select id="unidadeAlimento">
-                    <option value="un.">Unidades</option>
-                    <option value="kg">Quilos (kg)</option>
-                    <option value="g">Gramas (g)</option>
-                    <option value="L">Litros (L)</option>
-                    <option value="ml">Mililitros (ml)</option>
-                    <option value="cx.">Caixas</option>
-                    <option value="pct.">Pacotes</option>
-                    <option value="pote(s)">Potes</option>
-                    <option value="lata(s)">Latas</option>
-                    <option value="cacho(s)">Cachos</option>
-                </select>
-            </div>
+                        <label for="emojiAlimento">Desenho do alimento</label>
+                        <select id="emojiAlimento">
+                            <option value="🥛">🥛 Leite</option>
+                            <option value="🧀">🧀 Queijo</option>
+                            <option value="🥚">🥚 Ovos</option>
+                            <option value="🥕">🥕 Legumes</option>
+                            <option value="🍎">🍎 Frutas</option>
+                            <option value="🍞">🍞 Pães</option>
+                            <option value="🥩">🥩 Carnes</option>
+                            <option value="🧃">🧃 Bebidas</option>
+                            <option value="🍚">🍚 Grãos</option>
+                            <option value="🍪">🍪 Doces</option>
+                            <option value="🧊">🧊 Outros</option>
+                        </select>
+
+                        <button class="botao-salvar" type="submit">
+                            Guardar na geladeira ♡
+                        </button>
+
+                        <p class="mensagem-estoque" id="mensagemEstoque"></p>
+                    </form>
+                </section>
+
+                <p class="observacao">
+                    Cada ingrediente ajuda a preparar momentos especiais. ♡<br>
+                    Sua família pode adicionar os alimentos que quiser!
+                </p>
+            </main>
+
+            <!-- MENU INFERIOR: CELULAR -->
+            <nav class="menu-inferior" aria-label="Navegação principal">
+                <a href="inicio.html" class="link-inferior">
+                    <span>⌂</span>
+                    <small>Início</small>
+                </a>
+
+                <a href="refeicoes.html" class="link-inferior">
+                    <span>♨</span>
+                    <small>Refeições</small>
+                </a>
+
+                <a href="geladeira.html" class="link-inferior ativo" aria-current="page">
+                    <span>▤</span>
+                    <small>Geladeira</small>
+                </a>
+
+                <a href="calendario.html" class="link-inferior">
+                    <span>▦</span>
+                    <small>Agenda</small>
+                </a>
+
+                <a href="compras.html" class="link-inferior">
+                    <span>🛒</span>
+                    <small>Compras</small>
+                </a>
+            </nav>
+
         </div>
-
-            <label for="emojiAlimento">Desenho do alimento</label>
-            <select id="emojiAlimento">
-                <option value="🥛">🥛 Leite</option>
-                <option value="🧀">🧀 Queijo</option>
-                <option value="🥚">🥚 Ovos</option>
-                <option value="🥕">🥕 Legumes</option>
-                <option value="🍎">🍎 Frutas</option>
-                <option value="🍞">🍞 Pães</option>
-                <option value="🥩">🥩 Carnes</option>
-                <option value="🧃">🧃 Bebidas</option>
-                <option value="🍚">🍚 Grãos</option>
-                <option value="🍪">🍪 Doces</option>
-                <option value="🧊">🧊 Outros</option>
-            </select>
-
-        <button class="botao-salvar" type="submit">
-            Guardar na geladeira ♡
-        </button>
-
-        <p class="mensagem-estoque" id="mensagemEstoque"></p>
-    </form>
-</section>
-
-<p class="observacao">
-    Cada ingrediente ajuda a preparar momentos especiais. ♡<br>
-    Sua família pode adicionar os alimentos que quiser!
-</p>
-    </main>
-   
-<script>
-const chaveGeladeira = "ninhoGeladeira";
-let alimentos = [];
-
-function salvar() {
-    localStorage.setItem(chaveGeladeira, JSON.stringify(alimentos));
-}
-
-function abrirFormulario() {
-    const formulario = document.getElementById("formularioAlimento");
-    formulario.classList.toggle("aberto");
-
-    if (formulario.classList.contains("aberto")) {
-        document.getElementById("nomeAlimento").focus();
-    }
-}
-
-function normalizarNome(nome) {
-    return nome
-        .normalize("NFD")
-        .replace(/[\u0300-\u036f]/g, "")
-        .toLowerCase()
-        .trim()
-        .replace(/\s+/g, " ");
-}
-
-function distanciaEdicao(a, b) {
-    const matriz = Array.from(
-        { length: a.length + 1 },
-        () => Array(b.length + 1).fill(0)
-    );
-
-    for (let i = 0; i <= a.length; i++) matriz[i][0] = i;
-    for (let j = 0; j <= b.length; j++) matriz[0][j] = j;
-
-    for (let i = 1; i <= a.length; i++) {
-        for (let j = 1; j <= b.length; j++) {
-            const custo = a[i - 1] === b[j - 1] ? 0 : 1;
-            matriz[i][j] = Math.min(
-                matriz[i - 1][j] + 1,
-                matriz[i][j - 1] + 1,
-                matriz[i - 1][j - 1] + custo
-            );
-        }
-    }
-
-    return matriz[a.length][b.length];
-}
-
-function nomesParecidos(nome1, nome2) {
-    const a = normalizarNome(nome1);
-    const b = normalizarNome(nome2);
-
-    if (a === b) return true;
-    if (Math.min(a.length, b.length) < 4) return false;
-
-    return distanciaEdicao(a, b) <= 2;
-}
-
-function carregarAlimentos() {
-    const salvos = localStorage.getItem(chaveGeladeira);
-
-    if (salvos) {
-        try {
-            const dados = JSON.parse(salvos);
-            alimentos = Array.isArray(dados) ? dados : [];
-        } catch {
-            alimentos = [];
-        }
-    } else {
-        alimentos = [];
-    }
-
-    // Garante que os dados antigos tenham os campos necessários.
-    alimentos = alimentos.map((item, indice) => ({
-        id: item.id || `alimento-${indice}-${Date.now()}`,
-        nome: item.nome || "Alimento",
-        emoji: item.emoji || "🍎",
-        quantidade: Number(item.quantidade) || 0,
-        unidade: item.unidade || "un."
-    }));
-
-    salvar();
-    renderizar();
-}
-
-function renderizar() {
-    const lista = document.querySelector(".prateleira .alimentos");
-    const gaveta = document.querySelector(".gaveta");
-
-    if (!lista || !gaveta) return;
-
-    lista.innerHTML = "";
-
-    if (alimentos.length === 0) {
-        gaveta.textContent = "🧊 SUA GELADEIRA ESTÁ VAZIA";
-        return;
-    }
-
-    gaveta.textContent = `🥬 ${alimentos.length} alimentos na geladeira`;
-
-    alimentos.forEach(alimento => {
-        const cartao = document.createElement("article");
-        cartao.className = "alimento";
-
-        const emoji = document.createElement("span");
-        emoji.className = "emoji";
-        emoji.textContent = alimento.emoji;
-
-        const nome = document.createElement("h3");
-        nome.textContent = alimento.nome;
-
-        const quantidade = document.createElement("span");
-        quantidade.className = "quantidade";
-        quantidade.textContent = `${alimento.quantidade} ${alimento.unidade}`;
-
-        const status = document.createElement("p");
-        status.className = "status-alimento";
-
-        if (alimento.quantidade <= 0) {
-            quantidade.classList.add("esgotado");
-            status.textContent = "Acabou! ♡";
-        } else if (alimento.quantidade <= 2) {
-            quantidade.classList.add("acabando");
-            status.textContent = "Está acabando!";
-        } else {
-            status.textContent = "Tem disponível";
-        }
-
-        const acoes = document.createElement("div");
-        acoes.className = "acoes-alimento";
-
-        const menos = document.createElement("button");
-        menos.type = "button";
-        menos.textContent = "−";
-        menos.onclick = () => alterarQuantidade(alimento.id, -1);
-
-        const mais = document.createElement("button");
-        mais.type = "button";
-        mais.textContent = "+";
-        mais.onclick = () => alterarQuantidade(alimento.id, 1);
-
-        const remover = document.createElement("button");
-        remover.type = "button";
-        remover.className = "remover";
-        remover.textContent = "×";
-        remover.onclick = () => removerAlimento(alimento.id);
-
-        acoes.append(menos, mais, remover);
-        cartao.append(emoji, nome, quantidade, status, acoes);
-        lista.append(cartao);
-    });
-}
-
-function alterarQuantidade(id, variacao) {
-    const alimento = alimentos.find(item => item.id === id);
-    if (!alimento) return;
-
-    const novaQuantidade = alimento.quantidade + variacao;
-    if (novaQuantidade < 0) return;
-
-    alimento.quantidade = Math.round(novaQuantidade * 100) / 100;
-    salvar();
-    renderizar();
-}
-
-function removerAlimento(id) {
-    const alimento = alimentos.find(item => item.id === id);
-    if (!alimento) return;
-
-    if (!confirm(`Remover ${alimento.nome} da geladeira?`)) return;
-
-    alimentos = alimentos.filter(item => item.id !== id);
-    salvar();
-    renderizar();
-}
-
-document.getElementById("formAlimento").addEventListener("submit", event => {
-    event.preventDefault();
-
-    const nome = document.getElementById("nomeAlimento").value.trim();
-    const quantidade = Number(
-        document.getElementById("quantidadeAlimento").value
-    );
-    const unidade = document.getElementById("unidadeAlimento").value;
-    const emoji = document.getElementById("emojiAlimento").value;
-
-    const mensagem = document.getElementById("mensagemEstoque");
-
-    if (!nome || !Number.isFinite(quantidade) || quantidade <= 0) {
-        mensagem.textContent = "Confira o nome e a quantidade. 💙";
-        return;
-    }
-
-    const existente = alimentos.find(item =>
-        nomesParecidos(item.nome, nome) && item.unidade === unidade
-    );
-
-    if (existente) {
-        existente.quantidade = Math.round(
-            (existente.quantidade + quantidade) * 100
-        ) / 100;
-    } else {
-        alimentos.push({
-            id: Date.now().toString() + Math.random().toString(16).slice(2),
-            nome,
-            emoji,
-            quantidade,
-            unidade
-        });
-    }
-
-    salvar();
-    renderizar();
-
-    event.target.reset();
-    mensagem.textContent = "Oba! Alimento guardado na geladeira. ♡";
-});
-
-carregarAlimentos();
-</script>
+    </div>
 </body>
 </html>

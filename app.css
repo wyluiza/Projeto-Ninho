@@ -687,3 +687,21 @@ body:has(.layout-ninho) .conteudo-ninho main.painel-ninho {
         right: -20px;
     }
 }
+/* Integração da geladeira com o layout geral */
+body:has(.layout-ninho) {
+    padding: 0;
+    background: var(--ninho-fundo);
+}
+
+body:has(.layout-ninho) .conteudo-ninho > .pagina {
+    width: 100%;
+    max-width: 1160px;
+    margin: 0 auto;
+    padding: 30px 35px;
+}
+
+@media (max-width: 760px) {
+    body:has(.layout-ninho) .conteudo-ninho > .pagina {
+        padding: 22px 15px;
+    }
+}
