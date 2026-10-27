@@ -1,0 +1,221 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#F3FAFE">
+
+    <title>Lista de compras | Ninho</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="app.css">
+    <link rel="stylesheet" href="compras.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="compras.js" defer></script>
+</head>
+
+<body>
+    <div class="layout-ninho">
+
+        <aside class="menu-lateral">
+            <a class="logo-ninho" href="inicio.html">Ninho<span>.</span></a>
+
+            <p class="menu-legenda">NOSSO LAR</p>
+
+            <nav class="links-menu" aria-label="Menu principal">
+                <a href="inicio.html" class="link-menu">
+                    <span>⌂</span> Início
+                </a>
+
+                <a href="refeicoes.html" class="link-menu">
+                    <span>♨</span> Refeições
+                </a>
+
+                <a href="geladeira.html" class="link-menu">
+                    <span>▤</span> Geladeira
+                </a>
+
+                <a href="tarefas.html" class="link-menu">
+                    <span>✓</span> Tarefas
+                </a>
+
+                <a href="calendario.html" class="link-menu">
+                    <span>▦</span> Calendário
+                </a>
+
+                <a href="compras.html" class="link-menu ativo" aria-current="page">
+                    <span>🛒</span> Lista de compras
+                </a>
+
+                <a href="pontuacao.html" class="link-menu">
+                    <span>☆</span> Pontuação
+                </a>
+
+                <a href="membros.html" class="link-menu">
+                    <span>♧</span> Membros
+                </a>
+            </nav>
+
+            <div class="mensagem-menu">
+                <span>☁</span>
+                <p>Um lar organizado deixa mais espaço para o carinho.</p>
+            </div>
+
+            <a class="botao-sair" href="index.html">← Voltar ao início</a>
+        </aside>
+
+        <main class="conteudo-ninho">
+
+            <header class="topo-mobile">
+                <a class="logo-ninho" href="inicio.html">Ninho<span>.</span></a>
+                <span class="detalhe-topo">Nosso cantinho em família ☁</span>
+            </header>
+
+            <section class="pagina-compras">
+
+                <header class="cabecalho-pagina">
+                    <div>
+                        <span class="sobretitulo">NOSSO LAR, NOSSO CUIDADO</span>
+                        <h1>Nossa lista de compras <span>♡</span></h1>
+                        <p>Organizem juntos tudo o que está faltando em casa.</p>
+                    </div>
+                    <div class="compras-decoracao" aria-hidden="true">🛒</div>
+                </header>
+
+                <div id="avisoCompras" class="aviso" role="status" hidden></div>
+
+                <section class="cartao compras-formulario">
+                    <div class="titulo-cartao">
+                        <div>
+                            <span class="icone-cartao">＋</span>
+                            <div>
+                                <h2>Adicionar à lista</h2>
+                                <p>Vale tudo o que vocês precisam comprar para casa.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <form id="formCompra">
+                        <div class="grade-formulario">
+                            <label class="campo campo-largo" for="nomeItem">
+                                Nome do item
+                                <input
+                                    id="nomeItem"
+                                    name="nomeItem"
+                                    type="text"
+                                    maxlength="500"
+                                    placeholder="Ex.: arroz, lâmpada, perfume..."
+                                    required
+                                >
+                            </label>
+
+                            <label class="campo" for="quantidadeItem">
+                                Quantidade
+                                <input
+                                    id="quantidadeItem"
+                                    name="quantidadeItem"
+                                    type="text"
+                                    maxlength="100"
+                                    value="1"
+                                    placeholder="Ex.: 2 pacotes"
+                                    required
+                                >
+                            </label>
+                        </div>
+
+                        <button class="botao-principal" id="botaoAdicionar" type="submit">
+                            Adicionar item <span>♡</span>
+                        </button>
+                    </form>
+                </section>
+
+                <section class="resumo-compras" aria-label="Resumo da lista">
+                    <div class="mini-resumo">
+                        <span class="resumo-icone">☷</span>
+                        <div>
+                            <strong id="totalItens">0</strong>
+                            <span>Itens na lista</span>
+                        </div>
+                    </div>
+
+                    <div class="mini-resumo">
+                        <span class="resumo-icone">○</span>
+                        <div>
+                            <strong id="totalPendentes">0</strong>
+                            <span>Pendentes</span>
+                        </div>
+                    </div>
+
+                    <div class="mini-resumo">
+                        <span class="resumo-icone">✓</span>
+                        <div>
+                            <strong id="totalComprados">0</strong>
+                            <span>Comprados</span>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="lista-secao">
+                    <div class="lista-cabecalho">
+                        <div>
+                            <h2>Lista da família</h2>
+                            <p>Todo mundo do Ninho pode acompanhar as compras.</p>
+                        </div>
+
+                        <select id="filtroCompras" aria-label="Filtrar itens">
+                            <option value="todos">Todos os itens</option>
+                            <option value="pendentes">Pendentes</option>
+                            <option value="comprados">Comprados</option>
+                        </select>
+                    </div>
+
+                    <div id="listaCompras" class="lista-compras">
+                        <div class="estado-vazio">
+                            <span>☁</span>
+                            <h3>Preparando nossa lista...</h3>
+                            <p>Estamos carregando os itens da família.</p>
+                        </div>
+                    </div>
+                </section>
+
+                <p class="rodape-compras">
+                    Feito para organizar a rotina da família, um item de cada vez. ♡
+                </p>
+            </section>
+
+            <nav class="menu-inferior" aria-label="Navegação principal">
+                <a href="inicio.html" class="link-inferior">
+                    <span>⌂</span>
+                    <small>Início</small>
+                </a>
+
+                <a href="geladeira.html" class="link-inferior">
+                    <span>▤</span>
+                    <small>Geladeira</small>
+                </a>
+
+                <a href="tarefas.html" class="link-inferior">
+                    <span>✓</span>
+                    <small>Tarefas</small>
+                </a>
+
+                <a href="compras.html" class="link-inferior ativo" aria-current="page">
+                    <span>🛒</span>
+                    <small>Compras</small>
+                </a>
+
+                <a href="calendario.html" class="link-inferior">
+                    <span>▦</span>
+                    <small>Agenda</small>
+                </a>
+            </nav>
+
+        </main>
+    </div>
+</body>
+</html>

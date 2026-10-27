@@ -1,0 +1,465 @@
+
+/* NINHO — LISTA DE COMPRAS
+   Mantém a identidade visual de tarefas e geladeira. */
+
+.pagina-compras {
+    width: 100%;
+    max-width: 1120px;
+    margin: 0 auto;
+    padding: 38px 38px 30px;
+}
+
+.cabecalho-pagina {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    margin-bottom: 28px;
+}
+
+.sobretitulo {
+    display: block;
+    margin-bottom: 11px;
+    color: #8ba8b9;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.7px;
+}
+
+.cabecalho-pagina h1 {
+    margin: 0 0 10px;
+    color: #4a7188;
+    font-size: clamp(24px, 4vw, 32px);
+    line-height: 1.35;
+}
+
+.cabecalho-pagina h1 span {
+    color: #83c5e8;
+}
+
+.cabecalho-pagina p,
+.titulo-cartao p,
+.lista-cabecalho p {
+    margin: 0;
+    color: #89a4b4;
+    font-size: 12px;
+    line-height: 1.8;
+}
+
+.compras-decoracao {
+    display: grid;
+    width: 86px;
+    height: 86px;
+    flex: 0 0 86px;
+    place-items: center;
+    border: 1px solid #e0f0f9;
+    border-radius: 27px;
+    background: #e8f6ff;
+    font-size: 38px;
+    transform: rotate(3deg);
+}
+
+.compras-formulario {
+    margin-bottom: 24px;
+}
+
+.compras-formulario .titulo-cartao > div {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+    margin-bottom: 20px;
+}
+
+.compras-formulario .titulo-cartao h2 {
+    margin: 0 0 5px;
+    color: #4a7188;
+    font-size: 17px;
+}
+
+.compras-formulario .icone-cartao {
+    display: grid;
+    width: 42px;
+    height: 42px;
+    flex: 0 0 42px;
+    place-items: center;
+    border-radius: 14px;
+    background: #e7f6ff;
+    color: #5b9cc0;
+    font-size: 25px;
+}
+
+.compras-formulario .grade-formulario {
+    display: grid;
+    grid-template-columns: minmax(0, 2fr) minmax(130px, 1fr);
+    gap: 15px;
+}
+
+.compras-formulario .campo {
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+    gap: 8px;
+    color: #66899d;
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.compras-formulario .campo-largo {
+    grid-column: auto;
+}
+
+.compras-formulario input,
+.lista-cabecalho select {
+    width: 100%;
+    min-width: 0;
+    padding: 12px 13px;
+    border: 1px solid #dcecf5;
+    border-radius: 12px;
+    outline: none;
+    background: #fbfdff;
+    color: #47697e;
+    font: 500 12px "Comfortaa", sans-serif;
+}
+
+.compras-formulario input:focus,
+.lista-cabecalho select:focus {
+    border-color: #8bcdf0;
+    box-shadow: 0 0 0 3px #bfe8fb55;
+}
+
+.compras-formulario .botao-principal {
+    display: block;
+    width: 100%;
+    margin-top: 18px;
+    padding: 14px 18px;
+    border: 0;
+    border-radius: 13px;
+    background: #a8def8;
+    color: #315d76;
+    font: 700 12px "Comfortaa", sans-serif;
+    cursor: pointer;
+    transition: background .2s, transform .2s;
+}
+
+.compras-formulario .botao-principal:hover {
+    background: #8dcef1;
+    transform: translateY(-1px);
+}
+
+.compras-formulario .botao-principal:disabled {
+    opacity: .6;
+    cursor: wait;
+    transform: none;
+}
+
+.resumo-compras {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 15px;
+    margin: 25px 0 32px;
+}
+
+.resumo-compras .mini-resumo {
+    display: flex;
+    min-width: 0;
+    align-items: center;
+    gap: 14px;
+    padding: 18px;
+    border: 1px solid #e4f0f7;
+    border-radius: 18px;
+    background: #fff;
+}
+
+.resumo-compras .resumo-icone {
+    display: grid;
+    width: 42px;
+    height: 42px;
+    flex: 0 0 42px;
+    place-items: center;
+    border-radius: 14px;
+    background: #eaf7ff;
+    color: #6da8c7;
+    font-size: 23px;
+}
+
+.resumo-compras .mini-resumo strong,
+.resumo-compras .mini-resumo div span {
+    display: block;
+}
+
+.resumo-compras .mini-resumo strong {
+    margin-bottom: 5px;
+    color: #4e7890;
+    font-size: 22px;
+}
+
+.resumo-compras .mini-resumo div span {
+    color: #91a9b7;
+    font-size: 10px;
+    line-height: 1.6;
+}
+
+.lista-secao {
+    min-width: 0;
+}
+
+.lista-cabecalho {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    margin-bottom: 16px;
+}
+
+.lista-cabecalho h2 {
+    margin: 0 0 6px;
+    color: #4a7188;
+    font-size: 17px;
+}
+
+.lista-cabecalho select {
+    width: auto;
+    max-width: 190px;
+    padding: 10px;
+    font-size: 11px;
+}
+
+.lista-compras {
+    display: grid;
+    gap: 12px;
+}
+
+.item-compra {
+    display: flex;
+    min-width: 0;
+    align-items: flex-start;
+    gap: 13px;
+    padding: 18px 20px;
+    border: 1px solid #e1eef6;
+    border-radius: 18px;
+    background: #fff;
+    transition: border-color .2s, background .2s;
+}
+
+.item-compra:hover {
+    border-color: #cce8f7;
+}
+
+.item-compra.comprado {
+    background: #fbfdfe;
+}
+
+.marcador-compra {
+    width: 20px;
+    height: 20px;
+    flex: 0 0 20px;
+    margin-top: 2px;
+    accent-color: #76b9dc;
+    cursor: pointer;
+}
+
+.conteudo-item-compra {
+    flex: 1;
+    min-width: 0;
+}
+
+.nome-item-compra {
+    margin: 1px 0 7px;
+    color: #4a7188;
+    font-size: 13px;
+    font-weight: 700;
+    line-height: 1.7;
+    overflow-wrap: anywhere;
+}
+
+.comprado .nome-item-compra {
+    color: #94aab7;
+    text-decoration: line-through;
+}
+
+.detalhes-item-compra {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    color: #89a4b4;
+    font-size: 10px;
+    line-height: 1.8;
+    overflow-wrap: anywhere;
+}
+
+.pilula-compra {
+    display: inline-flex;
+    align-items: center;
+    padding: 5px 8px;
+    border-radius: 20px;
+    background: #f0f8fc;
+    color: #7394a7;
+    font-size: 9px;
+    font-weight: 700;
+}
+
+.pilula-compra.concluida {
+    background: #eaf9f0;
+    color: #599879;
+}
+
+.pilula-compra.pendente {
+    background: #fff8e8;
+    color: #ad914f;
+}
+
+.acoes-item-compra {
+    display: flex;
+    flex-shrink: 0;
+    flex-wrap: wrap;
+    gap: 7px;
+}
+
+.botao-excluir-compra {
+    padding: 9px 11px;
+    border: 0;
+    border-radius: 10px;
+    background: #fff0ef;
+    color: #b96e6e;
+    font: 700 10px "Comfortaa", sans-serif;
+    cursor: pointer;
+}
+
+.botao-excluir-compra:hover {
+    background: #ffe2e0;
+}
+
+.estado-vazio {
+    padding: 38px 15px;
+    border: 1px dashed #d3e8f4;
+    border-radius: 20px;
+    background: #fff;
+    text-align: center;
+}
+
+.estado-vazio > span {
+    display: block;
+    margin-bottom: 9px;
+    color: #a9def7;
+    font-size: 42px;
+}
+
+.estado-vazio h3 {
+    margin: 0 0 8px;
+    color: #5d8197;
+    font-size: 14px;
+}
+
+.estado-vazio p {
+    margin: 0;
+    color: #91a9b7;
+    font-size: 11px;
+    line-height: 1.8;
+}
+
+.aviso[hidden] {
+    display: none;
+}
+
+.aviso {
+    margin-bottom: 18px;
+    padding: 13px 16px;
+    border-radius: 12px;
+    background: #e8f8ef;
+    color: #4e8b6d;
+    font-size: 12px;
+    line-height: 1.7;
+    overflow-wrap: anywhere;
+}
+
+.aviso.erro {
+    background: #fff0ef;
+    color: #b96e6e;
+}
+
+.rodape-compras {
+    margin-top: 30px;
+    color: #9ab0bd;
+    text-align: center;
+    font-size: 10px;
+    line-height: 1.8;
+}
+
+@media (max-width: 1100px) and (min-width: 761px) {
+    .pagina-compras {
+        padding: 30px 24px;
+    }
+}
+
+@media (max-width: 760px) {
+    .pagina-compras {
+        padding: 23px 19px 30px;
+    }
+
+    .cabecalho-pagina {
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    .compras-decoracao {
+        width: 55px;
+        height: 55px;
+        flex-basis: 55px;
+        border-radius: 18px;
+        font-size: 25px;
+    }
+
+    .compras-formulario .grade-formulario {
+        grid-template-columns: 1fr;
+    }
+
+    .resumo-compras {
+        gap: 8px;
+    }
+
+    .resumo-compras .mini-resumo {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+        padding: 12px 9px;
+    }
+
+    .resumo-compras .resumo-icone {
+        width: 32px;
+        height: 32px;
+        flex-basis: 32px;
+        border-radius: 11px;
+        font-size: 18px;
+    }
+
+    .resumo-compras .mini-resumo strong {
+        font-size: 18px;
+    }
+
+    .resumo-compras .mini-resumo div span {
+        font-size: 9px;
+    }
+
+    .lista-cabecalho {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .lista-cabecalho select {
+        width: 100%;
+        max-width: none;
+    }
+
+    .item-compra {
+        gap: 10px;
+        padding: 14px;
+    }
+
+    .acoes-item-compra {
+        flex-direction: column;
+    }
+
+    .botao-excluir-compra {
+        padding: 8px;
+    }
+}
