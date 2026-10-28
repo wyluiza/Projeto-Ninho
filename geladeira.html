@@ -867,3 +867,240 @@ body:has(.layout-ninho) {
     </div>
 </body>
 </html>
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Geladeira | Meu Ninho</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300..700&display=swap" rel="stylesheet">
+
+  <!-- Mantém os estilos gerais do Ninho -->
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="app.css">
+  <link rel="stylesheet" href="geladeira.css">
+</head>
+
+<body>
+  <div class="layout-ninho">
+
+    <aside class="menu-lateral">
+      <a href="inicio.html" class="logo-ninho">Ninho<span>.</span></a>
+      <p class="menu-legenda">NOSSO LAR</p>
+
+      <nav class="links-menu" aria-label="Menu principal">
+        <a href="inicio.html" class="link-menu"><span>⌂</span> Início</a>
+        <a href="refeicoes.html" class="link-menu"><span>♨</span> Refeições</a>
+        <a href="geladeira.html" class="link-menu ativo"><span>▤</span> Geladeira</a>
+        <a href="tarefas.html" class="link-menu"><span>✓</span> Tarefas</a>
+        <a href="calendario.html" class="link-menu"><span>▦</span> Calendário</a>
+        <a href="compras.html" class="link-menu"><span>🛒</span> Lista de compras</a>
+        <a href="pontuacao.html" class="link-menu"><span>☆</span> Pontuação</a>
+        <a href="membros.html" class="link-menu"><span>♙</span> Membros</a>
+      </nav>
+
+      <div class="mensagem-menu">
+        <span>☁</span>
+        <p>Um lar organizado deixa mais espaço para o carinho.</p>
+      </div>
+
+      <a href="index.html" class="botao-sair">Voltar ao início</a>
+    </aside>
+
+    <div class="conteudo-ninho">
+
+      <header class="topo-mobile">
+        <a href="inicio.html" class="logo-ninho">Ninho<span>.</span></a>
+        <span class="detalhe-topo">Nosso cantinho em família ☁</span>
+      </header>
+
+      <main class="painel-ninho geladeira-pagina">
+
+        <header class="cabecalho-geladeira">
+          <span class="eyebrow">NOSSO CANTINHO</span>
+          <h1>🧊 Nossa geladeira</h1>
+          <p>
+            Organize os alimentos que tem em casa e descubra receitas
+            simples para preparar com sua família.
+          </p>
+        </header>
+
+        <section class="painel-estoque">
+          <div class="secao-titulo">
+            <div>
+              <h2>O que temos em casa?</h2>
+              <p>Cadastre os alimentos da sua geladeira ou despensa.</p>
+            </div>
+
+            <span class="contador-estoque" id="contadorEstoque">
+              0 alimentos
+            </span>
+          </div>
+
+          <div class="estoque-vazio" id="estoqueVazio">
+            <span class="vazio-emoji">🥣</span>
+            <h3>Sua geladeira está esperando!</h3>
+            <p>Adicione alimentos para receber sugestões de receitas.</p>
+          </div>
+
+          <div class="lista-alimentos" id="listaAlimentos"></div>
+
+          <button class="botao-principal" id="abrirFormulario" type="button">
+            ＋ Adicionar alimento
+          </button>
+
+          <form class="formulario-alimento" id="formAlimento" hidden>
+            <h3>Adicionar alimento</h3>
+
+            <div class="campos-formulario">
+              <div class="campo campo-nome">
+                <label for="nomeAlimento">Nome do alimento</label>
+                <input
+                  id="nomeAlimento"
+                  name="nome"
+                  type="text"
+                  placeholder="Ex.: ovo, pão, leite"
+                  maxlength="60"
+                  required
+                >
+              </div>
+
+              <div class="campo">
+                <label for="quantidadeAlimento">Quantidade</label>
+                <input
+                  id="quantidadeAlimento"
+                  name="quantidade"
+                  type="number"
+                  min="0.1"
+                  step="0.1"
+                  value="1"
+                  required
+                >
+              </div>
+
+              <div class="campo">
+                <label for="unidadeAlimento">Unidade</label>
+                <select id="unidadeAlimento" name="unidade">
+                  <option value="un.">Unidades</option>
+                  <option value="g">Gramas</option>
+                  <option value="kg">Kg</option>
+                  <option value="ml">Ml</option>
+                  <option value="L">Litros</option>
+                  <option value="pct.">Pacotes</option>
+                  <option value="fatias">Fatias</option>
+                  <option value="colheres">Colheres</option>
+                </select>
+              </div>
+
+              <div class="campo">
+                <label for="emojiAlimento">Ícone</label>
+                <select id="emojiAlimento" name="emoji">
+                  <option value="🥚">🥚 Ovo</option>
+                  <option value="🍞">🍞 Pão</option>
+                  <option value="🥛">🥛 Leite</option>
+                  <option value="🧀">🧀 Queijo</option>
+                  <option value="🍌">🍌 Banana</option>
+                  <option value="🍎">🍎 Fruta</option>
+                  <option value="🍅">🍅 Tomate</option>
+                  <option value="🥔">🥔 Batata</option>
+                  <option value="🍚">🍚 Arroz</option>
+                  <option value="🍝">🍝 Macarrão</option>
+                  <option value="🧈">🧈 Manteiga</option>
+                  <option value="🍫">🍫 Chocolate</option>
+                  <option value="🥩">🥩 Carne</option>
+                  <option value="🥕">🥕 Legumes</option>
+                  <option value="🧂">🧂 Temperos</option>
+                  <option value="🥣">🥣 Outro</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="acoes-formulario">
+              <button class="botao-secundario" id="cancelarFormulario" type="button">
+                Cancelar
+              </button>
+
+              <button class="botao-principal" type="submit">
+                Guardar alimento ♡
+              </button>
+            </div>
+
+            <p class="mensagem-formulario" id="mensagemEstoque"></p>
+          </form>
+        </section>
+
+        <section class="secao-receitas" id="receitas">
+          <div class="secao-titulo">
+            <div>
+              <span class="eyebrow">IDEIAS PARA SUA CASA</span>
+              <h2>O que podemos preparar?</h2>
+              <p>As receitas com mais ingredientes disponíveis aparecem primeiro.</p>
+            </div>
+          </div>
+
+          <div class="barra-filtros">
+            <label class="busca-receita">
+              <span>⌕</span>
+              <input
+                id="buscarReceita"
+                type="search"
+                placeholder="Buscar receita..."
+                aria-label="Buscar receita"
+              >
+            </label>
+
+            <select id="filtroCategoria" aria-label="Filtrar por refeição">
+              <option value="todas">Todas as categorias</option>
+              <option value="cafe">Café da manhã</option>
+              <option value="lanche">Lanche</option>
+              <option value="almoco">Almoço</option>
+              <option value="janta">Janta</option>
+              <option value="doce">Doces</option>
+              <option value="salgado">Salgados</option>
+            </select>
+
+            <select id="filtroDisponibilidade" aria-label="Filtrar por ingredientes">
+              <option value="todas">Todas as receitas</option>
+              <option value="completas">Tenho tudo</option>
+              <option value="faltando">Faltam ingredientes</option>
+            </select>
+          </div>
+
+          <div class="legenda-ingredientes">
+            <span><i class="bolinha disponivel"></i> Você tem</span>
+            <span><i class="bolinha faltante"></i> Está faltando</span>
+          </div>
+
+          <div class="grade-receitas" id="listaReceitas"></div>
+
+          <p class="sem-receitas" id="semReceitas" hidden>
+            Nenhuma receita encontrada. Tente mudar os filtros.
+          </p>
+        </section>
+
+        <footer class="rodape-geladeira">
+          Feito com carinho para deixar a rotina mais leve. ♡
+        </footer>
+      </main>
+
+      <nav class="menu-inferior" aria-label="Navegação principal">
+        <a href="inicio.html" class="link-inferior"><span>⌂</span><small>Início</small></a>
+        <a href="refeicoes.html" class="link-inferior"><span>♨</span><small>Refeições</small></a>
+        <a href="geladeira.html" class="link-inferior ativo"><span>▤</span><small>Geladeira</small></a>
+        <a href="calendario.html" class="link-inferior"><span>▦</span><small>Agenda</small></a>
+        <a href="compras.html" class="link-inferior"><span>🛒</span><small>Compras</small></a>
+      </nav>
+    </div>
+  </div>
+
+  <dialog class="modal-receita" id="modalReceita">
+    <button class="fechar-modal" id="fecharModal" type="button" aria-label="Fechar">×</button>
+    <div id="detalheReceita"></div>
+  </dialog>
+
+  <script src="geladeira.js"></script>
+</body>
+</html>
