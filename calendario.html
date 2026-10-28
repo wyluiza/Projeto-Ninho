@@ -1,571 +1,44 @@
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Calendário da Família | Ninho</title>
-
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;500;600;700&family=Nunito:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-
+  <link rel="stylesheet" href="app.css">
+  <link rel="stylesheet" href="calendario.css">
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-  <style>
-    :root {
-      --verde: #526b50;
-      --verde-escuro: #344b37;
-      --verde-claro: #e7eee3;
-      --creme: #fbf8f0;
-      --branco: #ffffff;
-      --texto: #394239;
-      --texto-suave: #788073;
-      --borda: #e4e8dd;
-      --rosa: #f5e6e0;
-      --sombra: 0 8px 25px rgba(55, 75, 53, .07);
-    }
-
-    * {
-      box-sizing: border-box;
-    }
-
-    body {
-      margin: 0;
-      background: var(--creme);
-      color: var(--texto);
-      font-family: "Nunito", sans-serif;
-    }
-
-    button, input, textarea, select {
-      font: inherit;
-    }
-
-    button {
-      cursor: pointer;
-    }
-
-    .topo {
-      background: var(--branco);
-      border-bottom: 1px solid var(--borda);
-      padding: 17px 5%;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 16px;
-      flex-wrap: wrap;
-    }
-
-    .marca {
-      color: var(--verde-escuro);
-      font-family: "Comfortaa", sans-serif;
-      font-size: 27px;
-      font-weight: 700;
-      text-decoration: none;
-    }
-
-    .marca span {
-      color: #91a486;
-    }
-
-    .voltar {
-      color: var(--verde);
-      text-decoration: none;
-      font-weight: 800;
-    }
-
-    .voltar:hover {
-      text-decoration: underline;
-    }
-
-    .pagina {
-      width: min(1180px, 92%);
-      margin: 32px auto 55px;
-    }
-
-    .cabecalho {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 20px;
-      flex-wrap: wrap;
-      margin-bottom: 25px;
-    }
-
-    h1, h2, h3 {
-      font-family: "Comfortaa", sans-serif;
-      color: var(--verde-escuro);
-    }
-
-    h1 {
-      margin: 0 0 9px;
-      font-size: clamp(25px, 4vw, 36px);
-    }
-
-    .subtitulo {
-      color: var(--texto-suave);
-      margin: 0;
-      line-height: 1.6;
-    }
-
-    .botao {
-      border: 0;
-      border-radius: 13px;
-      padding: 12px 18px;
-      font-weight: 800;
-      transition: .2s ease;
-    }
-
-    .botao:hover {
-      transform: translateY(-1px);
-      filter: brightness(.97);
-    }
-
-    .botao-principal {
-      color: white;
-      background: var(--verde);
-    }
-
-    .botao-secundario {
-      color: var(--verde-escuro);
-      background: var(--verde-claro);
-    }
-
-    .botao-perigo {
-      color: #934b42;
-      background: var(--rosa);
-    }
-
-    .painel {
-      background: var(--branco);
-      border: 1px solid var(--borda);
-      border-radius: 22px;
-      padding: 23px;
-      box-shadow: var(--sombra);
-      min-width: 0;
-    }
-
-    .login-area {
-      max-width: 470px;
-      margin: 55px auto;
-    }
-
-    .login-area h2 {
-      margin-top: 0;
-    }
-
-    .campo {
-      display: flex;
-      flex-direction: column;
-      gap: 7px;
-      margin-bottom: 15px;
-    }
-
-    .campo label {
-      font-size: 14px;
-      font-weight: 800;
-      color: var(--verde-escuro);
-    }
-
-    .campo input,
-    .campo textarea,
-    .campo select {
-      width: 100%;
-      border: 1px solid var(--borda);
-      border-radius: 12px;
-      padding: 12px 13px;
-      color: var(--texto);
-      background: #fffefa;
-      outline: none;
-    }
-
-    .campo input:focus,
-    .campo textarea:focus,
-    .campo select:focus {
-      border-color: #8da585;
-      box-shadow: 0 0 0 3px rgba(141, 165, 133, .15);
-    }
-
-    .campo textarea {
-      min-height: 82px;
-      resize: vertical;
-    }
-
-    .aviso {
-      padding: 12px 14px;
-      border-radius: 12px;
-      background: var(--verde-claro);
-      color: var(--verde-escuro);
-      font-size: 14px;
-      line-height: 1.5;
-      margin-bottom: 17px;
-    }
-
-    .mensagem {
-      display: none;
-      padding: 12px 14px;
-      border-radius: 12px;
-      margin: 0 0 16px;
-      line-height: 1.5;
-      overflow-wrap: anywhere;
-    }
-
-    .mensagem.erro {
-      display: block;
-      color: #8c3730;
-      background: #fae8e4;
-    }
-
-    .mensagem.sucesso {
-      display: block;
-      color: #345c39;
-      background: #e5f1e2;
-    }
-
-    .grade {
-      display: grid;
-      grid-template-columns: minmax(0, 1.65fr) minmax(280px, 1fr);
-      gap: 22px;
-      align-items: start;
-    }
-
-    .mes-controles {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      margin-bottom: 20px;
-    }
-
-    .mes-controles h2 {
-      font-size: 21px;
-      margin: 0;
-      text-align: center;
-      text-transform: capitalize;
-    }
-
-    .seta {
-      width: 39px;
-      height: 39px;
-      border: 1px solid var(--borda);
-      border-radius: 12px;
-      color: var(--verde-escuro);
-      background: var(--creme);
-      font-size: 21px;
-    }
-
-    .dias-semana, .dias {
-      display: grid;
-      grid-template-columns: repeat(7, minmax(0, 1fr));
-      gap: 6px;
-    }
-
-    .dia-semana {
-      text-align: center;
-      color: var(--texto-suave);
-      font-size: 12px;
-      font-weight: 800;
-      padding: 7px 0;
-    }
-
-    .dia {
-      position: relative;
-      min-width: 0;
-      min-height: 66px;
-      border: 1px solid transparent;
-      border-radius: 12px;
-      padding: 8px 4px;
-      background: #fcfbf6;
-      color: var(--texto);
-      text-align: center;
-    }
-
-    .dia:hover {
-      border-color: #b7c7ad;
-    }
-
-    .dia.fora {
-      color: #b7bcb2;
-      background: #f8f7f2;
-    }
-
-    .dia.hoje {
-      border-color: #91a486;
-      font-weight: 900;
-    }
-
-    .dia.selecionado {
-      background: var(--verde-claro);
-      border-color: var(--verde);
-      color: var(--verde-escuro);
-      font-weight: 900;
-    }
-
-    .dia-numero {
-      display: block;
-      font-size: 14px;
-    }
-
-    .ponto-evento {
-      display: inline-block;
-      width: 6px;
-      height: 6px;
-      margin: 5px 2px 0;
-      border-radius: 50%;
-      background: var(--verde);
-    }
-
-    .ponto-evento.concluido {
-      background: #b9bdb4;
-    }
-
-    .legenda {
-      margin-top: 17px;
-      color: var(--texto-suave);
-      font-size: 13px;
-    }
-
-    .lista-titulo {
-      font-size: 19px;
-      margin: 0 0 5px;
-    }
-
-    .data-selecionada {
-      color: var(--texto-suave);
-      margin: 0 0 17px;
-      font-size: 14px;
-    }
-
-    .evento {
-      border: 1px solid var(--borda);
-      border-left: 4px solid #91a486;
-      border-radius: 13px;
-      padding: 13px;
-      margin-bottom: 11px;
-      background: #fffefa;
-    }
-
-    .evento.finalizado {
-      opacity: .7;
-      border-left-color: #c6c9c1;
-    }
-
-    .evento.finalizado .evento-nome {
-      text-decoration: line-through;
-    }
-
-    .evento-topo {
-      display: flex;
-      align-items: flex-start;
-      justify-content: space-between;
-      gap: 10px;
-    }
-
-    .evento-nome {
-      font-weight: 900;
-      color: var(--verde-escuro);
-      overflow-wrap: anywhere;
-    }
-
-    .evento-hora {
-      color: var(--verde);
-      font-size: 13px;
-      font-weight: 900;
-      white-space: nowrap;
-    }
-
-    .evento-info {
-      font-size: 13px;
-      line-height: 1.55;
-      color: var(--texto-suave);
-      margin-top: 7px;
-      overflow-wrap: anywhere;
-    }
-
-    .evento-acoes {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-      margin-top: 12px;
-    }
-
-    .botao-pequeno {
-      border: 0;
-      border-radius: 9px;
-      padding: 7px 10px;
-      font-size: 12px;
-      font-weight: 800;
-      background: var(--verde-claro);
-      color: var(--verde-escuro);
-    }
-
-    .botao-pequeno.excluir {
-      color: #934b42;
-      background: var(--rosa);
-    }
-
-    .vazio {
-      text-align: center;
-      padding: 25px 12px;
-      color: var(--texto-suave);
-      background: #fcfbf6;
-      border-radius: 13px;
-      line-height: 1.6;
-    }
-
-    .modal-fundo {
-      position: fixed;
-      inset: 0;
-      z-index: 10;
-      background: rgba(34, 48, 35, .43);
-      display: none;
-      align-items: center;
-      justify-content: center;
-      padding: 18px;
-      overflow-y: auto;
-    }
-
-    .modal-fundo.aberto {
-      display: flex;
-    }
-
-    .modal {
-      width: min(540px, 100%);
-      background: var(--creme);
-      border-radius: 22px;
-      padding: 24px;
-      box-shadow: 0 20px 60px rgba(0, 0, 0, .18);
-      margin: auto;
-    }
-
-    .modal-cabecalho {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 15px;
-      margin-bottom: 18px;
-    }
-
-    .modal-cabecalho h2 {
-      font-size: 21px;
-      margin: 0;
-    }
-
-    .fechar {
-      border: 0;
-      background: transparent;
-      color: var(--verde-escuro);
-      font-size: 25px;
-    }
-
-    .campos-duplos {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 13px;
-    }
-
-    .rodape-modal {
-      display: flex;
-      justify-content: flex-end;
-      gap: 10px;
-      flex-wrap: wrap;
-      margin-top: 20px;
-    }
-
-    .rodape {
-      margin-top: 25px;
-      text-align: center;
-      color: var(--texto-suave);
-      font-size: 13px;
-    }
-
-    [hidden] {
-      display: none !important;
-    }
-
-    @media (max-width: 800px) {
-      .grade {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    @media (max-width: 480px) {
-      .pagina {
-        width: 94%;
-        margin-top: 23px;
-      }
-
-      .painel {
-        padding: 15px;
-        border-radius: 17px;
-      }
-
-      .dia {
-        min-height: 53px;
-        padding: 6px 1px;
-      }
-
-      .dias-semana, .dias {
-        gap: 3px;
-      }
-
-      .dia-semana {
-        font-size: 10px;
-      }
-
-      .campos-duplos {
-        grid-template-columns: 1fr;
-        gap: 0;
-      }
-
-      .marca {
-        font-size: 23px;
-      }
-    }
-  </style>
 </head>
-
 <body>
-  <header class="topo">
-    <a class="marca" href="index.html">ninho<span>.</span></a>
-    <a class="voltar" href="index.html">← Voltar ao início</a>
-  </header>
-
-  <main class="pagina">
-    <section id="telaLogin" class="painel login-area">
-      <h2>Calendário da família 🌿</h2>
-      <p class="subtitulo" style="margin-bottom:20px">
-        Entre na conta compartilhada da família para visualizar e organizar os eventos.
-      </p>
-
-      <div class="aviso">
-        Todos os familiares devem usar a mesma conta do Ninho nesta versão.
-        Assim, os eventos ficam no mesmo calendário em diferentes dispositivos.
-      </div>
-
-      <div id="mensagemLogin" class="mensagem" role="status"></div>
-
-      <form id="formLogin">
-        <div class="campo">
-          <label for="emailLogin">E-mail da família</label>
-          <input id="emailLogin" type="email" autocomplete="username" required>
-        </div>
-
-        <div class="campo">
-          <label for="senhaLogin">Senha</label>
-          <input id="senhaLogin" type="password" autocomplete="current-password" required>
-        </div>
-
-        <button class="botao botao-principal" type="submit" style="width:100%">
-          Entrar no calendário
-        </button>
-      </form>
-    </section>
-
-    <section id="telaCalendario" hidden>
+  <div class="layout-ninho">
+    <aside class="menu-lateral">
+      <a href="inicio.html" class="logo-ninho">Ninho<span>.</span></a>
+      <p class="menu-legenda">NOSSO LAR</p>
+      <nav class="links-menu" aria-label="Menu principal">
+        <a href="inicio.html" class="link-menu"><span>⌂</span> Início</a>
+        <a href="refeicoes.html" class="link-menu"><span>♨</span> Refeições</a>
+        <a href="geladeira.html" class="link-menu"><span>▤</span> Geladeira</a>
+        <a href="tarefas.html" class="link-menu"><span>✓</span> Tarefas</a>
+        <a href="calendario.html" class="link-menu ativo" aria-current="page"><span>▦</span> Calendário</a>
+        <a href="compras.html" class="link-menu"><span>🛒</span> Lista de compras</a>
+        <a href="pontuacao.html" class="link-menu"><span>☆</span> Pontuação</a>
+        <a href="membros.html" class="link-menu"><span>𐀪</span> Membros</a>
+      </nav>
+      <div class="mensagem-menu"><span>☁</span><p>Um lar organizado deixa mais espaço para o carinho.</p></div>
+      <a href="index.html" class="botao-sair">Voltar ao início</a>
+    </aside>
+    <div class="conteudo-ninho">
+      <header class="topo-mobile">
+        <a href="inicio.html" class="logo-ninho">Ninho<span>.</span></a>
+        <span class="detalhe-topo">Nosso cantinho em família ☁</span>
+      </header>
+      <main class="pagina">
+    <section id="telaCalendario">
       <div class="cabecalho">
         <div>
-          <h1>Calendário do Ninho 🌿</h1>
+          <h1>Calendário do Ninho ☁</h1>
           <p class="subtitulo">
             Os compromissos da família em um só lugar.
           </p>
@@ -598,7 +71,7 @@
           <div id="gradeDias" class="dias"></div>
 
           <p class="legenda">
-            ● Os pontinhos verdes indicam dias com eventos compartilhados.
+            ● Os pontinhos azuis indicam dias com eventos da família.
           </p>
         </section>
 
@@ -611,11 +84,18 @@
 
       <div class="rodape">
         Calendário compartilhado da família • Feito com carinho pelo Ninho
-        <br><br>
-        <button id="btnSair" class="botao botao-secundario">Sair da conta</button>
       </div>
     </section>
-  </main>
+      </main>
+      <nav class="menu-inferior" aria-label="Navegação principal">
+        <a href="inicio.html" class="link-inferior"><span>⌂</span><small>Início</small></a>
+        <a href="refeicoes.html" class="link-inferior"><span>♨</span><small>Refeições</small></a>
+        <a href="geladeira.html" class="link-inferior"><span>▤</span><small>Geladeira</small></a>
+        <a href="calendario.html" class="link-inferior ativo"><span>▦</span><small>Agenda</small></a>
+        <a href="compras.html" class="link-inferior"><span>🛒</span><small>Compras</small></a>
+      </nav>
+    </div>
+  </div>
 
   <div id="modalFundo" class="modal-fundo" role="dialog" aria-modal="true" aria-labelledby="tituloModal">
     <section class="modal">
@@ -640,25 +120,35 @@
             <input id="dataEvento" type="date" required>
           </div>
           <div class="campo">
-            <label for="horaEvento">Horário</label>
-            <input id="horaEvento" type="time">
+            <label for="horaEvento">Horário *</label>
+            <input id="horaEvento" type="time" required>
           </div>
         </div>
 
         <div class="campos-duplos">
           <div class="campo">
-            <label for="responsavelEvento">Responsável</label>
-            <input id="responsavelEvento" maxlength="80" placeholder="Quem vai cuidar?">
+            <label for="responsavelEvento">Responsável *</label>
+            <input id="responsavelEvento" maxlength="80" placeholder="Quem vai cuidar?" required>
           </div>
           <div class="campo">
-            <label for="comodoEvento">Local / cômodo</label>
-            <input id="comodoEvento" maxlength="80" placeholder="Ex.: Cozinha">
+            <label for="comodoEvento">Local / cômodo *</label>
+            <input id="comodoEvento" maxlength="80" placeholder="Ex.: Cozinha" required>
           </div>
         </div>
 
         <div class="campo">
-          <label for="descricaoEvento">Descrição / observações</label>
-          <textarea id="descricaoEvento" maxlength="1000" placeholder="Adicione detalhes importantes..."></textarea>
+          <label for="descricaoEvento">Descrição / observações *</label>
+          <textarea id="descricaoEvento" maxlength="1000" placeholder="Adicione detalhes importantes..." required></textarea>
+        </div>
+
+        <div class="campo">
+          <label for="recorrenciaEvento">Quando esse evento se repete? *</label>
+          <select id="recorrenciaEvento" required>
+            <option value="unico">Somente neste dia</option>
+            <option value="semanal">Toda semana</option>
+            <option value="mensal">Todo mês</option>
+            <option value="anual">Todo ano</option>
+          </select>
         </div>
 
         <div class="rodape-modal">
@@ -674,8 +164,8 @@
     // 1. CONFIGURAÇÃO DO SUPABASE
     // Troque os dois valores pelos dados do seu projeto.
     // ==========================================================
-    const SUPABASE_URL = "COLE_AQUI_A_URL_DO_SEU_PROJETO";
-    const SUPABASE_ANON_KEY = "COLE_AQUI_SUA_CHAVE_PUBLICAVEL";
+    const SUPABASE_URL = "https://ncqimbutzmngrkgvtnqt.supabase.co";
+    const SUPABASE_ANON_KEY = "sb_publishable_kM4EsVr5Y22pWEgpn8CTdg_ag3m7aDE";
 
     let banco = null;
     let eventos = [];
@@ -719,95 +209,21 @@
       elemento.className = "mensagem";
     }
 
-    function mostrarTelaLogada(logado) {
-      $("telaLogin").hidden = logado;
-      $("telaCalendario").hidden = !logado;
-    }
-
     async function iniciar() {
-      if (
-        SUPABASE_URL.startsWith("COLE_AQUI") ||
-        SUPABASE_ANON_KEY.startsWith("COLE_AQUI")
-      ) {
-        mostrarMensagem(
-          "mensagemLogin",
-          "Falta conectar o calendário ao Supabase. Preencha SUPABASE_URL e SUPABASE_ANON_KEY no final do arquivo."
-        );
-        return;
-      }
-
       if (!window.supabase) {
         mostrarMensagem(
-          "mensagemLogin",
-          "Não foi possível carregar a conexão do calendário. Verifique sua internet e recarregue a página."
+          "mensagemApp",
+          "Não foi possível carregar o calendário. Confira sua internet e recarregue a página."
         );
+        renderizarCalendario();
+        renderizarLista();
         return;
       }
 
       banco = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
-      const { data, error } = await banco.auth.getSession();
-
-      if (error) {
-        mostrarMensagem("mensagemLogin", error.message);
-        return;
-      }
-
-      if (data.session) {
-        await entrarNoCalendario();
-      }
-    }
-
-    $("formLogin").addEventListener("submit", async (evento) => {
-      evento.preventDefault();
-      limparMensagem("mensagemLogin");
-
-      if (!banco) {
-        mostrarMensagem("mensagemLogin", "Configure a conexão com o Supabase primeiro.");
-        return;
-      }
-
-      const botao = $("formLogin").querySelector('button[type="submit"]');
-      botao.disabled = true;
-      botao.textContent = "Entrando...";
-
-      const { error } = await banco.auth.signInWithPassword({
-        email: $("emailLogin").value.trim(),
-        password: $("senhaLogin").value
-      });
-
-      botao.disabled = false;
-      botao.textContent = "Entrar no calendário";
-
-      if (error) {
-        mostrarMensagem(
-          "mensagemLogin",
-          "Não foi possível entrar. Confira o e-mail e a senha da conta da família."
-        );
-        return;
-      }
-
-      await entrarNoCalendario();
-    });
-
-    async function entrarNoCalendario() {
-      mostrarTelaLogada(true);
       await carregarEventos();
       assinarAtualizacoes();
     }
-
-    async function sairDaConta() {
-      if (canalEventos) {
-        await banco.removeChannel(canalEventos);
-        canalEventos = null;
-      }
-
-      await banco.auth.signOut();
-      eventos = [];
-      mostrarTelaLogada(false);
-    }
-
-    $("btnSair").addEventListener("click", sairDaConta);
 
     async function carregarEventos() {
       const { data, error } = await banco
@@ -819,7 +235,7 @@
       if (error) {
         mostrarMensagem(
           "mensagemApp",
-          "Não foi possível carregar os eventos. Confira se a tabela e as políticas SQL foram criadas corretamente."
+          "Não foi possível carregar os eventos. Confira a tabela eventos_ninho e as permissões de leitura no Supabase."
         );
         console.error(error);
         return;
@@ -850,6 +266,21 @@
         .subscribe();
     }
 
+    function aconteceNaData(evento, data) {
+      const inicio = dataLocal(evento.data_evento);
+      const atual = dataLocal(data);
+      if (atual < inicio) return false;
+
+      const recorrencia = evento.recorrencia || "unico";
+      if (recorrencia === "unico") return evento.data_evento === data;
+      if (recorrencia === "semanal") return inicio.getDay() === atual.getDay();
+      if (recorrencia === "mensal") return inicio.getDate() === atual.getDate();
+      if (recorrencia === "anual") {
+        return inicio.getDate() === atual.getDate() && inicio.getMonth() === atual.getMonth();
+      }
+      return evento.data_evento === data;
+    }
+
     function renderizarCalendario() {
       const ano = dataVisualizada.getFullYear();
       const mes = dataVisualizada.getMonth();
@@ -872,7 +303,7 @@
         const doMes = dia.getMonth() === mes;
         const ehHoje = chave === hoje;
         const selecionado = chave === dataEscolhida;
-        const doDia = eventos.filter(e => e.data_evento === chave);
+        const doDia = eventos.filter(e => aconteceNaData(e, chave));
 
         const classes = [
           "dia",
@@ -919,7 +350,7 @@
         dataFormatada.charAt(0).toUpperCase() + dataFormatada.slice(1);
 
       const doDia = eventos
-        .filter(e => e.data_evento === dataEscolhida)
+        .filter(e => aconteceNaData(e, dataEscolhida))
         .sort((a, b) => (a.hora_evento || "").localeCompare(b.hora_evento || ""));
 
       if (!doDia.length) {
@@ -993,7 +424,7 @@
 
     $("btnNovoEvento").addEventListener("click", () => {
       fecharModal();
-      $("dataEvento").value = dataEscolhida;
+      $("dataEvento").value = "";
       abrirModal();
     });
 
@@ -1015,6 +446,7 @@
       $("responsavelEvento").value = e.responsavel || "";
       $("comodoEvento").value = e.comodo || "";
       $("descricaoEvento").value = e.descricao || "";
+      $("recorrenciaEvento").value = e.recorrencia || "unico";
       $("tituloModal").textContent = "Editar evento";
 
       abrirModal();
@@ -1031,11 +463,12 @@
         hora_evento: $("horaEvento").value || null,
         responsavel: $("responsavelEvento").value.trim(),
         comodo: $("comodoEvento").value.trim(),
-        descricao: $("descricaoEvento").value.trim()
+        descricao: $("descricaoEvento").value.trim(),
+        recorrencia: $("recorrenciaEvento").value
       };
 
-      if (!dados.titulo || !dados.data_evento) {
-        mostrarMensagem("mensagemModal", "Preencha o nome e a data do evento.");
+      if (!dados.titulo || !dados.data_evento || !dados.hora_evento || !dados.responsavel || !dados.comodo || !dados.descricao) {
+        mostrarMensagem("mensagemModal", "Preencha todos os campos antes de salvar.");
         return;
       }
 
@@ -1051,10 +484,7 @@
           .update(dados)
           .eq("id", id);
       } else {
-        const { data: usuarioData } = await banco.auth.getUser();
-
-        dados.criado_por = usuarioData.user?.email || "Família Ninho";
-
+        dados.criado_por = "Família Ninho";
         resultado = await banco
           .from("eventos_ninho")
           .insert(dados);
@@ -1122,4 +552,5 @@
     iniciar();
   </script>
 </body>
+
 </html>

@@ -307,3 +307,692 @@
                     line-height: 1.5;
                     font-weight: 700;
                 }
+/* ==========================================
+   PROJETO NINHO — GELADEIRA E RECEITAS
+   Fonte: Comfortaa
+   Cores: azul-claro, branco e lilás
+   ========================================== */
+
+.geladeira-pagina {
+  width: 100%;
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 38px 42px 55px;
+  color: #35566B;
+  box-sizing: border-box;
+}
+
+.geladeira-pagina *,
+.modal-receita * {
+  box-sizing: border-box;
+}
+
+.geladeira-pagina button,
+.geladeira-pagina input,
+.geladeira-pagina select {
+  font-family: 'Comfortaa', sans-serif;
+}
+
+.cabecalho-geladeira {
+  margin-bottom: 28px;
+}
+
+.eyebrow {
+  display: inline-block;
+  margin-bottom: 10px;
+  color: #7C9DB3;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.8px;
+}
+
+.cabecalho-geladeira h1 {
+  margin: 0 0 12px;
+  color: #35566B;
+  font-size: clamp(27px, 3vw, 37px);
+  line-height: 1.35;
+}
+
+.cabecalho-geladeira p,
+.secao-titulo p {
+  margin: 0;
+  color: #7895A8;
+  font-size: 13px;
+  line-height: 1.8;
+}
+
+/* PAINÉIS */
+
+.painel-estoque,
+.secao-receitas {
+  margin-top: 24px;
+  padding: 25px;
+  border: 1px solid #E2EFF6;
+  border-radius: 22px;
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: 0 8px 24px rgba(53, 86, 107, 0.045);
+}
+
+.secao-titulo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  margin-bottom: 20px;
+}
+
+.secao-titulo h2 {
+  margin: 0 0 8px;
+  color: #35566B;
+  font-size: clamp(19px, 2vw, 25px);
+  line-height: 1.45;
+}
+
+.contador-estoque {
+  flex-shrink: 0;
+  padding: 9px 13px;
+  border-radius: 20px;
+  background: #EAF6FF;
+  color: #477C9D;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+/* ESTOQUE VAZIO */
+
+.estoque-vazio {
+  padding: 25px 15px;
+  text-align: center;
+  border: 1px dashed #CFE5F2;
+  border-radius: 17px;
+  background: #F8FCFF;
+}
+
+.estoque-vazio[hidden],
+.formulario-alimento[hidden],
+.sem-receitas[hidden] {
+  display: none;
+}
+
+.vazio-emoji {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 32px;
+}
+
+.estoque-vazio h3 {
+  margin: 0 0 8px;
+  font-size: 15px;
+}
+
+.estoque-vazio p {
+  margin: 0;
+  color: #8199AA;
+  font-size: 12px;
+  line-height: 1.7;
+}
+
+/* CARTÕES DOS ALIMENTOS */
+
+.lista-alimentos {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(145px, 1fr));
+  gap: 12px;
+}
+
+.cartao-alimento {
+  min-width: 0;
+  padding: 16px 12px 13px;
+  text-align: center;
+  border: 1px solid #E2EFF6;
+  border-radius: 16px;
+  background: linear-gradient(160deg, #FFFFFF, #F7FBFE);
+}
+
+.emoji-alimento {
+  display: block;
+  margin-bottom: 9px;
+  font-size: 29px;
+}
+
+.nome-alimento {
+  margin: 0 0 7px;
+  color: #35566B;
+  font-size: 12px;
+  overflow-wrap: anywhere;
+}
+
+.quantidade-alimento {
+  color: #7895A8;
+  font-size: 10px;
+}
+
+.acoes-alimento {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  margin-top: 12px;
+}
+
+.acoes-alimento button {
+  min-width: 29px;
+  min-height: 29px;
+  padding: 4px 8px;
+  border: 1px solid #DCEEF6;
+  border-radius: 9px;
+  background: #EAF6FF;
+  color: #477C9D;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.acoes-alimento button:hover {
+  background: #D7EEFC;
+}
+
+.acoes-alimento .remover-alimento {
+  background: #FFF1F2;
+  color: #B75D6A;
+  border-color: #F7DDE0;
+}
+
+/* BOTÕES */
+
+.botao-principal,
+.botao-secundario {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  min-height: 45px;
+  padding: 12px 18px;
+  border: 1px solid transparent;
+  border-radius: 13px;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.2s;
+}
+
+.botao-principal {
+  background: #76B9DC;
+  color: white;
+  box-shadow: 0 5px 13px rgba(118, 185, 220, 0.17);
+}
+
+.botao-principal:hover {
+  background: #5CA5CC;
+  transform: translateY(-1px);
+}
+
+#abrirFormulario {
+  width: 100%;
+  margin-top: 17px;
+}
+
+.botao-secundario {
+  border-color: #E2EFF6;
+  background: white;
+  color: #527B96;
+}
+
+/* FORMULÁRIO DE ALIMENTOS */
+
+.formulario-alimento {
+  margin-top: 17px;
+  padding: 22px;
+  border: 1px solid #DCEEF8;
+  border-radius: 17px;
+  background: #F8FCFF;
+}
+
+.formulario-alimento h3 {
+  margin: 0 0 17px;
+  font-size: 16px;
+}
+
+.campos-formulario {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 13px;
+}
+
+.campo {
+  min-width: 0;
+}
+
+.campo label {
+  display: block;
+  margin-bottom: 8px;
+  color: #52758D;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.campo input,
+.campo select,
+.barra-filtros select,
+.busca-receita input {
+  width: 100%;
+  min-width: 0;
+  min-height: 43px;
+  padding: 10px 12px;
+  border: 1px solid #DCEAF2;
+  border-radius: 11px;
+  outline: none;
+  background: white;
+  color: #35566B;
+  font-size: 12px;
+}
+
+.campo input:focus,
+.campo select:focus,
+.barra-filtros select:focus,
+.busca-receita input:focus {
+  border-color: #76B9DC;
+  box-shadow: 0 0 0 3px rgba(118, 185, 220, 0.14);
+}
+
+.acoes-formulario {
+  display: flex;
+  justify-content: flex-end;
+  gap: 9px;
+  margin-top: 18px;
+}
+
+.mensagem-formulario {
+  margin: 10px 0 0;
+  color: #638EAC;
+  font-size: 11px;
+}
+
+/* RECEITAS */
+
+.secao-receitas {
+  margin-top: 30px;
+  background: linear-gradient(
+    145deg,
+    rgba(255, 255, 255, 0.96),
+    rgba(250, 249, 255, 0.96)
+  );
+}
+
+.secao-receitas .secao-titulo {
+  margin-bottom: 18px;
+}
+
+.barra-filtros {
+  display: grid;
+  grid-template-columns: minmax(180px, 1.5fr) minmax(170px, 1fr) minmax(170px, 1fr);
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.busca-receita {
+  position: relative;
+  display: block;
+}
+
+.busca-receita span {
+  position: absolute;
+  top: 8px;
+  left: 13px;
+  z-index: 1;
+  color: #7B9CB2;
+  font-size: 22px;
+}
+
+.busca-receita input {
+  padding-left: 39px;
+}
+
+.legenda-ingredientes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin: 12px 0 17px;
+  color: #7895A8;
+  font-size: 10px;
+}
+
+.legenda-ingredientes span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.bolinha {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.bolinha.disponivel {
+  background: #66B88A;
+}
+
+.bolinha.faltante {
+  background: #D96D78;
+}
+
+/* GRADE DE RECEITAS */
+
+.grade-receitas {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 15px;
+}
+
+.cartao-receita {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  padding: 18px;
+  border: 1px solid #E2EFF6;
+  border-radius: 18px;
+  background: white;
+  box-shadow: 0 5px 16px rgba(53, 86, 107, 0.035);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.cartao-receita:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 24px rgba(53, 86, 107, 0.09);
+}
+
+.topo-cartao-receita {
+  display: flex;
+  align-items: flex-start;
+  gap: 11px;
+  margin-bottom: 12px;
+}
+
+.icone-receita {
+  display: grid;
+  flex: 0 0 48px;
+  width: 48px;
+  height: 48px;
+  place-items: center;
+  border-radius: 15px;
+  background: linear-gradient(145deg, #E4F4FF, #F1EDFF);
+  font-size: 25px;
+}
+
+.titulo-cartao-receita {
+  min-width: 0;
+  flex: 1;
+}
+
+.titulo-cartao-receita h3 {
+  margin: 1px 0 6px;
+  color: #35566B;
+  font-size: 14px;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+.meta-receita {
+  color: #8199AA;
+  font-size: 10px;
+  line-height: 1.6;
+}
+
+.etiqueta-status {
+  display: inline-block;
+  align-self: flex-start;
+  margin-bottom: 10px;
+  padding: 6px 9px;
+  border-radius: 20px;
+  background: #E8F7ED;
+  color: #39805A;
+  font-size: 9px;
+  font-weight: 700;
+}
+
+.etiqueta-status.incompleta {
+  background: #FFF0F0;
+  color: #B85E68;
+}
+
+.descricao-receita {
+  margin: 0 0 13px;
+  color: #6F899B;
+  font-size: 11px;
+  line-height: 1.8;
+}
+
+.rotulo-ingredientes {
+  margin: 0 0 8px;
+  color: #52758D;
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.lista-ingredientes-receita {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 14px;
+}
+
+.ingrediente-tag {
+  display: inline-block;
+  padding: 6px 8px;
+  border: 1px solid #DCEFE3;
+  border-radius: 8px;
+  background: #F0FAF3;
+  color: #38805A;
+  font-size: 9px;
+  line-height: 1.4;
+}
+
+.ingrediente-tag.faltando {
+  border-color: #F4D8DB;
+  background: #FFF0F1;
+  color: #C14E5B;
+  font-weight: 700;
+}
+
+.resumo-faltantes {
+  margin: -3px 0 13px;
+  color: #B85E68;
+  font-size: 10px;
+  line-height: 1.7;
+}
+
+.botao-ver-receita {
+  width: 100%;
+  margin-top: auto;
+  padding: 11px;
+  border: 1px solid #D8EBF7;
+  border-radius: 11px;
+  background: #EAF6FF;
+  color: #477C9D;
+  font-size: 10px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.botao-ver-receita:hover {
+  background: #D9EEFC;
+}
+
+.sem-receitas {
+  padding: 25px 10px;
+  text-align: center;
+  color: #8199AA;
+  font-size: 12px;
+  line-height: 1.8;
+}
+
+.rodape-geladeira {
+  padding: 25px 10px 0;
+  text-align: center;
+  color: #8199AA;
+  font-size: 10px;
+  line-height: 1.8;
+}
+
+/* JANELA COM O MODO DE PREPARO */
+
+.modal-receita {
+  width: min(680px, calc(100% - 28px));
+  max-height: 85vh;
+  overflow-y: auto;
+  padding: 30px;
+  border: 1px solid #E2EFF6;
+  border-radius: 23px;
+  background: white;
+  color: #35566B;
+  box-shadow: 0 20px 70px rgba(35, 65, 85, 0.25);
+}
+
+.modal-receita::backdrop {
+  background: rgba(42, 66, 84, 0.38);
+  backdrop-filter: blur(3px);
+}
+
+.fechar-modal {
+  float: right;
+  width: 34px;
+  height: 34px;
+  border: 0;
+  border-radius: 50%;
+  background: #EEF7FC;
+  color: #477C9D;
+  font-size: 23px;
+  cursor: pointer;
+}
+
+.detalhe-cabecalho {
+  padding-right: 35px;
+}
+
+.detalhe-cabecalho .icone-receita {
+  margin-bottom: 12px;
+}
+
+.detalhe-cabecalho h2 {
+  margin: 0 0 10px;
+  font-size: 23px;
+  line-height: 1.4;
+}
+
+.detalhe-cabecalho p,
+.detalhe-receita p {
+  color: #6F899B;
+  font-size: 12px;
+  line-height: 1.9;
+}
+
+.detalhe-receita h3 {
+  margin: 22px 0 10px;
+  font-size: 14px;
+}
+
+.detalhe-receita ul,
+.detalhe-receita ol {
+  padding-left: 22px;
+  color: #52758D;
+  font-size: 12px;
+  line-height: 2;
+}
+
+.detalhe-receita .ingrediente-tag {
+  margin: 3px;
+}
+
+/* FUNDO E RESPONSIVIDADE */
+
+@media (min-width: 761px) {
+  body:has(.layout-ninho) {
+    background:
+      radial-gradient(circle at 8% 10%, #E4F4FF 0, transparent 27%),
+      radial-gradient(circle at 95% 90%, #F1EDFF 0, transparent 28%),
+      #F3FAFE;
+  }
+}
+
+@media (max-width: 1100px) {
+  .geladeira-pagina {
+    padding: 30px 25px 50px;
+  }
+
+  .grade-receitas {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .campos-formulario {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 760px) {
+  .geladeira-pagina {
+    padding: 23px 16px 100px;
+  }
+
+  .cabecalho-geladeira h1 {
+    font-size: 27px;
+  }
+
+  .painel-estoque,
+  .secao-receitas {
+    padding: 19px 15px;
+    border-radius: 19px;
+  }
+
+  .secao-titulo {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .contador-estoque {
+    align-self: flex-start;
+  }
+
+  .barra-filtros {
+    grid-template-columns: 1fr;
+  }
+
+  .grade-receitas {
+    grid-template-columns: 1fr;
+  }
+
+  .cartao-receita {
+    padding: 17px;
+  }
+
+  .campos-formulario {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .campo-nome {
+    grid-column: 1 / -1;
+  }
+
+  .modal-receita {
+    padding: 22px 18px;
+  }
+}
+
+@media (max-width: 390px) {
+  .campos-formulario {
+    grid-template-columns: 1fr;
+  }
+
+  .campo-nome {
+    grid-column: auto;
+  }
+
+  .acoes-formulario {
+    flex-direction: column-reverse;
+  }
+
+  .acoes-formulario button {
+    width: 100%;
+  }
+}
