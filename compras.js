@@ -1,7 +1,3 @@
-
- // Ninho — Lista de compras
- // Lista compartilhada e sincronizada pelo Supabase.
-
 const SUPABASE_URL = "https://ncqimbutzmngrkgvtnqt.supabase.co";
 const SUPABASE_ANON_KEY = "sb_publishable_kM4EsVr5Y22pWEgpn8CTdg_ag3m7aDE";
 
@@ -82,18 +78,14 @@ function mostrarEstadoVazio(titulo, descricao) {
 }
 
 async function carregarPerfil() {
-    // Verifica a sessão existente sem exigir uma nova autenticação.
-    const { data, error: erroAuth } = await db.auth.getSession();
+    const { data, error } = await db.auth.getUser();
 
-    if (erroAuth) throw erroAuth;
+    if (error) throw error;
 
-    const sessao = data?.session;
+    usuario = data?.user;
 
-    if (!sessao?.user) {
-        mostrarAviso(
-            "Sua sessão não foi encontrada. Entre novamente no Ninho.",
-            true
-        );
+    if (!usuario) {
+        mostrarAviso("Entre na sua conta do Ninho para visualizar as compras.", true);
 
         mostrarEstadoVazio(
             "Faça login para continuar",
@@ -115,9 +107,6 @@ async function carregarPerfil() {
         return false;
     }
 
-    usuario = sessao.user;
-
-    // Busca o perfil do usuário autenticado.
     const { data: perfil, error: erroPerfil } = await db
         .from("membros")
         .select("*")
@@ -128,11 +117,17 @@ async function carregarPerfil() {
 
     if (!perfil || !perfil.ninho_id) {
         throw new Error(
-            "Não encontramos seu perfil ou o Ninho associado à sua conta."
+            "Sua conta está conectada, mas não encontramos seu perfil ou o Ninho associado."
         );
     }
 
     membroAtual = perfil;
+
+    localStorage.setItem("ninhoId", membroAtual.ninho_id);
+
+    if (membroAtual.nome) {
+        localStorage.setItem("nomeUsuario", membroAtual.nome);
+    }
 
     return true;
 }
@@ -164,7 +159,9 @@ async function carregarCompras() {
 
 function renderizarCompras() {
     const filtro = $("filtroCompras");
-    if (!filtro) return;
+    const lista = $("listaCompras");
+
+    if (!filtro || !lista) return;
 
     const tipoFiltro = filtro.value;
     const pendentes = compras.filter((item) => !item.comprado);
@@ -199,7 +196,7 @@ function renderizarCompras() {
         return;
     }
 
-    $("listaCompras").innerHTML = listaFiltrada.map((item) => {
+    lista.innerHTML = listaFiltrada.map((item) => {
         const status = item.comprado
             ? '<span class="pilula-compra concluida">✓ Comprado</span>'
             : '<span class="pilula-compra pendente">Pendente</span>';
@@ -208,8 +205,7 @@ function renderizarCompras() {
             ? `
                 <span>Comprado por ${escapar(nomeMembro(item.comprado_por))}</span>
                 <span>·</span>
-                <span>${escapar(formatarData(item.comprado_em))}</span>
-            `
+                <span>${escapar(formatarData(item.comprado_em))}</span>`
             : "<span>Ainda não comprado</span>";
 
         return `
@@ -257,17 +253,28 @@ async function adicionarItemCompra(evento) {
     evento.preventDefault();
     limparAviso();
 
-    const nome = $("nomeItem").value.trim();
-    const quantidade = $("quantidadeItem").value.trim();
+    const campoNome = $("nomeItem");
+    const campoQuantidade = $("quantidadeItem");
+
+    const nome = campoNome?.value.trim() || "";
+    const quantidade = campoQuantidade?.value.trim() || "";
 
     if (!nome || !quantidade) {
         mostrarAviso("Preencha o nome e a quantidade do item.", true);
         return;
     }
 
+    if (!usuario || !membroAtual) {
+        mostrarAviso("Sua sessão expirou. Entre novamente no Ninho.", true);
+        return;
+    }
+
     const botao = $("botaoAdicionar");
-    botao.disabled = true;
-    botao.textContent = "Salvando...";
+
+    if (botao) {
+        botao.disabled = true;
+        botao.textContent = "Salvando...";
+    }
 
     try {
         const { error } = await db
@@ -281,9 +288,10 @@ async function adicionarItemCompra(evento) {
 
         if (error) throw error;
 
-        $("formCompra").reset();
-        $("nomeItem").focus();
-        $("quantidadeItem").value = "1";
+        $("formCompra")?.reset();
+
+        if (campoNome) campoNome.focus();
+        if (campoQuantidade) campoQuantidade.value = "1";
 
         mostrarAviso("Item adicionado à lista da família!");
         await carregarCompras();
@@ -292,17 +300,24 @@ async function adicionarItemCompra(evento) {
         console.error("Erro ao adicionar item:", erro);
 
         mostrarAviso(
-            "Não foi possível adicionar o item. Verifique a tabela compras e as permissões do Supabase.",
+            "Erro ao adicionar: " + (erro.message || "Verifique as permissões do Supabase."),
             true
         );
     } finally {
-        botao.disabled = false;
-        botao.innerHTML = 'Adicionar item <span>♡</span>';
+        if (botao) {
+            botao.disabled = false;
+            botao.innerHTML = 'Adicionar item <span>♡</span>';
+        }
     }
 }
 
 async function alterarStatusCompra(id, comprado) {
     limparAviso();
+
+    if (!membroAtual) {
+        mostrarAviso("Sua sessão expirou. Entre novamente no Ninho.", true);
+        return;
+    }
 
     try {
         const { error } = await db
@@ -324,10 +339,7 @@ async function alterarStatusCompra(id, comprado) {
     } catch (erro) {
         console.error("Erro ao atualizar compra:", erro);
 
-        mostrarAviso(
-            "Não foi possível atualizar o item. Tente novamente.",
-            true
-        );
+        mostrarAviso("Erro ao atualizar: " + (erro.message || "Tente novamente."), true);
 
         await carregarCompras();
     }
@@ -336,6 +348,11 @@ async function alterarStatusCompra(id, comprado) {
 async function excluirItemCompra(id) {
     const item = compras.find((compra) => compra.id === id);
     if (!item) return;
+
+    if (!membroAtual) {
+        mostrarAviso("Sua sessão expirou. Entre novamente no Ninho.", true);
+        return;
+    }
 
     const confirmar = window.confirm(
         `Deseja remover "${item.nome}" da lista de compras?`
@@ -361,7 +378,7 @@ async function excluirItemCompra(id) {
         console.error("Erro ao excluir item:", erro);
 
         mostrarAviso(
-            "Não foi possível remover o item. Verifique as permissões do Supabase.",
+            "Erro ao excluir: " + (erro.message || "Verifique as permissões do Supabase."),
             true
         );
     }
@@ -394,10 +411,7 @@ async function iniciarCompras() {
                     try {
                         await carregarCompras();
                     } catch (erro) {
-                        console.error(
-                            "Erro ao sincronizar lista de compras:",
-                            erro
-                        );
+                        console.error("Erro ao sincronizar lista de compras:", erro);
                     } finally {
                         atualizando = false;
                     }
@@ -409,14 +423,14 @@ async function iniciarCompras() {
         console.error("Erro ao abrir lista de compras:", erro);
 
         mostrarAviso(
-            erro.message ||
-                "Não foi possível carregar a lista. Confira sua conexão e o Supabase.",
+            "Não foi possível carregar as compras: " +
+            (erro.message || "Confira sua conexão e o Supabase."),
             true
         );
 
         mostrarEstadoVazio(
             "Não conseguimos carregar a lista",
-            "Verifique se a tabela compras e as permissões estão configuradas no Supabase."
+            "Confira a tabela compras, as colunas utilizadas e as permissões do Supabase."
         );
     }
 }

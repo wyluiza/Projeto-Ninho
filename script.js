@@ -1,4 +1,3 @@
-
 const SUPABASE_URL = "https://ncqimbutzmngrkgvtnqt.supabase.co";
 const SUPABASE_ANON_KEY = "sb_publishable_kM4EsVr5Y22pWEgpn8CTdg_ag3m7aDE";
 
@@ -7,14 +6,16 @@ const supabaseClient = window.supabase.createClient(
     SUPABASE_ANON_KEY
 );
 
-// CADASTRO
 const formulario = document.getElementById("formularioNinho");
 
 if (formulario) {
     const parametros = new URLSearchParams(window.location.search);
-    const tokenConvite = parametros.get("convite");
+    const tokenConvite =
+        parametros.get("convite") ||
+        localStorage.getItem("convitePendente");
+
     if (tokenConvite) {
-    localStorage.setItem("convitePendente", tokenConvite);
+        localStorage.setItem("convitePendente", tokenConvite);
     }
 
     const campoNinho = document.getElementById("campoNomeNinho");
@@ -23,60 +24,38 @@ if (formulario) {
     const botaoCadastro = formulario.querySelector('button[type="submit"]');
     const tituloCadastro = document.querySelector(".cabecalho-cadastro h2");
     const etiquetaCadastro = document.querySelector(".etiqueta-cadastro");
+    const mensagem = document.getElementById("mensagem");
 
     if (tokenConvite) {
-    if (campoNinho) {
-        campoNinho.hidden = true;
-        campoNinho.style.display = "none";
+        if (campoNinho) {
+            campoNinho.hidden = true;
+            campoNinho.style.display = "none";
+        }
+
+        if (campoNomeNinho) campoNomeNinho.required = false;
+        if (campoPapel) campoPapel.value = "MEMBRO";
+        if (tituloCadastro) tituloCadastro.textContent = "Entre no Ninho";
+        if (etiquetaCadastro) etiquetaCadastro.textContent = "VOCÊ FOI CONVIDADO(A)";
+        if (botaoCadastro) botaoCadastro.textContent = "Entrar no Ninho";
     }
 
-    if (campoNomeNinho) {
-        campoNomeNinho.required = false;
-    }
-
-    if (campoPapel) {
-        campoPapel.value = "MEMBRO";
-    }
-
-    if (tituloCadastro) {
-        tituloCadastro.textContent = "Entre no Ninho";
-    }
-
-    if (etiquetaCadastro) {
-        etiquetaCadastro.textContent = "VOCÊ FOI CONVIDADO(A)";
-    }
-
-    if (botaoCadastro) {
-        botaoCadastro.textContent = "Entrar no Ninho";
-    }
-}
     formulario.addEventListener("submit", async (evento) => {
         evento.preventDefault();
 
-        const campoNome = document.getElementById("nome");
-            const campoEmail = document.getElementById("email");
-            const campoSenha = document.getElementById("senha");
-
-            console.log("Campo nome:", campoNome);
-            console.log("Campo e-mail:", campoEmail);
-            console.log("Campo senha:", campoSenha);
-
-            const nome = campoNome?.value?.trim() ?? "";
-            const email = campoEmail?.value?.trim() ?? "";
-            const senha = campoSenha?.value ?? "";
-        const nomeNinho = campoNomeNinho
-            ? campoNomeNinho.value.trim()
-            : "";
-        const mensagem = document.getElementById("mensagem");
+        const nome = document.getElementById("nome")?.value?.trim() || "";
+        const email = document.getElementById("email")?.value?.trim() || "";
+        const senha = document.getElementById("senha")?.value || "";
+        const nomeNinho = campoNomeNinho?.value?.trim() || "";
 
         if (!nome || !email || !senha || (!tokenConvite && !nomeNinho)) {
-            mensagem.textContent = "Preencha todos os campos necessários.";
+            if (mensagem) mensagem.textContent = "Preencha todos os campos necessários.";
             return;
         }
 
         if (!tokenConvite && campoPapel && campoPapel.value !== "RESPONSAVEL") {
-            mensagem.textContent =
-                "Para entrar como membro, acesse o link de convite da família.";
+            if (mensagem) {
+                mensagem.textContent = "Para entrar como membro, acesse o link de convite da família.";
+            }
             return;
         }
 
@@ -85,29 +64,28 @@ if (formulario) {
             botaoCadastro.textContent = "Criando sua conta...";
         }
 
-        mensagem.textContent = "Criando sua conta...";
+        if (mensagem) mensagem.textContent = "Criando sua conta...";
 
         try {
             const { data, error } = await supabaseClient.auth.signUp({
-                email: email,
+                email,
                 password: senha,
                 options: {
                     data: {
-                        nome: nome,
+                        nome,
                         papel: tokenConvite ? "MEMBRO" : "RESPONSAVEL",
                         nome_ninho: tokenConvite ? null : nomeNinho
                     }
                 }
             });
 
-            if (error) {
-                mensagem.textContent = "Erro no cadastro: " + error.message;
-                return;
-            }
+            if (error) throw error;
 
             if (!data.session) {
-                mensagem.textContent =
-                    "Conta criada! Entre na sua conta para concluir o acesso ao Ninho.";
+                if (mensagem) {
+                    mensagem.textContent =
+                        "Conta criada! Confirme seu e-mail e entre na sua conta para concluir o acesso ao Ninho.";
+                }
                 return;
             }
 
@@ -120,14 +98,10 @@ if (formulario) {
                         p_nome: nome
                     });
 
-                if (erroConvite) {
-                    mensagem.textContent =
-                        "Sua conta foi criada, mas não foi possível aceitar o convite: " +
-                        erroConvite.message;
-                    return;
-                }
+                if (erroConvite) throw erroConvite;
 
                 ninhoId = idRetornado;
+                localStorage.removeItem("convitePendente");
             } else {
                 const { data: idRetornado, error: erroNinho } =
                     await supabaseClient.rpc("criar_ninho", {
@@ -135,33 +109,25 @@ if (formulario) {
                         p_nome_responsavel: nome
                     });
 
-                if (erroNinho) {
-                    mensagem.textContent =
-                        "Conta criada, mas houve um erro ao criar o Ninho: " +
-                        erroNinho.message;
-                    return;
-                }
+                if (erroNinho) throw erroNinho;
 
                 ninhoId = idRetornado;
                 localStorage.setItem("nomeNinho", nomeNinho);
             }
 
-            localStorage.setItem("ninhoId", ninhoId);
+            if (ninhoId) localStorage.setItem("ninhoId", ninhoId);
             localStorage.setItem("nomeUsuario", nome);
 
             window.location.href = "inicio.html";
         } catch (erro) {
-            console.error(erro);
-            mensagem.textContent =
-                "Ocorreu um erro inesperado. Tente novamente.";
+            console.error("Erro no cadastro/convite:", erro);
+
+            if (mensagem) {
+                mensagem.textContent =
+                    erro.message || "Ocorreu um erro inesperado. Tente novamente.";
+            }
         } finally {
-            if (botaoCadastro && !mensagem.textContent.includes("Conta criada!") &&
-                !mensagem.textContent.includes("Ocorreu um erro")) {
-                botaoCadastro.disabled = false;
-                botaoCadastro.textContent = tokenConvite
-                    ? "Entrar no Ninho"
-                    : "♥  Formar meu Ninho";
-            } else if (botaoCadastro && botaoCadastro.disabled) {
+            if (botaoCadastro) {
                 botaoCadastro.disabled = false;
                 botaoCadastro.textContent = tokenConvite
                     ? "Entrar no Ninho"
@@ -169,9 +135,8 @@ if (formulario) {
             }
         }
     });
+}
 
-
-// BOAS-VINDAS
 const tituloBoasVindas = document.getElementById("boasVindas");
 
 if (tituloBoasVindas) {
@@ -182,7 +147,6 @@ if (tituloBoasVindas) {
     }
 }
 
-// GERAR CONVITE
 const botaoConvite = document.getElementById("gerarConvite");
 const areaConvite = document.getElementById("areaConvite");
 const linkConvite = document.getElementById("linkConvite");
@@ -191,38 +155,77 @@ const botaoCopiar = document.getElementById("copiarConvite");
 
 if (botaoConvite) {
     botaoConvite.addEventListener("click", async () => {
-        mensagemConvite.textContent = "Gerando convite...";
+        botaoConvite.disabled = true;
 
-        const { data: token, error } =
-            await supabaseClient.rpc("criar_convite");
-
-        if (error) {
-            mensagemConvite.textContent =
-                "Erro ao gerar convite: " + error.message;
-            return;
+        if (mensagemConvite) {
+            mensagemConvite.textContent = "Gerando convite...";
         }
 
-        const url = new URL("cadastro.html", window.location.href);
-        url.searchParams.set("convite", token);
+        try {
+            const { data, error } =
+                await supabaseClient.rpc("criar_convite");
 
-        linkConvite.value = url.href;
-        areaConvite.hidden = false;
-        mensagemConvite.textContent =
-            "Convite criado! Compartilhe este link com sua família.";
+            if (error) throw error;
+
+            const token = typeof data === "string"
+                ? data
+                : data?.token || data?.convite_token || data?.criar_convite;
+
+            if (!token) {
+                throw new Error("O Supabase não retornou o código do convite.");
+            }
+
+            const url = new URL("cadastro.html", window.location.href);
+            url.searchParams.set("convite", token);
+
+            if (linkConvite) {
+                linkConvite.value = url.href;
+                linkConvite.readOnly = true;
+            }
+
+            if (areaConvite) areaConvite.hidden = false;
+
+            if (mensagemConvite) {
+                mensagemConvite.textContent =
+                    "Convite criado! Compartilhe este link com sua família.";
+            }
+        } catch (erro) {
+            console.error("Erro ao gerar convite:", erro);
+
+            if (mensagemConvite) {
+                mensagemConvite.textContent =
+                    "Erro ao gerar convite: " + (erro.message || "Tente novamente.");
+            }
+        } finally {
+            botaoConvite.disabled = false;
+        }
     });
 }
 
 if (botaoCopiar) {
     botaoCopiar.addEventListener("click", async () => {
+        const texto = linkConvite?.value || "";
+
+        if (!texto) {
+            if (mensagemConvite) {
+                mensagemConvite.textContent = "Gere um convite antes de copiar o link.";
+            }
+            return;
+        }
+
         try {
-            await navigator.clipboard.writeText(linkConvite.value);
-            mensagemConvite.textContent =
-                "Link copiado! Pode enviar à família.";
+            await navigator.clipboard.writeText(texto);
+
+            if (mensagemConvite) {
+                mensagemConvite.textContent = "Link copiado! Pode enviar à família.";
+            }
         } catch {
+            linkConvite.focus();
             linkConvite.select();
-            mensagemConvite.textContent =
-                "Selecione o link e copie com Ctrl+C.";
+
+            if (mensagemConvite) {
+                mensagemConvite.textContent = "Copie o link selecionado com Ctrl+C.";
+            }
         }
     });
-}
 }
