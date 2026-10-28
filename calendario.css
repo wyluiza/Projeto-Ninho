@@ -1,0 +1,120 @@
+/* Calendário do Ninho — visual compartilhado com o restante do aplicativo */
+:root {
+  --cal-azul: #76B9DC;
+  --cal-azul-escuro: #477C9D;
+  --cal-azul-claro: #DFF2FF;
+  --cal-fundo: #F3FAFE;
+  --cal-branco: #FFFFFF;
+  --cal-texto: #35566B;
+  --cal-suave: #7894A5;
+  --cal-borda: #E2EFF6;
+  --cal-lilas: #F1EDFF;
+  --cal-sombra: 0 10px 30px rgba(71, 124, 157, .08);
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--cal-fundo); color: var(--cal-texto); font-family: "Comfortaa", sans-serif; }
+button, input, textarea, select { font: inherit; }
+button { cursor: pointer; }
+button:disabled { cursor: wait; opacity: .65; }
+.layout-ninho { min-height: 100vh; }
+.menu-lateral { position: fixed; inset: 0 auto 0 0; z-index: 5; width: 245px; padding: 30px 18px 22px; display: flex; flex-direction: column; background: #fff; border-right: 1px solid var(--cal-borda); }
+.logo-ninho { color: var(--cal-azul-escuro); font: 700 29px "Comfortaa", sans-serif; text-decoration: none; padding: 0 12px; }
+.logo-ninho span { color: var(--cal-azul); }
+.menu-legenda { margin: 32px 12px 12px; color: #91AAB9; font-size: 10px; font-weight: 700; letter-spacing: 1.5px; }
+.links-menu { display: flex; flex-direction: column; gap: 6px; }
+.link-menu { display: flex; align-items: center; gap: 12px; padding: 12px; border-radius: 13px; color: #648397; text-decoration: none; font-size: 12px; font-weight: 600; transition: background .2s, color .2s; }
+.link-menu span { width: 20px; text-align: center; font-size: 18px; }
+.link-menu:hover, .link-menu.ativo { background: var(--cal-azul-claro); color: var(--cal-azul-escuro); }
+.mensagem-menu { margin-top: auto; padding: 15px; border-radius: 16px; background: var(--cal-lilas); color: #71869A; font-size: 11px; line-height: 1.7; }
+.mensagem-menu span { font-size: 20px; color: var(--cal-azul); }
+.mensagem-menu p { margin: 7px 0 0; }
+.botao-sair { margin-top: 14px; padding: 12px; text-align: center; border-radius: 12px; color: #648397; background: var(--cal-fundo); text-decoration: none; font-size: 11px; font-weight: 700; }
+.conteudo-ninho { min-width: 0; margin-left: 245px; }
+.topo-mobile, .menu-inferior { display: none; }
+.pagina { width: min(1320px, 94%); margin: 0 auto; padding: 38px 0 54px; }
+.cabecalho { display: flex; justify-content: space-between; align-items: center; gap: 20px; flex-wrap: wrap; margin-bottom: 26px; }
+h1, h2, h3 { color: var(--cal-azul-escuro); font-family: "Comfortaa", sans-serif; }
+h1 { margin: 0 0 9px; font-size: clamp(25px, 3vw, 35px); line-height: 1.25; }
+.subtitulo { color: var(--cal-suave); margin: 0; line-height: 1.7; font-size: 14px; }
+.botao { border: 0; border-radius: 13px; padding: 13px 18px; font-weight: 800; transition: transform .2s, filter .2s; }
+.botao:hover { transform: translateY(-1px); filter: brightness(.98); }
+.botao-principal { color: #fff; background: var(--cal-azul); box-shadow: 0 5px 14px rgba(118,185,220,.2); }
+.botao-secundario { color: var(--cal-azul-escuro); background: var(--cal-azul-claro); }
+.botao-perigo { color: #934b6b; background: var(--cal-lilas); }
+.painel { min-width: 0; padding: 23px; background: #fff; border: 1px solid var(--cal-borda); border-radius: 22px; box-shadow: var(--cal-sombra); }
+.grade { display: grid; grid-template-columns: minmax(0, 1.55fr) minmax(300px, .9fr); gap: 22px; align-items: start; }
+.mes-controles { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 20px; }
+.mes-controles h2 { font-size: clamp(17px, 2vw, 21px); margin: 0; text-align: center; text-transform: capitalize; }
+.seta { flex: 0 0 40px; width: 40px; height: 40px; border: 1px solid var(--cal-borda); border-radius: 13px; color: var(--cal-azul-escuro); background: var(--cal-fundo); font-size: 25px; line-height: 1; }
+.seta:hover { background: var(--cal-azul-claro); }
+.dias-semana, .dias { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 6px; }
+.dia-semana { padding: 8px 0; color: var(--cal-suave); text-align: center; font-size: 10px; font-weight: 800; letter-spacing: .4px; }
+.dia { display: flex; flex-direction: column; align-items: center; justify-content: flex-start; min-width: 0; min-height: 70px; padding: 10px 3px 6px; border: 1px solid transparent; border-radius: 13px; background: #F8FCFF; color: var(--cal-texto); text-align: center; }
+.dia:hover { border-color: #B5DDF2; background: #EFF9FF; }
+.dia.fora { color: #B4C6D0; background: #FBFDFF; }
+.dia.hoje { border-color: var(--cal-azul); font-weight: 900; }
+.dia.selecionado { background: var(--cal-azul-claro); border-color: var(--cal-azul); color: var(--cal-azul-escuro); font-weight: 900; }
+.dia-numero { display: block; font-size: 13px; }
+.ponto-evento { display: inline-block; width: 6px; height: 6px; margin: 6px 2px 0; border-radius: 50%; background: var(--cal-azul); }
+.ponto-evento.concluido { background: #B9CBD5; }
+.legenda { margin: 17px 0 0; color: var(--cal-suave); font-size: 11px; line-height: 1.6; }
+.lista-titulo { font-size: 19px; margin: 0 0 7px; }
+.data-selecionada { color: var(--cal-suave); margin: 0 0 18px; font-size: 12px; line-height: 1.6; }
+.evento { border: 1px solid var(--cal-borda); border-left: 4px solid var(--cal-azul); border-radius: 14px; padding: 14px; margin-bottom: 11px; background: #fff; }
+.evento.finalizado { opacity: .72; border-left-color: #C9DDE9; }
+.evento.finalizado .evento-nome { text-decoration: line-through; }
+.evento-topo { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; }
+.evento-nome { font-size: 13px; font-weight: 800; color: var(--cal-azul-escuro); line-height: 1.5; overflow-wrap: anywhere; }
+.evento-hora { color: var(--cal-azul-escuro); background: var(--cal-azul-claro); padding: 5px 7px; border-radius: 8px; font-size: 10px; font-weight: 800; white-space: nowrap; }
+.evento-info { font-family: "Nunito", sans-serif; font-size: 13px; line-height: 1.55; color: var(--cal-suave); margin-top: 7px; overflow-wrap: anywhere; }
+.evento-acoes { display: flex; gap: 7px; flex-wrap: wrap; margin-top: 12px; }
+.botao-pequeno { border: 0; border-radius: 9px; padding: 8px 10px; font-size: 10px; font-weight: 800; background: var(--cal-azul-claro); color: var(--cal-azul-escuro); }
+.botao-pequeno:hover { filter: brightness(.97); }
+.botao-pequeno.excluir { color: #934b6b; background: var(--cal-lilas); }
+.vazio { text-align: center; padding: 26px 14px; color: var(--cal-suave); background: #F7FBFE; border: 1px dashed #D6EAF5; border-radius: 14px; line-height: 1.8; font-size: 12px; }
+.rodape { margin-top: 24px; text-align: center; color: var(--cal-suave); font-size: 10px; }
+.mensagem { display: none; padding: 12px 14px; border-radius: 12px; margin: 0 0 16px; line-height: 1.6; font-size: 12px; overflow-wrap: anywhere; }
+.mensagem.erro { display: block; color: #8c3730; background: #FAE8E4; }
+.mensagem.sucesso { display: block; color: #345c39; background: #E5F1E2; }
+.modal-fundo { position: fixed; inset: 0; z-index: 30; background: rgba(38, 70, 88, .36); backdrop-filter: blur(4px); display: none; align-items: center; justify-content: center; padding: 18px; overflow-y: auto; }
+.modal-fundo.aberto { display: flex; }
+.modal { width: min(560px, 100%); max-height: calc(100vh - 36px); overflow-y: auto; background: #fff; border: 1px solid var(--cal-borda); border-radius: 24px; padding: 25px; box-shadow: 0 20px 60px rgba(53,86,107,.2); margin: auto; }
+.modal-cabecalho { display: flex; align-items: center; justify-content: space-between; gap: 15px; margin-bottom: 20px; }
+.modal-cabecalho h2 { font-size: 20px; margin: 0; }
+.fechar { width: 36px; height: 36px; border: 0; border-radius: 10px; background: var(--cal-fundo); color: var(--cal-azul-escuro); font-size: 25px; }
+.campo { display: flex; flex-direction: column; gap: 8px; margin-bottom: 15px; }
+.campo label { font-size: 11px; font-weight: 800; color: var(--cal-azul-escuro); }
+.campo input, .campo textarea, .campo select { width: 100%; border: 1px solid var(--cal-borda); border-radius: 12px; padding: 12px 13px; color: var(--cal-texto); background: #FBFDFF; outline: none; font-family: "Nunito", sans-serif; font-size: 14px; }
+.campo input:focus, .campo textarea:focus, .campo select:focus { border-color: var(--cal-azul); box-shadow: 0 0 0 3px rgba(118,185,220,.18); }
+.campo textarea { min-height: 82px; resize: vertical; }
+.campos-duplos { display: grid; grid-template-columns: 1fr 1fr; gap: 13px; }
+.rodape-modal { display: flex; justify-content: flex-end; gap: 10px; flex-wrap: wrap; margin-top: 20px; }
+[hidden] { display: none !important; }
+@media (max-width: 1050px) { .grade { grid-template-columns: minmax(0, 1fr); } }
+@media (max-width: 760px) {
+  .menu-lateral { display: none; }
+  .conteudo-ninho { margin-left: 0; padding-bottom: 88px; }
+  .topo-mobile { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 16px 5%; background: #fff; border-bottom: 1px solid var(--cal-borda); }
+  .topo-mobile .logo-ninho { padding: 0; font-size: 24px; }
+  .detalhe-topo { color: var(--cal-suave); font-size: 10px; }
+  .menu-inferior { position: fixed; z-index: 20; inset: auto 0 0; display: flex; justify-content: space-around; gap: 2px; padding: 10px 4px calc(10px + env(safe-area-inset-bottom)); background: #fff; border-top: 1px solid var(--cal-borda); }
+  .link-inferior { display: flex; flex-direction: column; align-items: center; gap: 4px; min-width: 0; color: var(--cal-suave); text-decoration: none; font-size: 17px; flex: 1; }
+  .link-inferior small { font: 600 9px "Comfortaa", sans-serif; }
+  .link-inferior.ativo { color: var(--cal-azul-escuro); }
+  .pagina { width: 92%; padding: 25px 0 35px; }
+  .cabecalho { align-items: flex-start; }
+  .painel { padding: 17px; border-radius: 19px; }
+  .dia { min-height: 57px; padding-top: 8px; }
+  .dias-semana, .dias { gap: 3px; }
+  .dia-semana { font-size: 9px; }
+}
+@media (max-width: 430px) {
+  .campos-duplos { grid-template-columns: 1fr; gap: 0; }
+  .cabecalho .botao { width: 100%; }
+  .painel { padding: 13px; }
+  .dia { min-height: 48px; border-radius: 9px; }
+  .dia-numero { font-size: 12px; }
+  .evento-acoes { gap: 5px; }
+  .botao-pequeno { padding: 8px; }
+  .modal { padding: 18px; border-radius: 19px; }
+}
