@@ -504,12 +504,14 @@
           .from("eventos_ninho")
           .update(dados)
           .eq("id", id);
-      } else {
-        dados.criado_por = "Família Ninho";
-        resultado = await banco
-          .from("eventos_ninho")
-          .insert(dados);
-      }
+          } else {
+            dados.ninho_id = ninhoId;
+            dados.criado_por = usuarioId;
+
+            resultado = await banco
+              .from("eventos_ninho")
+              .insert(dados);
+          }
 
       botao.disabled = false;
       botao.textContent = "Salvar evento";
