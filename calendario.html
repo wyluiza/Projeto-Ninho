@@ -169,6 +169,8 @@
 
     let banco = null;
     let eventos = [];
+    let usuarioId = null;
+    let ninhoId = null;
     let dataVisualizada = new Date();
     let dataEscolhida = formatarData(new Date());
     let canalEventos = null;
@@ -210,25 +212,44 @@
     }
 
     async function iniciar() {
-      if (!window.supabase) {
-        mostrarMensagem(
-          "mensagemApp",
-          "Não foi possível carregar o calendário. Confira sua internet e recarregue a página."
-        );
-        renderizarCalendario();
-        renderizarLista();
-        return;
-      }
-
-      banco = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-      await carregarEventos();
-      assinarAtualizacoes();
+    if (!window.supabase) {
+      mostrarMensagem("mensagemApp", "Erro ao carregar o Supabase.");
+      return;
     }
 
+    banco = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    const { data: usuario, error: erroUsuario } = await banco.auth.getUser();
+
+    if (erroUsuario || !usuario.user) {
+      mostrarMensagem("mensagemApp", "Faça login para acessar o calendário.");
+      return;
+    }
+
+    usuarioId = usuario.user.id;
+
+    const { data: membro, error } = await banco
+      .from("membros")
+      .select("ninho_id")
+      .eq("id", usuarioId)
+      .single();
+
+    if (error || !membro) {
+      mostrarMensagem("mensagemApp", "Não foi possível identificar seu Ninho.");
+      return;
+    }
+
+    ninhoId = membro.ninho_id;
+
+    await carregarEventos();
+    assinarAtualizacoes();
+  }
+
     async function carregarEventos() {
-      const { data, error } = await banco
+        const { data, error } = await banco
         .from("eventos_ninho")
         .select("*")
+        .eq("ninho_id", ninhoId)
         .order("data_evento", { ascending: true })
         .order("hora_evento", { ascending: true });
 
