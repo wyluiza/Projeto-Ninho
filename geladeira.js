@@ -1,12 +1,21 @@
-/* ==========================================
-   PROJETO NINHO — GELADEIRA E RECEITAS
-   Armazenamento local no navegador
-   ========================================== */
-
 (() => {
   'use strict';
 
-  const CHAVE = 'ninho_geladeira_alimentos_v1';
+  const SUPABASE_URL = 'https://ncqimbutzmngrkgvtnqt.supabase.co';
+  const SUPABASE_ANON_KEY = 'sb_publishable_kM4EsVr5Y22pWEgpn8CTdg_ag3m7aDE';
+
+  if (!window.supabase || typeof window.supabase.createClient !== 'function') {
+    console.error('A biblioteca do Supabase não foi carregada antes de geladeira.js.');
+    return;
+  }
+
+  const banco = window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_ANON_KEY
+  );
+
+  let ninhoId = null;
+  let alimentos = [];
 
   // CATÁLOGO DE RECEITAS
   const receitas = [
@@ -462,8 +471,6 @@
 
   const $ = id => document.getElementById(id);
 
-  let alimentos = carregar();
-
   function normalizar(texto) {
     return String(texto || '')
       .normalize('NFD')
@@ -505,22 +512,20 @@
     });
   }
 
-  function carregar() {
-    try {
-      const dados = JSON.parse(
-        localStorage.getItem(CHAVE) || '[]'
-      );
+        async function carregar() {
+        const { data, error } = await banco
+          .from('alimentos')
+          .select('*')
+          .eq('ninho_id', ninhoId)
+          .order('criado_em', { ascending: true });
 
-      return Array.isArray(dados) ? dados : [];
-    } catch {
-      return [];
-    }
-  }
+        if (error) {
+          console.error('Erro ao carregar alimentos:', error);
+          throw error;
+        }
 
-  function salvar() {
-    localStorage.setItem(CHAVE, JSON.stringify(alimentos));
-  }
-
+        alimentos = data || [];
+      }
   function escapar(texto) {
     return String(texto).replace(/[&<>"']/g, caractere => ({
       '&': '&amp;',
@@ -831,43 +836,64 @@
   });
 
   // SALVAR UM ALIMENTO
-  $('formAlimento').addEventListener('submit', evento => {
-    evento.preventDefault();
+$('formAlimento').addEventListener('submit', async evento => {
+  evento.preventDefault();
 
-    const nome = $('nomeAlimento').value.trim();
-    const quantidade = Number($('quantidadeAlimento').value);
-    const unidade = $('unidadeAlimento').value;
+  const nome = $('nomeAlimento').value.trim();
+  const quantidade = Number($('quantidadeAlimento').value);
+  const unidade = $('unidadeAlimento').value;
+  const emoji = $('emojiAlimento').value;
 
-    if (
-      !nome ||
-      !Number.isFinite(quantidade) ||
-      quantidade <= 0
-    ) {
-      $('mensagemEstoque').textContent =
-        'Informe o nome e uma quantidade válida.';
-      return;
-    }
+  if (
+    !nome ||
+    !Number.isFinite(quantidade) ||
+    quantidade <= 0
+  ) {
+    $('mensagemEstoque').textContent =
+      'Informe o nome e uma quantidade válida.';
+    return;
+  }
 
-    const existente = alimentos.find(item =>
-      chaveAlimento(item.nome) === chaveAlimento(nome) &&
-      item.unidade === unidade
-    );
+  if (!ninhoId) {
+    $('mensagemEstoque').textContent =
+      'Não foi possível identificar seu Ninho.';
+    return;
+  }
 
+  const existente = alimentos.find(item =>
+    chaveAlimento(item.nome) === chaveAlimento(nome) &&
+    item.unidade === unidade
+  );
+
+  try {
     if (existente) {
-      existente.quantidade = Number(
+      const novaQuantidade = Number(
         (Number(existente.quantidade) + quantidade).toFixed(2)
       );
+
+      const { error } = await banco
+        .from('alimentos')
+        .update({ quantidade: novaQuantidade })
+        .eq('id', existente.id)
+        .eq('ninho_id', ninhoId);
+
+      if (error) throw error;
+
     } else {
-      alimentos.push({
-        id: Date.now() + Math.floor(Math.random() * 1000),
-        nome,
-        quantidade,
-        unidade,
-        emoji: $('emojiAlimento').value
-      });
+      const { error } = await banco
+        .from('alimentos')
+        .insert({
+          ninho_id: ninhoId,
+          nome,
+          quantidade,
+          unidade,
+          emoji
+        });
+
+      if (error) throw error;
     }
 
-    salvar();
+    await carregar();
     renderizarAlimentos();
 
     $('formAlimento').reset();
@@ -876,13 +902,25 @@
 
     $('mensagemEstoque').textContent =
       'Alimento guardado com carinho!';
-  });
+
+  } catch (erro) {
+    console.error('Erro ao salvar alimento:', erro);
+
+    $('mensagemEstoque').textContent =
+      'Não foi possível salvar. Verifique sua conexão e tente novamente.';
+  }
+});
 
   // ALTERAR QUANTIDADE OU REMOVER ALIMENTO
-  $('listaAlimentos').addEventListener('click', evento => {
+  $('listaAlimentos').addEventListener('click', async evento => {
     const botao = evento.target.closest('button[data-acao]');
 
     if (!botao) return;
+    if (!ninhoId) {
+      $('mensagemEstoque').textContent =
+        'Não foi possível identificar seu Ninho.';
+      return;
+    }
 
     const item = alimentos.find(
       alimento => String(alimento.id) === botao.dataset.id
@@ -890,32 +928,60 @@
 
     if (!item) return;
 
-    if (botao.dataset.acao === 'mais') {
-      item.quantidade = Number(
-        (Number(item.quantidade) + 1).toFixed(2)
-      );
-    }
+    const acao = botao.dataset.acao;
+    const quantidadeAtual = Number(item.quantidade);
 
-    if (botao.dataset.acao === 'menos') {
-      item.quantidade = Number(
-        (Number(item.quantidade) - 1).toFixed(2)
-      );
+    try {
+      botao.disabled = true;
+      $('mensagemEstoque').textContent = '';
 
-      if (item.quantidade <= 0) {
-        alimentos = alimentos.filter(
-          alimento => alimento.id !== item.id
-        );
+      if (acao === 'mais') {
+        const novaQuantidade = Number((quantidadeAtual + 1).toFixed(2));
+        const { error } = await banco
+          .from('alimentos')
+          .update({ quantidade: novaQuantidade })
+          .eq('id', item.id)
+          .eq('ninho_id', ninhoId);
+        if (error) throw error;
+      } else if (acao === 'menos') {
+        const novaQuantidade = Number((quantidadeAtual - 1).toFixed(2));
+
+        if (novaQuantidade <= 0) {
+          const { error } = await banco
+            .from('alimentos')
+            .delete()
+            .eq('id', item.id)
+            .eq('ninho_id', ninhoId);
+          if (error) throw error;
+        } else {
+          const { error } = await banco
+            .from('alimentos')
+            .update({ quantidade: novaQuantidade })
+            .eq('id', item.id)
+            .eq('ninho_id', ninhoId);
+          if (error) throw error;
+        }
+      } else if (acao === 'remover') {
+        const { error } = await banco
+          .from('alimentos')
+          .delete()
+          .eq('id', item.id)
+          .eq('ninho_id', ninhoId);
+        if (error) throw error;
+      } else {
+        return;
       }
-    }
 
-    if (botao.dataset.acao === 'remover') {
-      alimentos = alimentos.filter(
-        alimento => alimento.id !== item.id
-      );
+      await carregar();
+      renderizarAlimentos();
+      $('mensagemEstoque').textContent = 'Estoque atualizado!';
+    } catch (erro) {
+      console.error('Erro ao atualizar alimento:', erro);
+      $('mensagemEstoque').textContent =
+        'Não foi possível atualizar o alimento. Tente novamente.';
+    } finally {
+      botao.disabled = false;
     }
-
-    salvar();
-    renderizarAlimentos();
   });
 
   // FILTROS
@@ -935,25 +1001,54 @@
   );
 
   // ABRIR E FECHAR RECEITAS
-  $('listaReceitas').addEventListener('click', evento => {
-    const botao = evento.target.closest('[data-receita]');
+    $('listaReceitas').addEventListener('click', evento => {
+      const botao = evento.target.closest('[data-receita]');
 
-    if (botao) {
-      abrirReceita(botao.dataset.receita);
-    }
-  });
+      if (botao) {
+        abrirReceita(botao.dataset.receita); 
+      }
+    });
 
-  $('fecharModal').addEventListener('click', () => {
-    $('modalReceita').close();
-  });
-
-  $('modalReceita').addEventListener('click', evento => {
-    if (evento.target === $('modalReceita')) {
+    $('fecharModal').addEventListener('click', () => {
       $('modalReceita').close();
+    });
+
+    $('modalReceita').addEventListener('click', evento => {
+      if (evento.target === $('modalReceita')) {
+        $('modalReceita').close();
+      }
+    });
+
+    // INICIAR A PÁGINA
+  async function iniciarPagina() {
+    try {
+      const { data: { user }, error: erroUsuario } =
+        await banco.auth.getUser();
+
+      if (erroUsuario || !user) {
+        throw new Error('Você precisa estar logado para acessar a geladeira.');
+      }
+
+      const { data: membro, error: erroMembro } = await banco
+        .from('membros')
+        .select('ninho_id')
+        .eq('id', user.id)
+        .single();
+
+      if (erroMembro || !membro?.ninho_id) {
+        throw new Error('Não foi possível identificar seu Ninho.');
+      }
+
+      ninhoId = membro.ninho_id;
+
+      await carregar();
+      renderizarAlimentos();
+
+      } catch (erro) {
+        console.error('Erro ao iniciar a geladeira:', erro);
+        $('mensagemEstoque').textContent = erro.message;
+      }
     }
-  });
 
-  // INICIAR A PÁGINA
-  renderizarAlimentos();
-
-})();
+    iniciarPagina();
+  })();
