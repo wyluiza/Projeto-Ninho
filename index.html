@@ -1,79 +1,184 @@
+
 <!DOCTYPE html>
-<html lang="pt-BR">   
-    <head>
-    <link rel="manifest" href="./manifest.json">
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Ninho | Um lar cheio de carinho</title>
-
+<html lang="pt-BR">
+<head>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-    <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;500;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300..700&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Entrar em um Ninho</title>
 
     <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="login.css">
 </head>
 
-<body class="pagina-inicial">
+<body class="pagina-acesso">
 
-    <main class="cartao-inicial">
+<main class="cartao-acesso">
 
-        <div class="decoracao-ninho"></div>
-
-        <header class="marca-ninho">
-            <h1>Ninho</h1>
-            <p>Um lar cheio de cuidado e carinho.</p>
-        </header>
-
-        <div class="divisor-ninho">
-            <span></span>
-            <p>UM LUGAR PARA TODA A FAMÍLIA</p>
-            <span></span>
+    <section class="apresentacao-acesso">
+        <a href="index.html" class="botao-voltar">← Voltar</a>
+        <div class="texto-apresentacao">
+            <h1>Que bom ter você de volta!</h1>
         </div>
+    </section>
 
-            <section class="boas-vindas">
-                <h2>Juntos, tudo fica <span>mais fácil.</span></h2>
-                <p>
-                    Organize sua casa, compartilhe momentos
-                    e cuide de quem você ama.
-                </p>
-            </section>
-        </section>
+    <section class="formulario-acesso">
+        <h2>Entre no seu Ninho</h2>
+        <p>Fique pertinho de quem você ama.</p>
 
-        <nav class="opcoes" aria-label="Acesso ao Ninho">
+        <form id="formularioLogin">
+            <label for="email">Qual é o seu e-mail?</label>
+            <input type="email" id="email" placeholder="voce@exemplo.com" required>
 
-            <a href="cadastro.html" class="botao-inicial botao-cadastrar">
-                <span class="icone-botao">♡</span>
-                <span>Formar um Ninho</span>
-                <span class="seta-botao">→</span>
-            </a>
+            <label for="senha">Qual é a sua senha?</label>
 
-            <a href="login.html" class="botao-inicial botao-entrar">
-                <span class="icone-botao">↗</span>
-                <span>Entrar em um Ninho</span>
-                <span class="seta-botao">→</span>
-            </a>
+            <div class="campo-senha">
+                <input type="password" id="senha" placeholder="Digite sua senha" required>
+                <button type="button" id="mostrarSenha" class="botao-olho" aria-label="Mostrar senha">👁</button>
+            </div>
 
-        </nav>
+            <a href="#" id="esqueciSenha" class="link-recuperar">Esqueci minha senha</a>
 
-        <footer class="rodape-inicial">
-            <div class="linha-coracao"><span></span> ♥ <span></span></div>
-            <p>Um lar cheio de cuidado, carinho e amor.</p>
-        </footer>
+            <button type="submit" id="botaoEntrar">Entrar no meu Ninho</button>
+        </form>
+    </section>
 
-    </main>
-    
-        <script>
-        if ("serviceWorker" in navigator && window.isSecureContext) {
-            window.addEventListener("load", () => {
-            navigator.serviceWorker.register("./service-worker.js")
-                .then(() => console.log("Ninho: service worker registrado!"))
-                .catch((erro) => console.error("Erro no service worker:", erro));
-            });
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+const SUPABASE_URL = "https://ncqimbutzmngrkgvtnqt.supabase.co";
+const SUPABASE_ANON_KEY = "sb_publishable_kM4EsVr5Y22pWEgpn8CTdg_ag3m7aDE";
+
+const supabaseClient = window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_ANON_KEY
+);
+
+// MOSTRAR OU ESCONDER SENHA
+document.getElementById("mostrarSenha").addEventListener("click", function() {
+    const campo = document.getElementById("senha");
+
+    if (campo.type === "password") {
+        campo.type = "text";
+        this.textContent = "🙈";
+        this.setAttribute("aria-label", "Esconder senha");
+    } else {
+        campo.type = "password";
+        this.textContent = "👁";
+        this.setAttribute("aria-label", "Mostrar senha");
+    }
+});
+
+// RECUPERAR SENHA
+document.getElementById("esqueciSenha").addEventListener("click", async function(event) {
+    event.preventDefault();
+
+    const email = document.getElementById("email").value.trim();
+
+    if (!email) {
+        alert("Digite seu e-mail primeiro para recuperar sua senha.");
+        document.getElementById("email").focus();
+        return;
+    }
+
+    const { error } = await supabaseClient.auth.resetPasswordForEmail(email, {
+        redirectTo: window.location.origin + "/redefinir-senha.html"
+    });
+
+    if (error) {
+        console.error(error);
+        alert("Não foi possível enviar o e-mail. Confira o endereço e tente novamente.");
+        return;
+    }
+
+    alert("Se o e-mail estiver cadastrado, você receberá as instruções de recuperação. Confira também o spam!");
+});
+
+// LOGIN
+document.getElementById("formularioLogin").addEventListener("submit", async function(event) {
+    event.preventDefault();
+
+    const email = document.getElementById("email").value.trim();
+    const senha = document.getElementById("senha").value;
+    const botao = document.getElementById("botaoEntrar");
+
+    botao.disabled = true;
+    botao.textContent = "Entrando...";
+
+    try {
+        const { data, error } = await supabaseClient.auth.signInWithPassword({
+            email: email,
+            password: senha
+        });
+
+        if (error) {
+            alert("Não foi possível entrar. Confira seu e-mail e sua senha.");
+            console.error(error);
+            return;
         }
-        </script>
+
+        const convitePendente = localStorage.getItem("convitePendente");
+
+        if (convitePendente) {
+            const nomeConvidado =
+                data.user.user_metadata?.nome ||
+                data.user.user_metadata?.name;
+
+            if (!nomeConvidado) {
+                alert("Não encontramos seu nome. Entre em contato com a responsável do Ninho.");
+                return;
+            }
+
+            const { data: ninhoConvidado, error: erroConvite } =
+                await supabaseClient.rpc("entrar_com_convite", {
+                    p_token: convitePendente,
+                    p_nome: nomeConvidado
+                });
+
+            if (erroConvite) {
+                console.error("Erro ao aceitar convite:", erroConvite);
+                alert("Não foi possível concluir o convite: " + erroConvite.message);
+                return;
+            }
+
+            localStorage.removeItem("convitePendente");
+
+            if (ninhoConvidado) {
+                localStorage.setItem("ninhoId", ninhoConvidado);
+                localStorage.setItem("nomeUsuario", nomeConvidado);
+            }
+        }
+
+        const { data: membro, error: erroMembro } = await supabaseClient
+            .from("membros")
+            .select("ninho_id, nome")
+            .eq("id", data.user.id)
+            .single();
+
+        if (erroMembro || !membro) {
+            alert("Sua conta entrou, mas não encontramos seu Ninho. Verifique se o cadastro foi concluído.");
+            console.error(erroMembro);
+            return;
+        }
+
+        localStorage.setItem("ninhoId", membro.ninho_id);
+        localStorage.setItem("nomeUsuario", membro.nome);
+
+        window.location.href = "inicio.html";
+
+    } catch (erro) {
+        console.error(erro);
+        alert("Ocorreu um erro. Tente novamente.");
+    } finally {
+        botao.disabled = false;
+        botao.textContent = "Entrar no meu Ninho";
+    }
+});
+</script>
 
 </body>
 </html>

@@ -253,3 +253,51 @@ body.pagina-acesso .formulario-acesso button:hover {
         font-size: 21px;
     }
 }
+
+/* ===== CAMPO DE SENHA E OLHINHO ===== */
+
+body.pagina-acesso .campo-senha {
+    position: relative;
+    width: 100%;
+}
+
+body.pagina-acesso .campo-senha input {
+    padding-right: 52px;
+    margin-bottom: 10px;
+}
+
+body.pagina-acesso .campo-senha .botao-olho {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 34px;
+    height: 34px;
+    min-height: 34px;
+    margin: 0;
+    padding: 0;
+    background: transparent;
+    box-shadow: none;
+    color: #58758c;
+    font-size: 17px;
+}
+
+body.pagina-acesso .campo-senha .botao-olho:hover {
+    transform: translateY(-50%);
+    box-shadow: none;
+}
+
+/* ===== ESQUECI MINHA SENHA ===== */
+
+body.pagina-acesso .link-recuperar {
+    align-self: flex-end;
+    margin: 3px 0 15px;
+    color: #8b79bd;
+    font-size: 11px;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+body.pagina-acesso .link-recuperar:hover {
+    text-decoration: underline;
+}
