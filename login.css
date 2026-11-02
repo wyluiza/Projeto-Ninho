@@ -266,21 +266,39 @@ body.pagina-acesso .campo-senha input {
     margin-bottom: 10px;
 }
 
+
 body.pagina-acesso .campo-senha .botao-olho {
     position: absolute;
     right: 12px;
-    top: 50%;
+    top: 24px;
     transform: translateY(-50%);
-    width: 34px;
-    height: 34px;
-    min-height: 34px;
+
+    width: 30px;
+    height: 30px;
+    min-height: 30px;
     margin: 0;
     padding: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border: none;
+    border-radius: 0;
     background: transparent;
     box-shadow: none;
+
     color: #58758c;
     font-size: 17px;
+    cursor: pointer;
 }
+
+body.pagina-acesso .campo-senha .botao-olho:hover {
+    transform: translateY(-50%);
+    background: transparent;
+    box-shadow: none;
+}
+
 
 body.pagina-acesso .campo-senha .botao-olho:hover {
     transform: translateY(-50%);
@@ -301,3 +319,67 @@ body.pagina-acesso .link-recuperar {
 body.pagina-acesso .link-recuperar:hover {
     text-decoration: underline;
 }
+
+.campo-senha {
+    position: relative;
+    width: 100%;
+}
+
+.campo-senha input {
+    width: 100%;
+    box-sizing: border-box;
+    padding-right: 45px;
+}
+
+.campo-senha {
+    position: relative !important;
+    width: 100% !important;
+    display: block !important;
+}
+
+.campo-senha input {
+    width: 100% !important;
+    height: 48px !important;
+    box-sizing: border-box !important;
+    padding: 0 45px 0 16px !important;
+}
+
+.campo-senha .botao-olho {
+    position: absolute !important;
+    top: 24px !important;
+    right: 12px !important;
+    transform: translateY(-50%) !important;
+
+    width: 30px !important;
+    height: 30px !important;
+    padding: 0 !important;
+
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    border: none !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    cursor: pointer !important;
+}
+
+body.pagina-acesso .formulario-acesso #botaoEntrar {
+    width: 100%;
+    height: 49px;
+    min-height: 49px;
+    max-height: 49px;
+    margin-top: 5px;
+    padding: 0 14px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-family: "Comfortaa", sans-serif;
+    font-size: 13px;
+    line-height: 1;
+    white-space: nowrap;
+    box-sizing: border-box;
+}
+    

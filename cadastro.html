@@ -78,26 +78,19 @@
                     <input type="email" id="email" name="email"
                         placeholder="voce@exemplo.com" required>
                 </div>
+                    
+                    <div class="campo">
+                        <label for="senha">Senha</label>
+                        <div class="campo-senha">
+                            <input type="password" id="senha"
+                                placeholder="Crie uma senha" required>
+                            <button type="button" id="mostrarSenha"
+                                    class="botao-olho" aria-label="Mostrar senha">👁</button>
+                        </div>
+                    </div>
 
-                <div class="campo">
-                    <label for="senha">Senha</label>
-                    <input type="password" id="senha" name="senha"
-                        placeholder="Crie uma senha" minlength="6" required>
-                </div>
-
-                <div class="campo campo-funcao">
-                    <label for="papel">Qual será sua função no Ninho?</label>
-
-                    <select id="papel" name="papel" required>
-                        <option value="" selected disabled>Selecione uma opção</option>
-                        <option value="RESPONSAVEL">Responsável do Ninho</option>
-                        <option value="MEMBRO">Membro do Ninho</option>
-                    </select>
-
-                    <small class="ajuda">
-                        O responsável administra o Ninho. Os membros participam da organização da casa.
-                    </small>
-                </div>
+                
+                    <input type="hidden" id="papel" name="papel" value="RESPONSAVEL">
 
                 <button type="submit" class="botao-principal">
                     ♥ &nbsp; Formar meu Ninho
@@ -115,7 +108,29 @@
 
     </main>
 
-    <script src="script.js"></script>
+    <script src="script.js">
+        
+            document.getElementById("mostrarSenha").addEventListener("click", function() {
+                const campo = document.getElementById("senha");
 
+                if (campo.type === "password") {
+                    campo.type = "text";
+                    this.textContent = "👁";
+                    this.setAttribute("aria-label", "Esconder senha");
+                } else {
+                    campo.type = "password";
+                    this.textContent = "👁";
+                    this.setAttribute("aria-label", "Mostrar senha");
+                }
+            });
+
+                </script>
+                <script>
+            document.getElementById("mostrarSenha").addEventListener("click", function() {
+                const campo = document.getElementById("senha");
+
+                campo.type = campo.type === "password" ? "text" : "password";
+            });
+            </script>
 </body>
 </html>
