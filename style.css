@@ -33,3 +33,26 @@ select,
 textarea {
     font: inherit;
 }
+/* Alinhamento geral dos textos */
+body {
+    text-align: left;
+}
+
+section,
+article,
+.card,
+.container {
+    text-align: left;
+}
+/* Título de boas-vindas */
+.boas-vindas h1 {
+    text-align: left;
+    max-width: 100%;
+    width: 100%;
+    overflow-wrap: break-word;
+}
+/* ALINHAMENTO GLOBAL DO NINHO */
+body,
+body * {
+    text-align: left !important;
+}

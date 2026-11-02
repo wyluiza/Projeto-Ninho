@@ -208,3 +208,35 @@ body:has(.painel-ninho) {
 .botao-sair:hover {
     background-color: #c8ebff;
 }
+/* RESUMO FAMILIAR */
+.resumo-familiar {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+    margin: 25px 0;
+}
+
+.resumo-card {
+    background: rgba(255, 255, 255, 0.85);
+    padding: 22px;
+    border-radius: 22px;
+    box-shadow: 0 5px 18px rgba(118, 185, 220, 0.15);
+    border: 1px solid #e5f3ff;
+}
+
+.resumo-card h3 {
+    font-size: 15px;
+    color: #76b9dc;
+    margin-bottom: 12px;
+}
+
+.resumo-card p {
+    color: #35566b;
+    font-size: 13px;
+}
+
+@media (max-width: 768px) {
+    .resumo-familiar {
+        grid-template-columns: 1fr;
+    }
+}

@@ -137,15 +137,38 @@ if (formulario) {
     });
 }
 
+
 const tituloBoasVindas = document.getElementById("boasVindas");
 
 if (tituloBoasVindas) {
-    const nomeNinho = localStorage.getItem("nomeNinho");
+    async function carregarNomeNinho() {
+        const { data: usuario } = await supabaseClient.auth.getUser();
 
-    if (nomeNinho) {
-        tituloBoasVindas.textContent = `Bem-vindo(a) ao ${nomeNinho}!`;
+        if (!usuario.user) {
+            tituloBoasVindas.textContent = "Bem-vindo(a) ao seu Ninho!";
+            return;
+        }
+
+        const { data: nomeNinho, error } =
+            await supabaseClient.rpc("obter_nome_ninho");
+
+        if (error) {
+            console.error("Erro ao buscar Ninho:", error);
+            tituloBoasVindas.textContent = "Bem-vindo(a) ao seu Ninho!";
+            return;
+        }
+
+        if (nomeNinho) {
+            tituloBoasVindas.textContent =
+                `Bem-vindo(a) ao ${nomeNinho}!`;
+
+            localStorage.setItem("nomeNinho", nomeNinho);
+        }
     }
+
+    carregarNomeNinho();
 }
+
 
 const botaoConvite = document.getElementById("gerarConvite");
 const areaConvite = document.getElementById("areaConvite");
@@ -229,3 +252,55 @@ if (botaoCopiar) {
         }
     });
 }
+// RESUMO FAMILIAR DO NINHO
+async function carregarResumoFamiliar() {
+    const { data: usuarioData } = await supabaseClient.auth.getUser();
+
+    if (!usuarioData.user) return;
+
+    const { data: membro } = await supabaseClient
+        .from("membros")
+        .select("ninho_id")
+        .eq("id", usuarioData.user.id)
+        .single();
+
+    if (!membro) return;
+
+    const ninhoId = membro.ninho_id;
+
+    // Próximo evento
+    const { data: eventos } = await supabaseClient
+        .from("eventos_ninho")
+        .select("titulo,data_evento")
+        .eq("ninho_id", ninhoId)
+        .gte("data_evento", new Date().toISOString().split("T")[0])
+        .order("data_evento", { ascending: true })
+        .limit(1);
+
+    document.getElementById("resumoEvento").textContent =
+        eventos?.length
+            ? `${eventos[0].titulo} - ${new Date(eventos[0].data_evento + "T00:00:00").toLocaleDateString("pt-BR")}`
+            : "Nenhum evento próximo 💙";
+
+    // Tarefas pendentes
+    const { count: tarefas } = await supabaseClient
+        .from("tarefas_ninho")
+        .select("*", { count: "exact", head: true })
+        .eq("ninho_id", ninhoId)
+        .eq("concluida", false);
+
+    document.getElementById("resumoTarefas").textContent =
+        `${tarefas ?? 0} tarefa(s) pendente(s)`;
+
+    // Compras pendentes
+    const { count: compras } = await supabaseClient
+        .from("compras")
+        .select("*", { count: "exact", head: true })
+        .eq("ninho_id", ninhoId)
+        .eq("comprado", false);
+
+    document.getElementById("resumoCompras").textContent =
+        `${compras ?? 0} item(ns) na lista`;
+}
+
+carregarResumoFamiliar();
