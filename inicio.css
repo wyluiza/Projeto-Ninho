@@ -1,7 +1,10 @@
+
 /* ===== PAINEL PRINCIPAL DO NINHO ===== */
 
 body:has(.painel-ninho) {
-    display: block; min-height: 100vh; padding: 25px 16px;
+    display: block;
+    min-height: 100vh;
+    padding: 25px 16px;
     background: radial-gradient(ellipse at 12% 20%, #fff 0, transparent 28%),
                 linear-gradient(145deg, #e5f5ff, #f5f0ff 55%, #e7f6ff);
 }
@@ -22,19 +25,21 @@ body:has(.painel-ninho) {
     border: 1px solid #d9edfc;
     border-radius: 28px;
     padding: 35px 25px;
-    text-align: center;
+    text-align: left;
     margin-bottom: 35px;
 }
 
 .painel-ninho .boas-vindas h1 {
     color: #365f82;
     font-size: clamp(24px, 4vw, 36px);
+    text-align: left;
 }
 
 .painel-ninho .boas-vindas p {
     color: #6689a7;
     line-height: 1.7;
     margin-bottom: 8px;
+    text-align: left;
 }
 
 /* Títulos das funções */
@@ -208,6 +213,7 @@ body:has(.painel-ninho) {
 .botao-sair:hover {
     background-color: #c8ebff;
 }
+
 /* RESUMO FAMILIAR */
 .resumo-familiar {
     display: grid;

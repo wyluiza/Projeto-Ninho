@@ -705,3 +705,20 @@ body:has(.layout-ninho) .conteudo-ninho > .pagina {
         padding: 22px 15px;
     }
 }
+/* Menu inferior padronizado */
+
+@media (max-width: 760px) {
+    .menu-inferior {
+        justify-content: center;
+    }
+
+    .menu-inferior .link-inferior:not([href="inicio.html"]) {
+        display: none !important;
+    }
+
+    .menu-inferior .link-inferior[href="inicio.html"] {
+        display: flex;
+        flex: 0 0 auto;
+        min-width: 75px;
+    }
+}
