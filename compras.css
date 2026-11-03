@@ -1,7 +1,3 @@
-
-/* NINHO — LISTA DE COMPRAS
-   Mantém a identidade visual de tarefas e geladeira. */
-
 .pagina-compras {
     width: 100%;
     max-width: 1120px;
@@ -461,5 +457,68 @@
 
     .botao-excluir-compra {
         padding: 8px;
+    }
+}
+/* CABEÇALHO PADRONIZADO COM PONTUAÇÃO */
+
+.pagina-compras .cabecalho-pontuacao {
+    position: relative;
+    overflow: hidden;
+    padding: 38px;
+    margin-bottom: 28px;
+    border-radius: 28px;
+    background: linear-gradient(135deg, #DFF2FF, #F1EDFF, #FFFFFF);
+    box-shadow: 0 8px 24px rgba(53, 86, 107, .06);
+}
+
+.pagina-compras .etiqueta-pontuacao {
+    display: inline-block;
+    color: #739BB7;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    margin-bottom: 15px;
+}
+
+.pagina-compras .cabecalho-pontuacao h1 {
+    font-size: clamp(25px, 4vw, 38px);
+    line-height: 1.4;
+    margin: 0 0 15px;
+    color: #35566B;
+}
+
+.pagina-compras .cabecalho-pontuacao h1 span {
+    color: #A18AD8;
+}
+
+.pagina-compras .cabecalho-pontuacao p {
+    max-width: 600px;
+    line-height: 1.8;
+    color: #66859B;
+    margin: 0;
+}
+
+.pagina-compras .decoracao-pontuacao {
+    position: absolute;
+    right: 35px;
+    bottom: -35px;
+    font-size: 130px;
+    color: rgba(255, 255, 255, .7);
+    pointer-events: none;
+}
+
+@media (max-width: 760px) {
+    .pagina-compras .cabecalho-pontuacao {
+        padding: 28px 23px;
+        border-radius: 23px;
+    }
+
+    .pagina-compras .cabecalho-pontuacao h1 {
+        font-size: 25px;
+    }
+
+    .pagina-compras .decoracao-pontuacao {
+        right: 10px;
+        font-size: 90px;
     }
 }

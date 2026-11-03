@@ -306,7 +306,7 @@ async function adicionarItemCompra(evento) {
     } finally {
         if (botao) {
             botao.disabled = false;
-            botao.innerHTML = 'Adicionar item <span>♡</span>';
+            botao.innerHTML = 'Adicionar item <span></span>';
         }
     }
 }

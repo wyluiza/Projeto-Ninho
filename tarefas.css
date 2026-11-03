@@ -509,3 +509,114 @@ h2 {
         width: 100%;
     }
 }
+/* CABEÇALHO PADRÃO DO NINHO */
+
+.pagina-tarefas .cabecalho-pontuacao {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 38px;
+    margin-bottom: 27px;
+    border-radius: 28px;
+    background: linear-gradient(135deg, #DFF2FF, #F1EDFF, #FFFFFF);
+    box-shadow: 0 8px 24px rgba(53, 86, 107, .06);
+}
+
+.pagina-tarefas .cabecalho-pontuacao h1 {
+    margin: 0 0 10px;
+    color: #35566b;
+    font-size: clamp(23px, 3vw, 34px);
+}
+
+.pagina-tarefas .cabecalho-pontuacao p {
+    margin: 0;
+    color: #71899a;
+    font-size: 13px;
+    line-height: 1.7;
+}
+
+.pagina-tarefas .decoracao-pontuacao {
+    position: absolute;
+    right: 35px;
+    bottom: -35px;
+    font-size: 130px;
+    color: rgba(255, 255, 255, .7);
+    pointer-events: none;
+}
+
+@media (max-width: 600px) {
+    .pagina-tarefas .cabecalho-pontuacao {
+        padding: 28px 23px;
+        border-radius: 23px;
+    }
+
+    .pagina-tarefas .decoracao-pontuacao {
+        right: 15px;
+        font-size: 75px;
+    }
+}
+/* CABEÇALHO PADRONIZADO */
+
+.pagina-tarefas .cabecalho-pontuacao {
+    position: relative;
+    box-sizing: border-box;
+    width: 100%;
+    min-height: 190px;
+    padding: 35px 32px;
+    margin: 0 0 27px;
+    border-radius: 28px;
+    overflow: hidden;
+    background: linear-gradient(135deg, #DFF2FF, #F1EDFF, #FFFFFF);
+    box-shadow: 0 8px 24px rgba(53, 86, 107, .06);
+}
+
+.pagina-tarefas .sobretitulo {
+    display: block;
+    margin: 0 0 22px;
+    padding: 0;
+    color: #8abbd5;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    background: transparent;
+    border: none;
+}
+
+.pagina-tarefas .cabecalho-pontuacao h1 {
+    margin: 0 0 10px;
+    color: #35566b;
+    font-size: clamp(26px, 3vw, 36px);
+}
+
+.pagina-tarefas .cabecalho-pontuacao p {
+    margin: 0;
+    color: #71899a;
+    font-size: 13px;
+    line-height: 1.7;
+}
+
+.pagina-tarefas .decoracao-pontuacao {
+    position: absolute;
+    right: 30px;
+    bottom: -30px;
+    font-size: 120px;
+    color: rgba(255, 255, 255, .7);
+    pointer-events: none;
+}
+
+@media (max-width: 600px) {
+    .pagina-tarefas .cabecalho-pontuacao {
+        min-height: 160px;
+        padding: 28px 23px;
+    }
+
+    .pagina-tarefas .sobretitulo {
+        margin-bottom: 18px;
+    }
+
+    .pagina-tarefas .decoracao-pontuacao {
+        right: 15px;
+        font-size: 75px;
+    }
+}

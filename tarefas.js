@@ -498,4 +498,4 @@ listaTarefas.addEventListener("click", async (e) => {
 
 $("filtroTarefas").addEventListener("change", renderizar);
 
-iniciar();zy
+iniciar();

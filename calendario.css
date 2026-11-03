@@ -670,3 +670,92 @@ h1 {
         border-radius: 19px;
     }
 }
+/* CABEÇALHO PADRONIZADO COM PONTUAÇÃO */
+
+.cabecalho-pontuacao {
+    position: relative;
+    overflow: hidden;
+    padding: 38px;
+    margin-bottom: 26px;
+    border-radius: 28px;
+    background: linear-gradient(135deg, #DFF2FF, #F1EDFF, #FFFFFF);
+    box-shadow: 0 8px 24px rgba(53, 86, 107, .06);
+}
+
+.cabecalho-pontuacao .etiqueta-pontuacao {
+    display: inline-block;
+    color: #739BB7;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    margin-bottom: 15px;
+}
+
+.cabecalho-pontuacao h1 {
+    font-size: clamp(25px, 4vw, 38px);
+    line-height: 1.4;
+    margin: 0 0 15px;
+    color: #35566B;
+}
+
+.cabecalho-pontuacao p {
+    max-width: 600px;
+    line-height: 1.8;
+    color: #66859B;
+    margin: 0;
+}
+
+.cabecalho-pontuacao .botao {
+    position: relative;
+    z-index: 2;
+    margin-top: 20px;
+}
+
+.cabecalho-pontuacao .decoracao-pontuacao {
+    position: absolute;
+    right: 35px;
+    bottom: -35px;
+    font-size: 130px;
+    color: rgba(255, 255, 255, .7);
+    pointer-events: none;
+}
+
+@media (max-width: 760px) {
+    .cabecalho-pontuacao {
+        padding: 28px 23px;
+        border-radius: 23px;
+    }
+
+    .cabecalho-pontuacao h1 {
+        font-size: 25px;
+    }
+
+    .cabecalho-pontuacao .decoracao-pontuacao {
+        right: 10px;
+        font-size: 90px;
+    }
+}
+
+.botao {
+    display: block;
+    width: 100%;
+    max-width: none;
+    margin-top: 20px;
+    margin-bottom: 26px;
+    padding: 14px 25px;
+    border: 1px solid #e3eaf8;
+    border-radius: 20px;
+    background: linear-gradient(135deg, #dff3ff, #eee7ff);
+    color: #587a9c;
+    font-family: "Comfortaa", sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    box-shadow: none;
+    transition: transform .2s, background .2s;
+}
+
+.botao:hover {
+    transform: translateY(-3px);
+    background: linear-gradient(135deg, #cceaff, #e4d9ff);
+    filter: none;
+}
