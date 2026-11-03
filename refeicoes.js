@@ -6,9 +6,11 @@ const $ = id => document.getElementById(id);
 
 const CHAVE_RECEITAS_PERSONALIZADAS = 'ninhoReceitasPersonalizadas';
 const CHAVE_GELADEIRA = 'ninhoGeladeira';
+const CHAVE_FAVORITAS = 'ninhoReceitasFavoritas';
 
 let alimentos = [];
 let receitaAberta = null;
+let mostrarFavoritas = false;
 
 const receitas = [
 {
@@ -145,6 +147,10 @@ modo:['Corte as bananas.','Cozinhe em fogo baixo com água.','Mexa até ficar co
 }
 ];
 
+/* ==========================================
+   NORMALIZAÇÃO E INGREDIENTES
+========================================== */
+
 function normalizar(texto) {
   return String(texto || '')
     .normalize('NFD')
@@ -155,6 +161,8 @@ function normalizar(texto) {
 
 function chaveAlimento(nome) {
   const n = normalizar(nome).replace(/[^a-z0-9]/g, '').replace(/s$/, '');
+
+  if (n.includes('leite')) return 'leite';
 
   const mapa = {
     ovo: ['ovo','ovos'],
@@ -215,29 +223,21 @@ function converterQuantidade(valor, unidadeOrigem, unidadeDestino, chave = '') {
   if (origem === 'g' && destino === 'kg') return quantidade / 1000;
   if (origem === 'l' && destino === 'ml') return quantidade * 1000;
   if (origem === 'ml' && destino === 'l') return quantidade / 1000;
+
+  // Caixa de leite padrão = 1 litro
   if (chave === 'leite' && origem === 'cx' && destino === 'ml')
-    return quantidade * 200;
+    return quantidade * 1000;
 
-    if (chave === 'leite' && origem === 'ml' && destino === 'cx')
-        return quantidade / 200;
+  if (chave === 'leite' && origem === 'ml' && destino === 'cx')
+    return quantidade / 1000;
 
-    if (chave === 'leite' && origem === 'cx' && destino === 'l')
-        return quantidade * 0.2;
+  if (chave === 'leite' && origem === 'cx' && destino === 'l')
+    return quantidade;
 
-    if (chave === 'leite' && origem === 'l' && destino === 'cx')
-        return quantidade / 0.2;
+  if (chave === 'leite' && origem === 'l' && destino === 'cx')
+    return quantidade;
 
   return null;
-}
-
-function carregarReceitasPersonalizadas() {
-  try {
-    return JSON.parse(
-      localStorage.getItem(CHAVE_RECEITAS_PERSONALIZADAS) || '[]'
-    );
-  } catch {
-    return [];
-  }
 }
 
 function converterIngredienteTexto(texto) {
@@ -261,12 +261,30 @@ function converterIngredienteTexto(texto) {
     unidade = unidadeNormalizada(unidade);
   }
 
-  return [
-    chaveAlimento(nome),
-    nome,
-    quantidade,
-    unidade
-  ];
+  return [chaveAlimento(nome), nome, quantidade, unidade];
+}
+
+/* ==========================================
+   RECEITAS PERSONALIZADAS
+========================================== */
+
+function carregarReceitasPersonalizadas() {
+  try {
+    return JSON.parse(
+      localStorage.getItem(CHAVE_RECEITAS_PERSONALIZADAS) || '[]'
+    );
+  } catch {
+    return [];
+  }
+}
+
+function carregarFavoritas() {
+  try {
+    return JSON.parse(localStorage.getItem(CHAVE_FAVORITAS) || '[]')
+      .map(String);
+  } catch {
+    return [];
+  }
 }
 
 function atualizarReceitasPersonalizadas() {
@@ -284,6 +302,10 @@ function atualizarReceitasPersonalizadas() {
 
   receitas.push(...personalizadas);
 }
+
+/* ==========================================
+   GELADEIRA E DISPONIBILIDADE
+========================================== */
 
 function encontrarAlimento(chave) {
   return alimentos.find(item => chaveAlimento(item.nome) === chave);
@@ -310,13 +332,24 @@ function verificarReceita(receita) {
   };
 }
 
+
 async function carregarAlimentos() {
   const dados = localStorage.getItem(CHAVE_GELADEIRA);
-
   alimentos = dados ? JSON.parse(dados) : [];
 
   if (!Array.isArray(alimentos)) alimentos = [];
+
+  const contador = $('contadorIngredientes');
+
+  if (contador) {
+    contador.textContent = `${alimentos.length} ingredientes`;
+  }
 }
+
+
+/* ==========================================
+   UTILITÁRIOS
+========================================== */
 
 function escapar(texto) {
   return String(texto).replace(/[&<>"']/g, c => ({
@@ -340,6 +373,58 @@ function atualizarListaReceitas() {
   renderizar();
 }
 
+function alternarFavorita(id) {
+  const favoritas = carregarFavoritas();
+  id = String(id);
+
+  const novas = favoritas.includes(id)
+    ? favoritas.filter(x => x !== id)
+    : [...favoritas, id];
+
+  localStorage.setItem(CHAVE_FAVORITAS, JSON.stringify(novas));
+  renderizar();
+}
+
+/* ==========================================
+   BOTÃO DE FAVORITAS
+========================================== */
+
+function configurarBotaoFavoritas() {
+  let botao = $('btnVerFavoritas');
+
+  if (!botao) {
+    botao = document.createElement('button');
+    botao.type = 'button';
+    botao.id = 'btnVerFavoritas';
+
+    const lista = $('listaReceitas');
+
+    if (lista && lista.parentNode) {
+      lista.parentNode.insertBefore(botao, lista);
+    }
+  }
+
+  botao.classList.add('botao-filtro-favoritas');
+
+  botao.textContent = mostrarFavoritas
+    ? '🍽️ Todas as receitas'
+    : 'Minhas favoritas ★';
+
+  botao.addEventListener('click', () => {
+    mostrarFavoritas = !mostrarFavoritas;
+
+    botao.textContent = mostrarFavoritas
+      ? '🍽️ Todas as receitas'
+      : 'Minhas favoritas ★';
+
+    renderizar();
+  });
+}
+
+/* ==========================================
+   RENDERIZAÇÃO
+========================================== */
+
 function renderizar() {
   const buscaEl = $('buscarReceita');
   const categoriaEl = $('filtroCategoria');
@@ -351,6 +436,7 @@ function renderizar() {
   const termo = normalizar(buscaEl.value);
   const categoria = categoriaEl.value;
   const disponibilidade = disponibilidadeEl.value;
+  const favoritas = carregarFavoritas();
 
   listaEl.innerHTML = '';
 
@@ -370,12 +456,18 @@ function renderizar() {
         (disponibilidade === 'completas' && r.estado.disponivel) ||
         (disponibilidade === 'faltantes' && !r.estado.disponivel);
 
-      return buscaOk && categoriaOk && dispOk;
+      const favoritaOk =
+        !mostrarFavoritas || favoritas.includes(String(r.id));
+
+      return buscaOk && categoriaOk && dispOk && favoritaOk;
     })
     .sort((a,b) => Number(b.estado.disponivel) - Number(a.estado.disponivel));
 
   if ($('semReceitas')) {
     $('semReceitas').hidden = filtradas.length > 0;
+    $('semReceitas').textContent = mostrarFavoritas
+      ? 'Você ainda não favoritou nenhuma receitinha 💜'
+      : 'Nenhuma receita encontrada.';
   }
 
   filtradas.forEach(r => {
@@ -387,7 +479,6 @@ function renderizar() {
         : null;
 
       const ok = atual !== null && atual >= qtd;
-
       const texto = formatarIngrediente(nome,qtd,un);
 
       return `
@@ -396,6 +487,8 @@ function renderizar() {
         </span>
       `;
     }).join('');
+
+    const favorita = favoritas.includes(String(r.id));
 
     const card = document.createElement('article');
     card.className = 'cartao-receita';
@@ -410,6 +503,13 @@ function renderizar() {
             ${r.tempo} min · ${escapar(r.dificuldade || 'Personalizada')}
           </div>
         </div>
+
+        <button type="button"
+          class="botao-favoritar ${favorita ? 'favoritada' : ''}"
+          data-favoritar="${escapar(r.id)}"
+          aria-label="${favorita ? 'Desfavoritar' : 'Favoritar'} receita">
+          ${favorita ? '★' : '☆'}
+        </button>
       </div>
 
       <span class="etiqueta-status ${r.estado.disponivel ? '' : 'incompleta'}">
@@ -434,11 +534,17 @@ function renderizar() {
 
   if ($('mensagemReceitas')) {
     $('mensagemReceitas').textContent =
-      disponibilidade === 'faltantes'
-        ? `${filtradas.length} receitas precisam de ingredientes adicionais.`
-        : `${filtradas.filter(r => r.estado.disponivel).length} receitas podem ser preparadas com seu estoque atual.`;
+      mostrarFavoritas
+        ? `${filtradas.length} receitas favoritas.`
+        : disponibilidade === 'faltantes'
+          ? `${filtradas.length} receitas precisam de ingredientes adicionais.`
+          : `${filtradas.filter(r => r.estado.disponivel).length} receitas podem ser preparadas com seu estoque atual.`;
   }
 }
+
+/* ==========================================
+   ABRIR RECEITA
+========================================== */
 
 function abrirReceita(id) {
   receitaAberta = receitas.find(r => String(r.id) === String(id));
@@ -466,12 +572,18 @@ function abrirReceita(id) {
     `;
   }).join('');
 
+  const favorita = carregarFavoritas().includes(String(receitaAberta.id));
+
   $('detalheReceita').innerHTML = `
     <div class="detalhe-cabecalho">
       <span class="icone-receita">${receitaAberta.emoji || '👩‍🍳'}</span>
       <h2>${escapar(receitaAberta.nome)}</h2>
       <p>${escapar(receitaAberta.descricao || '')}</p>
       <p>${receitaAberta.tempo} minutos · ${escapar(receitaAberta.dificuldade || 'Personalizada')}</p>
+
+      <button type="button" id="btnFavoritarDetalhe" class="botao-favoritar">
+        ${favorita ? 'Remover dos favoritos ★' : 'Favoritar receitinha ☆'}
+      </button>
     </div>
 
     ${receitaAberta.personalizada ? `
@@ -557,18 +669,24 @@ function excluirReceitaPersonalizada() {
 
   if (!confirmar) return;
 
+  const id = String(receitaAberta.id);
+
   const salvas = carregarReceitasPersonalizadas()
-    .filter(r => String(r.id) !== String(receitaAberta.id));
+    .filter(r => String(r.id) !== id);
 
   localStorage.setItem(
     CHAVE_RECEITAS_PERSONALIZADAS,
     JSON.stringify(salvas)
   );
 
-  receitas.splice(
-    receitas.findIndex(r => String(r.id) === String(receitaAberta.id)),
-    1
-  );
+  const index = receitas.findIndex(r => String(r.id) === id);
+
+  if (index >= 0) receitas.splice(index, 1);
+
+  const favoritas = carregarFavoritas()
+    .filter(x => x !== id);
+
+  localStorage.setItem(CHAVE_FAVORITAS, JSON.stringify(favoritas));
 
   $('modalReceita').close();
   atualizarListaReceitas();
@@ -625,10 +743,7 @@ async function prepararReceita() {
       a.item.quantidade = a.nova;
     });
 
-    localStorage.setItem(
-      CHAVE_GELADEIRA,
-      JSON.stringify(alimentos)
-    );
+    localStorage.setItem(CHAVE_GELADEIRA, JSON.stringify(alimentos));
 
     await carregarAlimentos();
     renderizar();
@@ -639,9 +754,7 @@ async function prepararReceita() {
     botao.hidden = true;
 
     setTimeout(() => {
-      if ($('modalReceita').open) {
-        $('modalReceita').close();
-      }
+      if ($('modalReceita').open) $('modalReceita').close();
     }, 1400);
 
   } catch (erro) {
@@ -722,15 +835,10 @@ function salvarReceita(event) {
   };
 
   if (editandoId) {
-    const index = salvas.findIndex(
-      r => String(r.id) === String(editandoId)
-    );
+    const index = salvas.findIndex(r => String(r.id) === String(editandoId));
 
-    if (index >= 0) {
-      salvas[index] = receita;
-    } else {
-      salvas.push(receita);
-    }
+    if (index >= 0) salvas[index] = receita;
+    else salvas.push(receita);
   } else {
     salvas.push(receita);
   }
@@ -741,23 +849,20 @@ function salvarReceita(event) {
   );
 
   form.reset();
-delete form.dataset.editandoId;
+  delete form.dataset.editandoId;
 
-fecharCadastro();
+  fecharCadastro();
 
-if (editandoId) {
-  const index = receitas.findIndex(
-    r => String(r.id) === String(editandoId)
-  );
+  if (editandoId) {
+    const index = receitas.findIndex(r => String(r.id) === String(editandoId));
 
-  if (index >= 0) {
-    receitas[index] = receita;
+    if (index >= 0) receitas[index] = receita;
+    else receitas.push(receita);
+  } else {
+    receitas.push(receita);
   }
-} else {
-  receitas.push(receita);
-}
 
-atualizarListaReceitas();
+  atualizarListaReceitas();
 }
 
 /* ==========================================
@@ -777,11 +882,21 @@ function iniciar() {
       }
     });
 
+  configurarBotaoFavoritas();
+
   $('buscarReceita')?.addEventListener('input', renderizar);
   $('filtroCategoria')?.addEventListener('change', renderizar);
   $('filtroDisponibilidade')?.addEventListener('change', renderizar);
 
   $('listaReceitas')?.addEventListener('click', evento => {
+    const favorita = evento.target.closest('[data-favoritar]');
+
+    if (favorita) {
+      evento.stopPropagation();
+      alternarFavorita(favorita.dataset.favoritar);
+      return;
+    }
+
     const botao = evento.target.closest('[data-id]');
 
     if (botao) abrirReceita(botao.dataset.id);
@@ -805,6 +920,11 @@ function iniciar() {
 
     if (evento.target.closest('#btnEditarReceita')) {
       editarReceitaPersonalizada();
+    }
+
+    if (evento.target.closest('#btnFavoritarDetalhe') && receitaAberta) {
+      alternarFavorita(receitaAberta.id);
+      abrirReceita(receitaAberta.id);
     }
   });
 }
