@@ -1,0 +1,151 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#C8EBFF">
+
+    <title>Pontuação | Ninho</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="app.css">
+    <link rel="stylesheet" href="pontuacao.css">
+</head>
+
+<body>
+
+<div class="layout-ninho">
+
+    <aside class="menu-lateral">
+
+        <a href="inicio.html" class="logo-ninho">Ninho<span>.</span></a>
+
+        <p class="menu-legenda">NOSSO LAR</p>
+
+        <nav class="links-menu">
+
+            <a href="inicio.html" class="link-menu">
+                <span>⌂</span> Início
+            </a>
+
+            <a href="refeicoes.html" class="link-menu">
+                <span>♨</span> Refeições
+            </a>
+
+            <a href="geladeira.html" class="link-menu">
+                <span>▤</span> Geladeira
+            </a>
+
+            <a href="tarefas.html" class="link-menu">
+                <span>✓</span> Tarefas
+            </a>
+
+            <a href="calendario.html" class="link-menu">
+                <span>▦</span> Calendário
+            </a>
+
+            <a href="compras.html" class="link-menu">
+                <span>▣</span> Lista de compras
+            </a>
+
+            <a href="pontuacao.html" class="link-menu ativo" aria-current="page">
+                <span>☆</span> Pontuação
+            </a>
+
+            <a href="membros.html" class="link-menu">
+                <span>𐀪</span> Membros
+            </a>
+
+        </nav>
+
+        <div class="mensagem-menu">
+            <span>☁</span>
+            <p>Um lar organizado deixa mais espaço para o carinho.</p>
+        </div>
+
+        <a href="inicio.html" class="botao-sair">
+            ← Voltar ao início
+        </a>
+
+    </aside>
+
+    <main class="conteudo-ninho">
+
+        <header class="topo-mobile">
+            <a href="inicio.html" class="logo-ninho">Ninho<span>.</span></a>
+            <span class="detalhe-topo">Nosso cantinho em família ☁</span>
+        </header>
+
+        <section class="pagina-pontuacao">
+
+            <header class="cabecalho-pontuacao">
+
+                <span class="etiqueta-pontuacao">NOSSO LAR, NOSSO ORGULHO</span>
+
+                <h1>Nosso quadro de estrelas <span></span></h1>
+
+                <p>
+                    Cada cuidado com o nosso lar merece reconhecimento.
+                    Veja as estrelas conquistadas pelos membros!
+                </p>
+
+                <div class="decoracao-pontuacao">☁</div>
+
+            </header>
+
+            <section class="destaque-pontuacao">
+
+                <div class="estrela-destaque">★</div>
+
+                <div>
+                    <h2>Pequenos gestos, grandes conquistas!</h2>
+                    <p>Continue cuidando do Ninho e acumulando estrelas.</p>
+                </div>
+
+            </section>
+
+            <section class="secao-ranking">
+
+                <div class="titulo-ranking">
+                    <div>
+                        <h2>Ranking dos Passarinhos</h2>
+                        <p>Quem está brilhando no nosso Ninho?</p>
+                    </div>
+
+                    <span class="icone-ranking">🏆</span>
+                </div>
+
+                <div id="mensagemPontos" class="mensagem-pontos">
+                    Carregando pontuação da família...
+                </div>
+
+                <div id="ranking" class="ranking"></div>
+
+            </section>
+
+            <footer class="rodape-pontuacao">
+                <p>Todos os esforços fazem nosso lar mais especial. ♡</p>
+            </footer>
+
+        </section>
+
+        <nav class="menu-inferior" aria-label="Navegação principal">
+            <a href="inicio.html" class="link-inferior">
+                <span>⌂</span>
+                <small>Início</small>
+            </a>
+        </nav>
+
+    </main>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="pontuacao.js"></script>
+
+</body>
+</html>

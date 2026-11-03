@@ -1,0 +1,301 @@
+
+/* Pontuação */
+
+.pagina-pontuacao {
+    max-width: 1250px;
+    margin: 0 auto;
+    padding: 35px;
+    color: #35566B;
+}
+
+/* Cabeçalho */
+
+.cabecalho-pontuacao {
+    position: relative;
+    overflow: hidden;
+    padding: 38px;
+    border-radius: 28px;
+    background: linear-gradient(135deg, #DFF2FF, #F1EDFF, #FFFFFF);
+    box-shadow: 0 8px 24px rgba(53, 86, 107, .06);
+}
+
+.etiqueta-pontuacao {
+    display: inline-block;
+    color: #739BB7;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    margin-bottom: 15px;
+}
+
+.cabecalho-pontuacao h1 {
+    font-size: clamp(25px, 4vw, 38px);
+    line-height: 1.4;
+    margin: 0 0 15px;
+    color: #35566B;
+}
+
+.cabecalho-pontuacao h1 span {
+    color: #A18AD8;
+}
+
+.cabecalho-pontuacao p {
+    max-width: 600px;
+    line-height: 1.8;
+    color: #66859B;
+    margin: 0;
+}
+
+.decoracao-pontuacao {
+    position: absolute;
+    right: 35px;
+    bottom: -35px;
+    font-size: 130px;
+    color: rgba(255, 255, 255, .7);
+}
+
+/* Destaque */
+
+.destaque-pontuacao {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 25px;
+    margin: 25px 0;
+    border-radius: 23px;
+    background: linear-gradient(135deg, #F1EDFF, #FFFFFF);
+    border: 1px solid #EAE4FF;
+}
+
+.estrela-destaque {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 65px;
+    height: 65px;
+    border-radius: 22px;
+    background: #E3D9FF;
+    color: #8B73C9;
+    font-size: 35px;
+}
+
+.destaque-pontuacao h2 {
+    font-size: 18px;
+    margin: 0 0 8px;
+}
+
+.destaque-pontuacao p {
+    margin: 0;
+    font-size: 13px;
+    line-height: 1.7;
+    color: #7891A5;
+}
+
+/* Ranking */
+
+.secao-ranking {
+    background: #FFFFFF;
+    border-radius: 25px;
+    padding: 28px;
+    box-shadow: 0 8px 24px rgba(53, 86, 107, .06);
+}
+
+.titulo-ranking {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+}
+
+.titulo-ranking h2 {
+    font-size: 22px;
+    margin: 0 0 8px;
+}
+
+.titulo-ranking p {
+    margin: 0;
+    color: #8AA2B5;
+    font-size: 13px;
+}
+
+.icone-ranking {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 52px;
+    height: 52px;
+    border-radius: 18px;
+    background: #F1EDFF;
+    font-size: 25px;
+}
+
+.ranking {
+    display: grid;
+    gap: 15px;
+}
+
+.membro-pontos {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    padding: 20px;
+    border: 1px solid #EAF1F7;
+    border-radius: 20px;
+    background: linear-gradient(135deg, #FFFFFF, #F9FCFF);
+    transition: transform .2s, box-shadow .2s;
+}
+
+.membro-pontos:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 7px 18px rgba(53, 86, 107, .06);
+}
+
+.posicao {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 45px;
+    height: 45px;
+    border-radius: 15px;
+    background: #EAF5FF;
+    color: #76A8CC;
+    font-size: 17px;
+    font-weight: 700;
+}
+
+.membro-pontos:nth-child(1) .posicao {
+    background: #FFF3D7;
+    color: #D7A342;
+}
+
+.membro-pontos:nth-child(2) .posicao {
+    background: #F0EDFF;
+    color: #9984D0;
+}
+
+.membro-pontos:nth-child(3) .posicao {
+    background: #FCE8E0;
+    color: #C78C72;
+}
+
+.info-pontos {
+    flex: 1;
+    min-width: 0;
+}
+
+.info-pontos h3 {
+    margin: 0 0 7px;
+    font-size: 16px;
+    overflow-wrap: anywhere;
+}
+
+.info-pontos p {
+    margin: 0;
+    font-size: 12px;
+    color: #91A6B8;
+}
+
+.total-estrelas {
+    color: #9A82D3;
+    font-weight: 700;
+    font-size: 19px;
+    white-space: nowrap;
+}
+
+/* Mensagens */
+
+.mensagem-pontos {
+    text-align: center;
+    padding: 22px;
+    border-radius: 18px;
+    background: #F6FAFF;
+    color: #7793AA;
+    font-size: 14px;
+    line-height: 1.8;
+}
+
+/* Rodapé */
+
+.rodape-pontuacao {
+    text-align: center;
+    padding: 30px 15px;
+    color: #91A6B8;
+    font-size: 12px;
+}
+
+/* Responsividade */
+
+@media (max-width: 760px) {
+
+    .pagina-pontuacao {
+        padding: 20px 15px 30px;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .cabecalho-pontuacao {
+        padding: 28px 23px;
+        border-radius: 23px;
+    }
+
+    .cabecalho-pontuacao h1 {
+        font-size: 25px;
+    }
+
+    .decoracao-pontuacao {
+        right: 10px;
+        font-size: 90px;
+    }
+
+    .destaque-pontuacao {
+        padding: 20px;
+        gap: 15px;
+    }
+
+    .estrela-destaque {
+        min-width: 52px;
+        height: 52px;
+        font-size: 28px;
+        border-radius: 17px;
+    }
+
+    .destaque-pontuacao h2 {
+        font-size: 15px;
+    }
+
+    .destaque-pontuacao p {
+        font-size: 12px;
+    }
+
+    .secao-ranking {
+        padding: 20px 15px;
+        border-radius: 22px;
+    }
+
+    .titulo-ranking h2 {
+        font-size: 19px;
+    }
+
+    .membro-pontos {
+        padding: 15px 12px;
+        gap: 12px;
+    }
+
+    .posicao {
+        min-width: 38px;
+        height: 38px;
+        font-size: 14px;
+    }
+
+    .info-pontos h3 {
+        font-size: 14px;
+    }
+
+    .info-pontos p {
+        font-size: 10px;
+    }
+
+    .total-estrelas {
+        font-size: 15px;
+    }
+}
