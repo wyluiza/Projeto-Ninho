@@ -332,6 +332,21 @@ function verificarReceita(receita) {
   };
 }
 
+const unidadeAlimento = document.getElementById("unidadeAlimento");
+const campoEmbalagem = document.getElementById("campoEmbalagem");
+
+if (unidadeAlimento && campoEmbalagem) {
+    unidadeAlimento.addEventListener("change", () => {
+        const unidadesEmbaladas = [
+            "cx.", "pct.", "pote(s)", "lata(s)"
+        ];
+
+        const mostrar = unidadesEmbaladas.includes(unidadeAlimento.value);
+
+        campoEmbalagem.style.display = mostrar ? "block" : "none";
+    });
+}
+
 
 async function carregarAlimentos() {
   const dados = localStorage.getItem(CHAVE_GELADEIRA);
@@ -580,10 +595,6 @@ function abrirReceita(id) {
       <h2>${escapar(receitaAberta.nome)}</h2>
       <p>${escapar(receitaAberta.descricao || '')}</p>
       <p>${receitaAberta.tempo} minutos · ${escapar(receitaAberta.dificuldade || 'Personalizada')}</p>
-
-      <button type="button" id="btnFavoritarDetalhe" class="botao-favoritar">
-        ${favorita ? 'Remover dos favoritos ★' : 'Favoritar receitinha ☆'}
-      </button>
     </div>
 
     ${receitaAberta.personalizada ? `

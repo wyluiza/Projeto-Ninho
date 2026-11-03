@@ -98,14 +98,6 @@
             padding: 0;
         }
 
-        body {
-            min-height: 100vh;
-            padding: 30px 16px;
-            background: #eaf7ff;
-            font-family: 'Comfortaa', sans-serif;
-            color: #36566b;
-        }
-
         .pagina {
             max-width: 850px;
             margin: auto;
@@ -254,6 +246,8 @@
         .botao-adicionar {
             display: block;
             width: 100%;
+            max-width: none;
+            margin: 25px 0;
             margin-top: 22px;
             padding: 15px;
             border: none;
@@ -265,7 +259,6 @@
             font-weight: 700;
             cursor: pointer;
         }
-
         .botao-adicionar:hover {
             background: #8dcef3;
         }
@@ -1001,4 +994,478 @@
   flex-wrap: wrap;
   justify-content: center;
   gap: 18px;
+}
+
+/* ===== CABEÇALHO PADRONIZADO COM PONTUAÇÃO ===== */
+
+.geladeira-pagina {
+    width: 100%;
+    max-width: 1250px;
+    margin: 0 auto;
+    padding: 35px;
+    color: #35566B;
+    box-sizing: border-box;
+}
+
+/* Cabeçalho */
+
+.geladeira-pagina .cabecalho-pontuacao {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    padding: 38px;
+    margin: 0 0 25px;
+    border-radius: 28px;
+    background: linear-gradient(135deg, #DFF2FF, #F1EDFF, #FFFFFF);
+    box-shadow: 0 8px 24px rgba(53, 86, 107, .06);
+}
+
+.geladeira-pagina .etiqueta-pontuacao {
+    display: inline-block;
+    color: #739BB7;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    margin-bottom: 15px;
+}
+
+.geladeira-pagina .cabecalho-pontuacao h1 {
+    font-size: clamp(25px, 4vw, 38px);
+    line-height: 1.4;
+    margin: 0 0 15px;
+    color: #35566B;
+}
+
+.geladeira-pagina .cabecalho-pontuacao h1 span {
+    color: #A18AD8;
+}
+
+.geladeira-pagina .cabecalho-pontuacao p {
+    max-width: 600px;
+    line-height: 1.8;
+    color: #66859B;
+    margin: 0;
+}
+
+/* Geladeira */
+
+.geladeira-pagina .geladeira {
+    width: 100%;
+    max-width: none;
+    margin: 25px 0;
+}
+
+/* Responsividade */
+
+@media (max-width: 760px) {
+    .geladeira-pagina {
+        padding: 20px 15px 30px;
+    }
+
+    .geladeira-pagina .cabecalho-pontuacao {
+        padding: 28px 23px;
+        border-radius: 23px;
+    }
+
+    .geladeira-pagina .cabecalho-pontuacao h1 {
+        font-size: 25px;
+    }
+
+  .geladeira-pagina .geladeira {
+      width: 100%;
+      max-width: none;
+      margin: 25px 0;
+  }
+}
+
+/* ===== ALINHAMENTO CORRETO ===== */
+
+.geladeira-pagina {
+    width: 100%;
+    max-width: 1250px;
+    margin: 0 auto;
+    padding: 35px;
+    box-sizing: border-box;
+}
+
+/* TÍTULO À ESQUERDA */
+.geladeira-pagina .cabecalho-pontuacao {
+    width: 100%;
+    text-align: left;
+}
+
+.geladeira-pagina .cabecalho-pontuacao p {
+    margin: 0;
+}
+
+/* GELADEIRA CENTRALIZADA NO BLOCO */
+.geladeira-pagina .geladeira {
+    width: 100%;
+    max-width: none;
+    margin: 25px 0;
+}
+
+
+/* ===== POPUP NINHO ===== */
+
+.formulario-alimento.aberto {
+    display: block;
+    position: fixed;
+    inset: 50% auto auto 50%;
+    transform: translate(-50%, -50%);
+
+    width: min(460px, calc(100% - 30px));
+    max-height: 85vh;
+    overflow-y: auto;
+
+    padding: 35px;
+    background: #ffffff;
+    border: 1px solid #e8e5fa;
+    border-radius: 30px;
+
+    box-shadow: 0 20px 60px rgba(83, 99, 145, .20);
+    z-index: 1001;
+}
+
+/* TÍTULO */
+.formulario-alimento.aberto h2 {
+    font-size: 22px;
+    color: #7b75b5;
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+/* CAMPOS */
+.formulario-alimento.aberto input,
+.formulario-alimento.aberto select {
+    background: #f8faff;
+    border: 1px solid #e3e9f5;
+    border-radius: 13px;
+    padding: 14px;
+}
+
+/* BOTÃO SALVAR */
+.formulario-alimento.aberto .botao-salvar {
+    background: linear-gradient(135deg, #a5dcfa, #c8bdf5);
+    border-radius: 15px;
+    padding: 15px;
+    color: #35566b;
+}
+
+/* FECHAR */
+.fechar-popup {
+    position: absolute;
+    top: 15px;
+    right: 18px;
+    width: 35px;
+    height: 35px;
+    border: none;
+    border-radius: 50%;
+    background: #f1edff;
+    color: #9585c9;
+    font-size: 23px;
+    cursor: pointer;
+}
+
+/* FUNDO */
+body:has(.formulario-alimento.aberto)::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background: rgba(74, 86, 119, .32);
+    backdrop-filter: blur(5px);
+    z-index: 1000;
+}
+
+.mensagem-geladeira-vazia {
+    text-align: center;
+    color: #789bb5;
+    font-family: 'Comfortaa', sans-serif;
+    font-size: 14px;
+    margin: 18px auto;
+}
+
+.mensagem-geladeira-vazia[hidden] {
+    display: none;
+}
+
+/* CORREÇÃO DEFINITIVA DO POPUP */
+#formularioAlimento[hidden] {
+    display: none !important;
+}
+
+#formularioAlimento:not([hidden]) {
+    display: block !important;
+}
+/* POPUP DE ADICIONAR ALIMENTO */
+#formularioAlimento:not([hidden]) {
+    position: fixed !important;
+    inset: 0 !important;
+    z-index: 99999 !important;
+
+    display: flex !important;
+    justify-content: center;
+    align-items: center;
+
+    background: rgba(40, 55, 80, 0.35);
+    backdrop-filter: blur(4px);
+}
+
+/* Caixa do formulário */
+#formularioAlimento form {
+    background: white;
+    border-radius: 24px;
+    padding: 30px;
+    width: min(90%, 450px);
+    max-height: 85vh;
+    overflow-y: auto;
+    box-shadow: 0 10px 40px rgba(80, 100, 150, 0.2);
+}
+
+/* Fechar popup */
+#formularioAlimento[hidden] {
+    display: none !important;
+}
+
+/* ===== POPUP DA GELADEIRA ===== */
+
+#formularioAlimento[hidden] {
+    display: none !important;
+}
+
+#formularioAlimento:not([hidden]) {
+    position: fixed !important;
+    inset: 0;
+    z-index: 99999;
+    display: flex !important;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    background: rgba(81, 105, 145, 0.30);
+    backdrop-filter: blur(6px);
+    overflow-y: auto;
+}
+
+.popup-geladeira {
+    position: relative;
+    width: min(100%, 470px);
+    max-height: 90vh;
+    overflow-y: auto;
+    padding: 35px;
+    border-radius: 30px;
+    background: linear-gradient(145deg, #ffffff, #f4f8ff, #faf6ff);
+    box-shadow: 0 20px 60px rgba(105, 125, 175, 0.25);
+    border: 1px solid rgba(255,255,255,0.9);
+}
+
+.cabecalho-popup {
+    text-align: center;
+    margin-bottom: 28px;
+}
+
+.icone-popup {
+    display: block;
+    font-size: 42px;
+    margin-bottom: 12px;
+}
+
+.cabecalho-popup h2 {
+    margin: 0;
+    color: #54799d;
+    font-family: 'Comfortaa', sans-serif;
+    font-size: 21px;
+    line-height: 1.5;
+}
+
+.cabecalho-popup p {
+    margin: 10px 0 0;
+    color: #9a9bb9;
+    font-size: 13px;
+}
+
+.fechar-popup {
+    position: absolute;
+    top: 14px;
+    right: 17px;
+    width: 34px;
+    height: 34px;
+    border: none;
+    border-radius: 50%;
+    background: #eee9ff;
+    color: #8e82bd;
+    font-size: 23px;
+    cursor: pointer;
+    transition: .2s;
+}
+
+.fechar-popup:hover {
+    background: #dfd6ff;
+    transform: rotate(90deg);
+}
+
+.popup-geladeira form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.popup-geladeira label {
+    color: #607b99;
+    font-size: 13px;
+    font-weight: 600;
+    margin-top: 5px;
+}
+
+.popup-geladeira input,
+.popup-geladeira select {
+    width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+    padding: 13px;
+    border: 1px solid #e1e8f5;
+    border-radius: 14px;
+    background: white;
+    color: #58718d;
+    font-family: 'Comfortaa', sans-serif;
+    font-size: 12px;
+    outline: none;
+}
+
+.popup-geladeira input:focus,
+.popup-geladeira select:focus {
+    border-color: #b8b1ed;
+    box-shadow: 0 0 0 3px rgba(190, 181, 240, .15);
+}
+
+.popup-geladeira .linha-formulario {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+
+.popup-geladeira .botao-salvar {
+    margin-top: 15px;
+    padding: 15px;
+    border: none;
+    border-radius: 16px;
+    background: linear-gradient(135deg, #c8ebff, #ded5ff);
+    color: #56718f;
+    font-family: 'Comfortaa', sans-serif;
+    font-weight: 700;
+    cursor: pointer;
+    transition: .2s;
+}
+
+.popup-geladeira .botao-salvar:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 18px rgba(160, 175, 220, .2);
+}
+
+@media (max-width: 480px) {
+    .popup-geladeira {
+        padding: 28px 20px;
+    }
+
+    .cabecalho-popup h2 {
+        font-size: 17px;
+    }
+}
+#formularioAlimento:not([hidden]) {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    z-index: 99999 !important;
+
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+
+    padding: 0 !important;
+    box-sizing: border-box !important;
+    overflow-y: auto;
+}
+
+.popup-geladeira {
+    margin: auto !important;
+    flex-shrink: 0;
+}
+#formularioAlimento:not([hidden]) {
+    position: fixed !important;
+    inset: 0 !important;
+    width: 100vw !important;
+    height: 100dvh !important;
+    margin: 0 !important;
+    padding: 20px !important;
+    box-sizing: border-box !important;
+
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    z-index: 99999 !important;
+    background: rgba(81, 105, 145, 0.30);
+    backdrop-filter: blur(6px);
+}
+
+.popup-geladeira {
+    position: relative !important;
+    margin: 0 auto !important;
+    flex-shrink: 0;
+}
+.popup-geladeira {
+    width: min(100%, 420px) !important;
+    max-height: calc(100dvh - 32px) !important;
+    overflow-y: auto !important;
+    box-sizing: border-box !important;
+    padding: 24px !important;
+}
+/* STATUS DO ESTOQUE */
+.status-estoque {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 7px 14px;
+    margin: 8px auto;
+    border-radius: 20px;
+    font-family: 'Comfortaa', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.2px;
+    transition: all 0.25s ease;
+}
+
+/* Tem ainda */
+.estoque-normal {
+    background: #e8f7ed;
+    color: #579b75;
+    border: 1px solid #ccebd7;
+}
+
+/* Está acabando */
+.estoque-baixo {
+    background: #fff4df;
+    color: #bd9145;
+    border: 1px solid #f4dfb3;
+}
+
+/* Acabou */
+.estoque-acabou {
+    background: #ffe9ef;
+    color: #c46c89;
+    border: 1px solid #f4cbd8;
+}
+.quantidade-alimento {
+    display: block;
+    text-align: center;
+    margin-bottom: 6px;
+}
+
+.status-estoque {
+    display: flex;
+    width: fit-content;
+    margin: 6px auto 12px;
+    align-items: center;
+    justify-content: center;
 }

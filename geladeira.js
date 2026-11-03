@@ -4,8 +4,8 @@
   const SUPABASE_URL = 'https://ncqimbutzmngrkgvtnqt.supabase.co';
   const SUPABASE_ANON_KEY = 'sb_publishable_kM4EsVr5Y22pWEgpn8CTdg_ag3m7aDE';
 
-  if (!window.supabase || typeof window.supabase.createClient !== 'function') {
-    console.error('A biblioteca do Supabase não foi carregada antes de geladeira.js.');
+  if (!window.supabase?.createClient) {
+    console.error('Supabase não carregado.');
     return;
   }
 
@@ -17,8 +17,8 @@
   let ninhoId = null;
   let alimentos = [];
 
-  // CATÁLOGO DE RECEITAS
-  const receitas = [
+   const receitas = [
+
     {
       id: 1,
       nome: 'Pão com ovo',
@@ -441,7 +441,6 @@
     }
   ];
 
-  // NOMES ALTERNATIVOS PARA RECONHECER OS ALIMENTOS
   const aliases = {
     ovo: ['ovo', 'ovos'],
     pao: ['pao', 'pães', 'paes', 'pão'],
@@ -470,6 +469,7 @@
   };
 
   const $ = id => document.getElementById(id);
+  const embalagens = ['cx.', 'pct.', 'pote(s)', 'lata(s)'];
 
   function normalizar(texto) {
     return String(texto || '')
@@ -484,66 +484,111 @@
 
     for (const [chave, nomes] of Object.entries(aliases)) {
       if (
-        nomes.some(nomeAlternativo =>
-          normalizar(nomeAlternativo) === nomeNormalizado
-        ) ||
+        nomes.some(nome => normalizar(nome) === nomeNormalizado) ||
         nomeNormalizado === chave
-      ) {
-        return chave;
-      }
+      ) return chave;
     }
 
-    return nomeNormalizado
-      .replace(/s$/, '')
-      .replace(/[^a-z0-9]/g, '');
+    return nomeNormalizado.replace(/s$/, '').replace(/[^a-z0-9]/g, '');
   }
 
   function temIngrediente(chave) {
-    return alimentos.some(alimento => {
-      const nome = normalizar(alimento.nome);
-
-      if (chaveAlimento(alimento.nome) === chave) {
-        return true;
-      }
-
-      return (aliases[chave] || []).some(alias =>
-        nome === normalizar(alias)
-      );
-    });
+    return alimentos.some(item =>
+      chaveAlimento(item.nome) === chave
+    );
   }
 
-        async function carregar() {
-        const { data, error } = await banco
-          .from('alimentos')
-          .select('*')
-          .eq('ninho_id', ninhoId)
-          .order('criado_em', { ascending: true });
+  async function carregar() {
+    const { data, error } = await banco
+      .from('alimentos')
+      .select('*')
+      .eq('ninho_id', ninhoId)
+      .order('criado_em', { ascending: true });
 
-        if (error) {
-          console.error('Erro ao carregar alimentos:', error);
-          throw error;
-        }
+    if (error) throw error;
+    alimentos = data || [];
+  }
 
-        alimentos = data || [];
-      }
   function escapar(texto) {
-    return String(texto).replace(/[&<>"']/g, caractere => ({
+    return String(texto ?? '').replace(/[&<>"']/g, c => ({
       '&': '&amp;',
       '<': '&lt;',
       '>': '&gt;',
       '"': '&quot;',
       "'": '&#39;'
-    })[caractere]);
+    })[c]);
   }
 
-  // MOSTRAR OS ALIMENTOS CADASTRADOS
+  // UNIDADE ORIGINAL
+  function unidadeOriginal(item) {
+    if (item.unidade_exibicao) return item.unidade_exibicao;
+
+    if (item.unidade === 'g')
+      return Number(item.quantidade) >= 1000 ? 'kg' : 'g';
+
+    if (item.unidade === 'ml')
+      return Number(item.quantidade) >= 1000 ? 'L' : 'ml';
+
+    return 'un.';
+  }
+
+  function numero(valor) {
+    return Number(valor).toLocaleString('pt-BR', {
+      maximumFractionDigits: 3
+    });
+  }
+
+  // QUANTIDADE BONITA
+  function formatarQuantidade(item) {
+    const unidade = unidadeOriginal(item);
+
+    if (embalagens.includes(unidade)) {
+      return `${numero(item.quantidade_embalagens ?? 0)} ${unidade}`;
+    }
+
+    let quantidade = Number(item.quantidade) || 0;
+
+    if (unidade === 'kg' && item.unidade === 'g')
+      quantidade /= 1000;
+
+    if (unidade === 'L' && item.unidade === 'ml')
+      quantidade /= 1000;
+
+    return `${numero(quantidade)} ${unidade}`;
+  }
+
+  // STATUS DO ESTOQUE
+  function statusEstoque(item) {
+    const unidade = unidadeOriginal(item);
+
+    const quantidade = embalagens.includes(unidade)
+      ? Number(item.quantidade_embalagens || 0)
+      : Number(item.quantidade);
+
+    if (quantidade <= 0)
+      return { texto: 'Acabou', classe: 'estoque-acabou' };
+
+    const limite = embalagens.includes(unidade) ? 1
+      : ['un.', 'un'].includes(unidade) ? 2
+      : ['kg', 'L'].includes(unidade) ? 1
+      : 200;
+
+    if (quantidade <= limite)
+      return { texto: 'Está acabando', classe: 'estoque-baixo' };
+
+    return { texto: 'Tem ainda', classe: 'estoque-normal' };
+  }
+
+  // RENDERIZAR GELADEIRA
   function renderizarAlimentos() {
     const lista = $('listaAlimentos');
+    const contador = $('contadorEstoque');
+
+    if (!lista || !contador) return;
+
     lista.innerHTML = '';
 
-    $('estoqueVazio').hidden = alimentos.length > 0;
-
-    $('contadorEstoque').textContent =
+    contador.textContent =
       `${alimentos.length} ${
         alimentos.length === 1 ? 'alimento' : 'alimentos'
       }`;
@@ -551,6 +596,8 @@
     alimentos.forEach(item => {
       const card = document.createElement('article');
       card.className = 'cartao-alimento';
+
+      const status = statusEstoque(item);
 
       card.innerHTML = `
         <span class="emoji-alimento">
@@ -562,41 +609,33 @@
         </h3>
 
         <span class="quantidade-alimento">
-          ${escapar(item.quantidade)} ${escapar(item.unidade)}
+          ${escapar(formatarQuantidade(item))}
+        </span>
+
+        <span class="status-estoque ${status.classe}">
+          ${status.texto}
         </span>
 
         <div class="acoes-alimento">
-          <button
-            type="button"
-            data-acao="menos"
-            data-id="${item.id}"
-            aria-label="Diminuir ${escapar(item.nome)}"
-          >−</button>
+          <button type="button" data-acao="menos"
+            data-id="${item.id}">−</button>
 
-          <button
-            type="button"
-            data-acao="mais"
-            data-id="${item.id}"
-            aria-label="Aumentar ${escapar(item.nome)}"
-          >＋</button>
+          <button type="button" data-acao="mais"
+            data-id="${item.id}">＋</button>
 
-          <button
-            type="button"
-            class="remover-alimento"
+          <button type="button" class="remover-alimento"
             data-acao="remover"
-            data-id="${item.id}"
-            aria-label="Remover ${escapar(item.nome)}"
-          >×</button>
+            data-id="${item.id}">×</button>
         </div>
       `;
 
       lista.appendChild(card);
     });
 
-    renderizarReceitas();
+    if ($('listaReceitas')) renderizarReceitas();
   }
 
-  // CONFERIR QUAIS INGREDIENTES ESTÃO FALTANDO
+  // RECEITAS
   function obterEstado(receita) {
     const faltantes = receita.ingredientes.filter(
       ([chave]) => !temIngrediente(chave)
@@ -605,8 +644,7 @@
     return {
       faltantes,
       total: receita.ingredientes.length,
-      disponiveis:
-        receita.ingredientes.length - faltantes.length
+      disponiveis: receita.ingredientes.length - faltantes.length
     };
   }
 
@@ -621,13 +659,18 @@
     }[categoria] || categoria;
   }
 
-  // MOSTRAR E FILTRAR AS RECEITAS
   function renderizarReceitas() {
+    const lista = $('listaReceitas');
+
+    if (!lista || !$('buscarReceita') ||
+        !$('filtroCategoria') ||
+        !$('filtroDisponibilidade') ||
+        !$('semReceitas')) return;
+
     const termo = normalizar($('buscarReceita').value);
     const categoria = $('filtroCategoria').value;
     const disponibilidade = $('filtroDisponibilidade').value;
 
-    const lista = $('listaReceitas');
     lista.innerHTML = '';
 
     const filtradas = receitas
@@ -639,29 +682,16 @@
         const texto = normalizar(
           receita.nome + ' ' +
           receita.descricao + ' ' +
-          receita.ingredientes.map(item => item[1]).join(' ')
+          receita.ingredientes.map(i => i[1]).join(' ')
         );
 
-        const correspondeBusca =
-          !termo || texto.includes(termo);
-
-        const correspondeCategoria =
-          categoria === 'todas' ||
-          receita.categorias.includes(categoria);
-
-        const correspondeDisponibilidade =
-          disponibilidade === 'todas' ||
-          (
-            disponibilidade === 'completas'
+        return (!termo || texto.includes(termo)) &&
+          (categoria === 'todas' ||
+            receita.categorias.includes(categoria)) &&
+          (disponibilidade === 'todas' ||
+            (disponibilidade === 'completas'
               ? receita.estado.faltantes.length === 0
-              : receita.estado.faltantes.length > 0
-          );
-
-        return (
-          correspondeBusca &&
-          correspondeCategoria &&
-          correspondeDisponibilidade
-        );
+              : receita.estado.faltantes.length > 0));
       })
       .sort((a, b) =>
         a.estado.faltantes.length - b.estado.faltantes.length ||
@@ -680,36 +710,28 @@
           <span class="ingrediente-tag ${
             temIngrediente(chave) ? '' : 'faltando'
           }">
-            ${temIngrediente(chave) ? '✓ ' : '+ '}${escapar(nome)}
+            ${temIngrediente(chave) ? '✓ ' : '+ '}
+            ${escapar(nome)}
           </span>
-        `)
-        .join('');
+        `).join('');
 
       const status = receita.estado.faltantes.length
         ? `<span class="etiqueta-status incompleta">
              Faltam ${receita.estado.faltantes.length} ingrediente(s)
            </span>`
-        : `<span class="etiqueta-status">
-             ✓ Você tem tudo!
-           </span>`;
+        : `<span class="etiqueta-status">✓ Você tem tudo!</span>`;
 
       const faltam = receita.estado.faltantes.length
         ? `<p class="resumo-faltantes">
-             Falta: ${
-               receita.estado.faltantes
-                 .map(item => escapar(item[1]))
-                 .join(', ')
-             }
+             Falta: ${receita.estado.faltantes.map(i => escapar(i[1])).join(', ')}
            </p>`
         : '';
 
       card.innerHTML = `
         <div class="topo-cartao-receita">
           <span class="icone-receita">${receita.emoji}</span>
-
           <div class="titulo-cartao-receita">
             <h3>${escapar(receita.nome)}</h3>
-
             <div class="meta-receita">
               ${receita.tempo} min · ${escapar(receita.dificuldade)}
               <br>
@@ -719,24 +741,13 @@
         </div>
 
         ${status}
-
-        <p class="descricao-receita">
-          ${escapar(receita.descricao)}
-        </p>
-
+        <p class="descricao-receita">${escapar(receita.descricao)}</p>
         <p class="rotulo-ingredientes">Ingredientes</p>
-
-        <div class="lista-ingredientes-receita">
-          ${tags}
-        </div>
-
+        <div class="lista-ingredientes-receita">${tags}</div>
         ${faltam}
 
-        <button
-          class="botao-ver-receita"
-          type="button"
-          data-receita="${receita.id}"
-        >
+        <button class="botao-ver-receita"
+          type="button" data-receita="${receita.id}">
           Ver receita e preparo →
         </button>
       `;
@@ -745,12 +756,9 @@
     });
   }
 
-  // ABRIR O MODO DE PREPARO
+  // DETALHES DA RECEITA
   function abrirReceita(id) {
-    const receita = receitas.find(
-      item => item.id === Number(id)
-    );
-
+    const receita = receitas.find(i => i.id === Number(id));
     if (!receita) return;
 
     const estado = obterEstado(receita);
@@ -765,269 +773,276 @@
             ${escapar(nome)}
           </span>
         </li>
-      `)
-      .join('');
+      `).join('');
 
     $('detalheReceita').innerHTML = `
       <div class="detalhe-cabecalho">
         <span class="icone-receita">${receita.emoji}</span>
-
         <h2>${escapar(receita.nome)}</h2>
-
         <p>${escapar(receita.descricao)}</p>
-
-        <p>
-          <strong>Tempo:</strong> ${receita.tempo} minutos
-          ·
-          <strong>Dificuldade:</strong>
-          ${escapar(receita.dificuldade)}
-        </p>
+        <p><strong>Tempo:</strong> ${receita.tempo} minutos ·
+        <strong>Dificuldade:</strong> ${escapar(receita.dificuldade)}</p>
       </div>
 
       <div class="detalhe-receita">
         <h3>Ingredientes</h3>
-
         <ul>${ingredientes}</ul>
 
         ${
           estado.faltantes.length
-            ? `<p>
-                 <strong>Você ainda precisa de:</strong>
-                 ${estado.faltantes
-                   .map(item => escapar(item[1]))
-                   .join(', ')}.
-               </p>`
-            : `<p>
-                 Você cadastrou todos os ingredientes necessários!
-                 Confira se as quantidades são suficientes.
-               </p>`
+            ? `<p><strong>Você ainda precisa de:</strong>
+              ${estado.faltantes.map(i => escapar(i[1])).join(', ')}.</p>`
+            : `<p>Você cadastrou todos os ingredientes necessários!
+              Confira se as quantidades são suficientes.</p>`
         }
 
         <h3>Modo de preparo</h3>
-
-        <ol>
-          ${receita.modo
-            .map(passo => `<li>${escapar(passo)}</li>`)
-            .join('')}
-        </ol>
+        <ol>${receita.modo.map(p => `<li>${escapar(p)}</li>`).join('')}</ol>
       </div>
     `;
 
     const modal = $('modalReceita');
-
-    if (typeof modal.showModal === 'function') {
-      modal.showModal();
-    } else {
-      modal.setAttribute('open', '');
-    }
+    if (modal.showModal) modal.showModal();
+    else modal.setAttribute('open', '');
   }
 
-  // ABRIR E CANCELAR O CADASTRO
-  $('abrirFormulario').addEventListener('click', () => {
-    $('formAlimento').hidden = false;
-    $('abrirFormulario').hidden = true;
-    $('nomeAlimento').focus();
+  // FORMULÁRIO
+  const secaoFormulario = $('formularioAlimento');
+  const formulario = $('formAlimento');
+  const botaoAbrir = $('abrirFormulario');
+  const botaoCancelar = $('cancelarFormulario');
+  const campoEmbalagem = $('campoEmbalagem');
+  const unidadeAlimento = $('unidadeAlimento');
+
+  botaoAbrir?.addEventListener('click', () => {
+    secaoFormulario.hidden = false;
+    botaoAbrir.hidden = true;
+    formulario.hidden = false;
+    $('nomeAlimento')?.focus();
   });
 
-  $('cancelarFormulario').addEventListener('click', () => {
-    $('formAlimento').hidden = true;
-    $('abrirFormulario').hidden = false;
-    $('formAlimento').reset();
+  botaoCancelar?.addEventListener('click', () => {
+    secaoFormulario.hidden = true;
+    botaoAbrir.hidden = false;
+    formulario.reset();
+    if (campoEmbalagem) campoEmbalagem.style.display = 'none';
+    $('mensagemEstoque').textContent = '';
   });
 
-  // SALVAR UM ALIMENTO
-$('formAlimento').addEventListener('submit', async evento => {
-  evento.preventDefault();
-
-  const nome = $('nomeAlimento').value.trim();
-  const quantidade = Number($('quantidadeAlimento').value);
-  const unidade = $('unidadeAlimento').value;
-  const emoji = $('emojiAlimento').value;
-
-  if (
-    !nome ||
-    !Number.isFinite(quantidade) ||
-    quantidade <= 0
-  ) {
-    $('mensagemEstoque').textContent =
-      'Informe o nome e uma quantidade válida.';
-    return;
+  function atualizarCampoEmbalagem() {
+    if (!campoEmbalagem || !unidadeAlimento) return;
+    campoEmbalagem.style.display =
+      embalagens.includes(unidadeAlimento.value) ? 'block' : 'none';
   }
 
-  if (!ninhoId) {
-    $('mensagemEstoque').textContent =
-      'Não foi possível identificar seu Ninho.';
-    return;
+  unidadeAlimento?.addEventListener('change', atualizarCampoEmbalagem);
+  atualizarCampoEmbalagem();
+
+  function converterBase(valor, unidade) {
+    if (unidade === 'kg') return { quantidade: valor * 1000, unidade: 'g' };
+    if (unidade === 'L') return { quantidade: valor * 1000, unidade: 'ml' };
+    if (unidade === 'un.') return { quantidade: valor, unidade: 'un' };
+    return { quantidade: valor, unidade };
   }
 
-  const existente = alimentos.find(item =>
-    chaveAlimento(item.nome) === chaveAlimento(nome) &&
-    item.unidade === unidade
-  );
+  function arredondar(valor) {
+    return Number(Number(valor).toFixed(3));
+  }
 
-  try {
-    if (existente) {
-      const novaQuantidade = Number(
-        (Number(existente.quantidade) + quantidade).toFixed(2)
-      );
+  // CADASTRAR
+  formulario?.addEventListener('submit', async evento => {
+    evento.preventDefault();
 
-      const { error } = await banco
-        .from('alimentos')
-        .update({ quantidade: novaQuantidade })
-        .eq('id', existente.id)
-        .eq('ninho_id', ninhoId);
+    const nome = $('nomeAlimento').value.trim();
+    const quantidade = Number($('quantidadeAlimento').value);
+    const unidade = unidadeAlimento.value;
+    const emoji = $('emojiAlimento').value;
+    const embalada = embalagens.includes(unidade);
 
-      if (error) throw error;
+    const conteudo = embalada
+      ? Number($('pesoPacoteAlimento').value)
+      : null;
 
-    } else {
-      const { error } = await banco
-        .from('alimentos')
-        .insert({
-          ninho_id: ninhoId,
-          nome,
-          quantidade,
-          unidade,
-          emoji
-        });
+    const unidadeConteudo = embalada
+      ? $('unidadeConteudoAlimento').value
+      : unidade;
 
-      if (error) throw error;
+    if (!nome || !Number.isFinite(quantidade) || quantidade <= 0) {
+      $('mensagemEstoque').textContent =
+        'Informe o nome e uma quantidade válida.';
+      return;
     }
 
-    await carregar();
-    renderizarAlimentos();
+    if (embalada && (!Number.isFinite(conteudo) || conteudo <= 0)) {
+      $('mensagemEstoque').textContent =
+        'Informe o conteúdo de cada embalagem.';
+      return;
+    }
 
-    $('formAlimento').reset();
-    $('formAlimento').hidden = true;
-    $('abrirFormulario').hidden = false;
-
-    $('mensagemEstoque').textContent =
-      'Alimento guardado com carinho!';
-
-  } catch (erro) {
-    console.error('Erro ao salvar alimento:', erro);
-
-    $('mensagemEstoque').textContent =
-      'Não foi possível salvar. Verifique sua conexão e tente novamente.';
-  }
-});
-
-  // ALTERAR QUANTIDADE OU REMOVER ALIMENTO
-  $('listaAlimentos').addEventListener('click', async evento => {
-    const botao = evento.target.closest('button[data-acao]');
-
-    if (!botao) return;
     if (!ninhoId) {
       $('mensagemEstoque').textContent =
         'Não foi possível identificar seu Ninho.';
       return;
     }
 
-    const item = alimentos.find(
-      alimento => String(alimento.id) === botao.dataset.id
+    const convertido = converterBase(embalada ? conteudo : quantidade, unidadeConteudo);
+    const unidadeBase = convertido.unidade;
+    const total = arredondar(quantidade * convertido.quantidade);
+
+    const existente = alimentos.find(item =>
+      chaveAlimento(item.nome) === chaveAlimento(nome) &&
+      item.unidade === unidadeBase &&
+      (embalada
+        ? item.unidade_exibicao === unidade &&
+          Number(item.conteudo_embalagem) === convertido.quantidade &&
+          item.unidade_conteudo === unidadeBase
+        : !embalagens.includes(unidadeOriginal(item)))
     );
 
-    if (!item) return;
-
-    const acao = botao.dataset.acao;
-    const quantidadeAtual = Number(item.quantidade);
-
     try {
-      botao.disabled = true;
-      $('mensagemEstoque').textContent = '';
+      if (existente) {
+        const atualizacao = {
+          quantidade: arredondar(Number(existente.quantidade) + total),
+          unidade_exibicao: unidade
+        };
 
-      if (acao === 'mais') {
-        const novaQuantidade = Number((quantidadeAtual + 1).toFixed(2));
-        const { error } = await banco
-          .from('alimentos')
-          .update({ quantidade: novaQuantidade })
-          .eq('id', item.id)
-          .eq('ninho_id', ninhoId);
-        if (error) throw error;
-      } else if (acao === 'menos') {
-        const novaQuantidade = Number((quantidadeAtual - 1).toFixed(2));
-
-        if (novaQuantidade <= 0) {
-          const { error } = await banco
-            .from('alimentos')
-            .delete()
-            .eq('id', item.id)
-            .eq('ninho_id', ninhoId);
-          if (error) throw error;
-        } else {
-          const { error } = await banco
-            .from('alimentos')
-            .update({ quantidade: novaQuantidade })
-            .eq('id', item.id)
-            .eq('ninho_id', ninhoId);
-          if (error) throw error;
+        if (embalada) {
+          atualizacao.quantidade_embalagens =
+            arredondar(Number(existente.quantidade_embalagens || 0) + quantidade);
         }
-      } else if (acao === 'remover') {
-        const { error } = await banco
-          .from('alimentos')
-          .delete()
-          .eq('id', item.id)
+
+        const { error } = await banco.from('alimentos')
+          .update(atualizacao)
+          .eq('id', existente.id)
           .eq('ninho_id', ninhoId);
+
         if (error) throw error;
       } else {
-        return;
+        const { error } = await banco.from('alimentos').insert({
+          ninho_id: ninhoId,
+          nome,
+          quantidade: total,
+          unidade: unidadeBase,
+          emoji,
+          unidade_exibicao: unidade,
+          quantidade_embalagens: embalada ? quantidade : null,
+          conteudo_embalagem: embalada ? convertido.quantidade : null,
+          unidade_conteudo: embalada ? unidadeBase : null
+        });
+
+        if (error) throw error;
       }
 
       await carregar();
       renderizarAlimentos();
-      $('mensagemEstoque').textContent = 'Estoque atualizado!';
+      formulario.reset();
+      if (campoEmbalagem) campoEmbalagem.style.display = 'none';
+      secaoFormulario.hidden = true;
+      botaoAbrir.hidden = false;
+      $('mensagemEstoque').textContent = 'Alimento guardado com carinho!';
     } catch (erro) {
-      console.error('Erro ao atualizar alimento:', erro);
+      console.error('Erro ao salvar:', erro);
       $('mensagemEstoque').textContent =
-        'Não foi possível atualizar o alimento. Tente novamente.';
-    } finally {
-      botao.disabled = false;
+        'Não foi possível salvar. Verifique sua conexão e tente novamente.';
     }
   });
 
-  // FILTROS
-  $('buscarReceita').addEventListener(
-    'input',
-    renderizarReceitas
-  );
+  // BOTÕES DE QUANTIDADE
+  $('listaAlimentos')?.addEventListener('click', async evento => {
+    const botao = evento.target.closest('button[data-acao]');
+    if (!botao || botao.disabled) return;
 
-  $('filtroCategoria').addEventListener(
-    'change',
-    renderizarReceitas
-  );
+    const item = alimentos.find(i => String(i.id) === botao.dataset.id);
+    if (!item || !ninhoId) return;
 
-  $('filtroDisponibilidade').addEventListener(
-    'change',
-    renderizarReceitas
-  );
+    const acao = botao.dataset.acao;
+    const unidade = unidadeOriginal(item);
+    const embalada = embalagens.includes(unidade);
+    const quantidadeAtual = Number(item.quantidade);
+    const pacotes = Number(item.quantidade_embalagens || 0);
 
-  // ABRIR E FECHAR RECEITAS
-    $('listaReceitas').addEventListener('click', evento => {
-      const botao = evento.target.closest('[data-receita]');
+    let atualizacao = null;
+    let remover = false;
 
-      if (botao) {
-        abrirReceita(botao.dataset.receita); 
+    if (acao === 'mais') {
+      if (embalada) {
+        const conteudo = Number(item.conteudo_embalagem);
+        atualizacao = {
+          quantidade: arredondar(quantidadeAtual + conteudo),
+          quantidade_embalagens: pacotes + 1
+        };
+      } else {
+        const passo = ['kg', 'L'].includes(unidade) ? 1000
+          : ['g', 'ml'].includes(item.unidade) ? 100 : 1;
+        atualizacao = { quantidade: arredondar(quantidadeAtual + passo) };
       }
-    });
-
-    $('fecharModal').addEventListener('click', () => {
-      $('modalReceita').close();
-    });
-
-    $('modalReceita').addEventListener('click', evento => {
-      if (evento.target === $('modalReceita')) {
-        $('modalReceita').close();
+    } else if (acao === 'menos') {
+      if (embalada) {
+        const novoTotal = pacotes - 1;
+        if (novoTotal <= 0) remover = true;
+        else atualizacao = {
+          quantidade: arredondar(quantidadeAtual - Number(item.conteudo_embalagem)),
+          quantidade_embalagens: novoTotal
+        };
+      } else {
+        const passo = ['kg', 'L'].includes(unidade) ? 1000
+          : ['g', 'ml'].includes(item.unidade) ? 100 : 1;
+        const novaQuantidade = arredondar(quantidadeAtual - passo);
+        if (novaQuantidade <= 0) remover = true;
+        else atualizacao = { quantidade: novaQuantidade };
       }
-    });
+    } else if (acao === 'remover') {
+      remover = true;
+    } else return;
 
-    // INICIAR A PÁGINA
+    botao.disabled = true;
+    const anterior = { ...item };
+
+    if (remover) alimentos = alimentos.filter(i => i.id !== item.id);
+    else Object.assign(item, atualizacao);
+
+    renderizarAlimentos();
+
+    try {
+      const resposta = remover
+        ? await banco.from('alimentos').delete().eq('id', item.id).eq('ninho_id', ninhoId)
+        : await banco.from('alimentos').update(atualizacao).eq('id', item.id).eq('ninho_id', ninhoId);
+
+      if (resposta.error) throw resposta.error;
+      $('mensagemEstoque').textContent =
+        remover ? 'Alimento removido.' : 'Estoque atualizado!';
+    } catch (erro) {
+      console.error('Erro ao atualizar:', erro);
+      if (remover) alimentos.push(anterior);
+      else Object.assign(item, anterior);
+      renderizarAlimentos();
+      $('mensagemEstoque').textContent =
+        'Não foi possível atualizar. Tente novamente.';
+    }
+  });
+
+  // FILTROS E MODAL
+  $('buscarReceita')?.addEventListener('input', renderizarReceitas);
+  $('filtroCategoria')?.addEventListener('change', renderizarReceitas);
+  $('filtroDisponibilidade')?.addEventListener('change', renderizarReceitas);
+
+  $('listaReceitas')?.addEventListener('click', evento => {
+    const botao = evento.target.closest('[data-receita]');
+    if (botao) abrirReceita(botao.dataset.receita);
+  });
+
+  $('fecharModal')?.addEventListener('click', () => $('modalReceita')?.close());
+  $('modalReceita')?.addEventListener('click', evento => {
+    if (evento.target === $('modalReceita')) $('modalReceita').close();
+  });
+
+  // INICIAR
   async function iniciarPagina() {
     try {
-      const { data: { user }, error: erroUsuario } =
-        await banco.auth.getUser();
+      const { data: { user }, error: erroUsuario } = await banco.auth.getUser();
 
-      if (erroUsuario || !user) {
+      if (erroUsuario || !user)
         throw new Error('Você precisa estar logado para acessar a geladeira.');
-      }
 
       const { data: membro, error: erroMembro } = await banco
         .from('membros')
@@ -1035,20 +1050,17 @@ $('formAlimento').addEventListener('submit', async evento => {
         .eq('id', user.id)
         .single();
 
-      if (erroMembro || !membro?.ninho_id) {
+      if (erroMembro || !membro?.ninho_id)
         throw new Error('Não foi possível identificar seu Ninho.');
-      }
 
       ninhoId = membro.ninho_id;
-
       await carregar();
       renderizarAlimentos();
-
-      } catch (erro) {
-        console.error('Erro ao iniciar a geladeira:', erro);
-        $('mensagemEstoque').textContent = erro.message;
-      }
+    } catch (erro) {
+      console.error('Erro ao iniciar:', erro);
+      $('mensagemEstoque').textContent = erro.message;
     }
+  }
 
-    iniciarPagina();
-  })();
+  iniciarPagina();
+})();

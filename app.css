@@ -124,7 +124,7 @@ body:has(.layout-ninho) a {
     padding: 12px;
     border: 1px solid var(--ninho-borda);
     border-radius: 12px;
-    background: white;
+    background: rgb(225, 193, 255);
     text-align: center;
     font-size: 11px;
 }
