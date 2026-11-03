@@ -1,0 +1,895 @@
+.pagina-refeicoes {
+  padding: 35px;
+  font-family: 'Comfortaa', sans-serif;
+  color: #35566b;
+}
+
+.cabecalho-refeicoes {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 30px;
+  border-radius: 28px;
+  background: linear-gradient(120deg, #e3f5ff, #f0eaff);
+  margin-bottom: 22px;
+}
+
+.etiqueta-refeicoes {
+  color: #8b82bd;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2px;
+}
+
+.cabecalho-refeicoes h1 {
+  font-size: clamp(23px, 3vw, 34px);
+  margin: 13px 0 8px;
+}
+
+.cabecalho-refeicoes p {
+  font-size: 13px;
+  line-height: 1.7;
+  margin: 0;
+}
+
+.ilustracao-refeicoes {
+  font-size: 65px;
+  padding: 15px;
+}
+
+.resumo-geladeira {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+  background: white;
+  padding: 18px 22px;
+  border-radius: 20px;
+  box-shadow: 0 5px 20px #789ab015;
+  margin-bottom: 25px;
+}
+
+.resumo-geladeira > div {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+}
+
+.resumo-geladeira > div > span {
+  font-size: 28px;
+}
+
+.resumo-geladeira strong,
+.resumo-geladeira small {
+  display: block;
+}
+
+.resumo-geladeira strong {
+  font-size: 14px;
+}
+
+.resumo-geladeira small {
+  font-size: 11px;
+  margin-top: 5px;
+  color: #8296a5;
+}
+
+.resumo-geladeira a {
+  color: #8175b9;
+  font-size: 12px;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.filtros-refeicoes {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr 1.2fr;
+  gap: 12px;
+  margin-bottom: 30px;
+}
+
+.filtros-refeicoes input,
+.filtros-refeicoes select {
+  width: 100%;
+  min-width: 0;
+  padding: 14px;
+  border: 1px solid #e1eaf2;
+  border-radius: 14px;
+  background: white;
+  color: #506c80;
+  font-family: inherit;
+  font-size: 12px;
+  outline: none;
+}
+
+.filtros-refeicoes input:focus,
+.filtros-refeicoes select:focus {
+  border-color: #b8a9e4;
+}
+
+.titulo-lista {
+  margin-bottom: 18px;
+}
+
+.titulo-lista h2 {
+  font-size: 19px;
+  margin: 0 0 7px;
+}
+
+.titulo-lista p {
+  font-size: 11px;
+  color: #91a2af;
+  margin: 0;
+}
+
+.grade-receitas {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.cartao-receita {
+  background: white;
+  border: 1px solid #edf1f7;
+  border-radius: 22px;
+  padding: 20px;
+  box-shadow: 0 5px 18px #789ab012;
+  min-width: 0;
+}
+
+.topo-cartao-receita {
+  display: flex;
+  gap: 13px;
+  align-items: center;
+  margin-bottom: 13px;
+}
+
+.icone-receita {
+  width: 53px;
+  height: 53px;
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  background: #f0ebff;
+  border-radius: 17px;
+  font-size: 27px;
+}
+
+.titulo-cartao-receita h3 {
+  margin: 0 0 7px;
+  font-size: 15px;
+}
+
+.meta-receita {
+  color: #91a0ad;
+  font-size: 10px;
+  line-height: 1.7;
+}
+
+.etiqueta-status {
+  display: inline-block;
+  padding: 7px 10px;
+  border-radius: 20px;
+  background: #e9f8f0;
+  color: #478b6b;
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.etiqueta-status.incompleta {
+  background: #fff3e8;
+  color: #bd8959;
+}
+
+.descricao-receita {
+  color: #778b9b;
+  font-size: 11px;
+  line-height: 1.7;
+  margin: 13px 0;
+}
+
+.rotulo-ingredientes {
+  font-size: 11px;
+  font-weight: 700;
+  margin: 15px 0 9px;
+}
+
+.lista-ingredientes-receita {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+
+.ingrediente-tag {
+  display: inline-block;
+  padding: 7px 9px;
+  border-radius: 10px;
+  background: #eaf7f0;
+  color: #54866c;
+  font-size: 10px;
+}
+
+.ingrediente-tag.faltando {
+  background: #fff0ed;
+  color: #c17d76;
+}
+
+.resumo-faltantes {
+  color: #bd8179;
+  font-size: 10px;
+  line-height: 1.6;
+  margin-top: 12px;
+}
+
+.botao-ver-receita,
+.botao-preparar {
+  width: 100%;
+  border: 0;
+  border-radius: 13px;
+  padding: 13px;
+  margin-top: 17px;
+  background: linear-gradient(110deg, #d9efff, #e8defe);
+  color: #526d86;
+  font-family: inherit;
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.botao-ver-receita:hover,
+.botao-preparar:hover {
+  filter: brightness(.97);
+}
+
+.mensagem-refeicoes {
+  font-size: 12px;
+  color: #8c9eac;
+  margin: 15px 0;
+}
+
+.estado-vazio {
+  text-align: center;
+  padding: 45px 20px;
+  background: white;
+  border-radius: 22px;
+}
+
+.estado-vazio span {
+  font-size: 40px;
+}
+
+.estado-vazio h3 {
+  font-size: 16px;
+}
+
+.estado-vazio p {
+  color: #91a2af;
+  font-size: 12px;
+}
+
+.modal-refeicao {
+  width: min(580px, calc(100% - 30px));
+  max-height: 85vh;
+  overflow-y: auto;
+  border: 0;
+  border-radius: 25px;
+  padding: 28px;
+  color: #35566b;
+  font-family: 'Comfortaa', sans-serif;
+  box-shadow: 0 15px 60px #263d5540;
+}
+
+.modal-refeicao::backdrop {
+  background: #243b5066;
+  backdrop-filter: blur(4px);
+}
+
+.fechar-modal {
+  float: right;
+  border: 0;
+  background: #f1edff;
+  color: #8175b9;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  font-size: 22px;
+  cursor: pointer;
+}
+
+.detalhe-cabecalho {
+  text-align: center;
+  padding: 15px 0;
+}
+
+.detalhe-cabecalho .icone-receita {
+  margin: auto;
+  width: 65px;
+  height: 65px;
+  font-size: 34px;
+}
+
+.detalhe-cabecalho h2 {
+  font-size: 21px;
+  margin: 13px 0;
+}
+
+.detalhe-cabecalho p,
+.detalhe-receita {
+  font-size: 12px;
+  line-height: 1.8;
+  color: #71899a;
+}
+
+.detalhe-receita h3 {
+  color: #526d86;
+  font-size: 14px;
+  margin-top: 22px;
+}
+
+.detalhe-receita li {
+  margin: 8px 0;
+}
+
+.botao-preparar {
+  background: linear-gradient(110deg, #cceedd, #dceaff);
+  font-size: 12px;
+}
+
+.botao-preparar:disabled {
+  opacity: .6;
+  cursor: wait;
+}
+
+.mensagem-preparo {
+  font-size: 11px;
+  line-height: 1.6;
+  color: #54866c;
+}
+
+@media (max-width: 850px) {
+  .pagina-refeicoes {
+    padding: 20px;
+  }
+
+  .filtros-refeicoes {
+    grid-template-columns: 1fr;
+  }
+
+  .grade-receitas {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 500px) {
+  .cabecalho-refeicoes {
+    padding: 22px;
+  }
+
+  .ilustracao-refeicoes {
+    font-size: 42px;
+    padding: 0;
+  }
+
+  .resumo-geladeira {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .modal-refeicao {
+    padding: 20px;
+  }
+}
+
+/* BOTÃO CADASTRAR REFEIÇÃO - NINHO */
+
+.btn-cadastrar-refeicao {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+
+    padding: 14px 25px;
+    margin: 15px 0;
+
+    background: linear-gradient(135deg, #dff3ff, #eee7ff);
+    color: #587a9c;
+
+    border: 1px solid #e3eaf8;
+    border-radius: 20px;
+
+    font-family: 'Comfortaa', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+
+    box-shadow: 0 5px 15px rgba(151, 183, 220, 0.18);
+
+    cursor: pointer;
+    transition: all 0.25s ease;
+}
+
+.btn-cadastrar-refeicao:hover {
+    transform: translateY(-3px);
+    background: linear-gradient(135deg, #cceaff, #e4d9ff);
+    box-shadow: 0 8px 20px rgba(151, 183, 220, 0.28);
+}
+
+.btn-cadastrar-refeicao:active {
+    transform: scale(0.97);
+}
+
+@media (max-width: 600px) {
+    .btn-cadastrar-refeicao {
+        width: 100%;
+        padding: 15px;
+    }
+}
+
+/* LINK VER MINHA GELADEIRA */
+
+.btn-ver-geladeira {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 14px 24px;
+
+    background: linear-gradient(135deg, #dff3ff, #eee7ff);
+    color: #587a9c !important;
+
+    border: 1px solid #e3eaf8;
+    border-radius: 18px;
+
+    font-family: 'Comfortaa', sans-serif;
+    font-size: 14px;
+    font-weight: bold;
+    text-decoration: none !important;
+
+    box-shadow: 0 5px 15px rgba(151, 183, 220, 0.18);
+    transition: all 0.25s ease;
+}
+
+.btn-ver-geladeira:hover {
+    transform: translateY(-3px);
+    background: linear-gradient(135deg, #cceaff, #e4d9ff);
+    box-shadow: 0 8px 20px rgba(151, 183, 220, 0.28);
+}
+
+/* BOTÕES DE REFEIÇÕES */
+
+.acoes-refeicoes {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin: 15px 0;
+}
+
+.acao-refeicao {
+    box-sizing: border-box;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    min-height: 48px;
+    padding: 14px 24px;
+
+    background: linear-gradient(135deg, #dff3ff, #eee7ff);
+    color: #587a9c !important;
+
+    border: 1px solid #e3eaf8;
+    border-radius: 18px;
+
+    font-family: 'Comfortaa', sans-serif;
+    font-size: 13px;
+    font-weight: bold;
+    text-decoration: none !important;
+
+    box-shadow: 0 5px 15px rgba(151,183,220,.18);
+    cursor: pointer;
+    transition: .25s;
+}
+
+.acao-refeicao:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(151,183,220,.25);
+}
+
+@media (max-width: 600px) {
+    .acoes-refeicoes {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 10px;
+    }
+
+    .acao-refeicao {
+        width: 100%;
+        min-height: 48px;
+    }
+}
+
+/* CORREÇÃO DEFINITIVA DOS BOTÕES */
+
+a.btn-ver-geladeira,
+button.btn-cadastrar-refeicao {
+    display: flex !important;
+    width: 100% !important;
+    height: 48px !important;
+    min-height: 48px !important;
+    box-sizing: border-box !important;
+
+    align-items: center !important;
+    justify-content: center !important;
+
+    margin: 0 !important;
+    padding: 0 15px !important;
+
+    border-radius: 18px !important;
+    border: 1px solid #e3eaf8 !important;
+
+    background: linear-gradient(135deg, #dff3ff, #eee7ff) !important;
+
+    color: #587a9c !important;
+    font-family: 'Comfortaa', sans-serif !important;
+    font-size: 13px !important;
+    font-weight: bold !important;
+
+    text-decoration: none !important;
+    box-shadow: 0 5px 15px rgba(151,183,220,.18) !important;
+}
+
+/* ========================================
+   BOTÕES DA GELADEIRA E CADASTRO
+======================================== */
+
+.pagina-refeicoes .resumo-geladeira .acoes-refeicoes {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 12px !important;
+    width: 100% !important;
+    margin-top: 18px !important;
+}
+
+.pagina-refeicoes .resumo-geladeira .acoes-refeicoes .acao-refeicao {
+    display: flex !important;
+    width: 100% !important;
+    height: 48px !important;
+    min-height: 48px !important;
+    box-sizing: border-box !important;
+
+    align-items: center !important;
+    justify-content: center !important;
+
+    margin: 0 !important;
+    padding: 0 15px !important;
+
+    border: 1px solid #e3eaf8 !important;
+    border-radius: 18px !important;
+
+    background: linear-gradient(135deg, #dff3ff, #eee7ff) !important;
+
+    color: #587a9c !important;
+    font-family: 'Comfortaa', sans-serif !important;
+    font-size: 13px !important;
+    font-weight: 600 !important;
+
+    text-decoration: none !important;
+    box-shadow: 0 5px 15px rgba(151,183,220,.18) !important;
+
+    cursor: pointer !important;
+}
+
+/* ========================================
+   MODAL CADASTRO DE RECEITAS - NINHO
+======================================== */
+
+.modal-cadastro-refeicao {
+    position: fixed !important;
+    inset: 0 !important;
+    z-index: 99999 !important;
+
+    display: none;
+    align-items: center;
+    justify-content: center;
+
+    padding: 20px;
+    box-sizing: border-box;
+
+    background: rgba(83, 112, 151, 0.45);
+    backdrop-filter: blur(8px);
+    overflow-y: auto;
+}
+
+/* CARTÃO */
+.card-cadastro-refeicao {
+    position: relative;
+    width: 100%;
+    max-width: 650px;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-sizing: border-box;
+
+    padding: 35px;
+    border-radius: 30px;
+
+    background:
+        radial-gradient(circle at top left, #e4f5ff 0%, transparent 35%),
+        radial-gradient(circle at bottom right, #eee6ff 0%, transparent 35%),
+        linear-gradient(145deg, #ffffff, #f9f7ff);
+
+    box-shadow: 0 20px 60px rgba(76, 105, 160, 0.25);
+    border: 1px solid rgba(255,255,255,0.9);
+
+    font-family: 'Comfortaa', sans-serif;
+}
+
+/* TÍTULO */
+.card-cadastro-refeicao h2 {
+    margin: 0 0 12px;
+    color: #496b91;
+    font-size: 25px;
+    text-align: center;
+}
+
+.card-cadastro-refeicao > p {
+    text-align: center;
+    color: #7892b2;
+    font-size: 13px;
+    margin-bottom: 28px;
+}
+
+/* FECHAR */
+.card-cadastro-refeicao .fechar-modal {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+
+    width: 38px;
+    height: 38px;
+    border: none;
+    border-radius: 50%;
+
+    background: #eee9ff;
+    color: #8979c9;
+    font-size: 23px;
+
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.card-cadastro-refeicao .fechar-modal:hover {
+    background: #e2d8ff;
+    transform: rotate(90deg);
+}
+
+/* FORMULÁRIO */
+#formCadastroRefeicao {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+#formCadastroRefeicao label {
+    margin-top: 8px;
+    color: #58799d;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+/* CAMPOS */
+#formCadastroRefeicao input,
+#formCadastroRefeicao select,
+#formCadastroRefeicao textarea {
+    width: 100%;
+    box-sizing: border-box;
+
+    padding: 13px 15px;
+    border-radius: 16px;
+    border: 1.5px solid #d9e5ff;
+
+    background: rgba(255,255,255,0.85);
+    color: #58799d;
+
+    font-family: 'Comfortaa', sans-serif;
+    font-size: 13px;
+
+    outline: none;
+    transition: 0.2s;
+}
+
+#formCadastroRefeicao textarea {
+    min-height: 95px;
+    resize: vertical;
+}
+
+#formCadastroRefeicao input:focus,
+#formCadastroRefeicao select:focus,
+#formCadastroRefeicao textarea:focus {
+    border-color: #b8b5f5;
+    box-shadow: 0 0 0 4px rgba(190, 185, 255, 0.18);
+    background: white;
+}
+
+#formCadastroRefeicao input::placeholder,
+#formCadastroRefeicao textarea::placeholder {
+    color: #a2b2ca;
+}
+
+/* BOTÃO SALVAR */
+#formCadastroRefeicao .btn-salvar-receita {
+    margin-top: 18px;
+    padding: 15px;
+
+    border: none;
+    border-radius: 20px;
+
+    background: linear-gradient(135deg, #d6efff, #e8ddff);
+    color: #58759e;
+
+    font-family: 'Comfortaa', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+
+    box-shadow: 0 6px 18px rgba(155, 177, 225, 0.2);
+    cursor: pointer;
+    transition: 0.25s;
+}
+
+#formCadastroRefeicao .btn-salvar-receita:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 24px rgba(155, 177, 225, 0.3);
+}
+
+/* CELULAR */
+@media (max-width: 600px) {
+    .modal-cadastro-refeicao {
+        padding: 12px;
+    }
+
+    .card-cadastro-refeicao {
+        padding: 28px 20px;
+        border-radius: 25px;
+    }
+
+    .card-cadastro-refeicao h2 {
+        font-size: 21px;
+    }
+}
+
+/* Ingredientes organizados em coluna */
+.lista-ingredientes-receita {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+}
+
+.ingrediente-tag {
+    display: block;
+    width: fit-content;
+    max-width: 100%;
+}
+
+/* Ações das receitas personalizadas */
+.acoes-receita-personalizada {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin: 24px 0;
+}
+
+.btn-editar-receita,
+.btn-excluir-receita {
+    border: none;
+    border-radius: 14px;
+    padding: 12px 18px;
+    font-family: 'Comfortaa', sans-serif;
+    font-size: 13px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.btn-editar-receita {
+    background: linear-gradient(135deg, #d9efff, #e8e0ff);
+    color: #456580;
+}
+
+.btn-excluir-receita {
+    background: #fff0f4;
+    color: #bd7d9a;
+}
+
+.btn-editar-receita:hover,
+.btn-excluir-receita:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px #dce5f5;
+}
+
+.lista-ingredientes-receita {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+}
+
+.ingrediente-tag {
+    display: block;
+    width: fit-content;
+    max-width: 100%;
+    white-space: normal;
+    padding: 7px 12px;
+    border-radius: 12px;
+    background: #f1edff;
+    color: #7187a6;
+    font-size: 12px;
+}
+
+.detalhe-cabecalho {
+    text-align: center;
+    padding: 10px 20px 20px;
+}
+
+.detalhe-cabecalho h2 {
+    font-family: 'Comfortaa', sans-serif;
+    color: #456580;
+    font-size: 24px;
+    margin: 12px 0;
+}
+
+.detalhe-cabecalho p {
+    color: #8199b3;
+    font-size: 13px;
+    margin: 10px 0;
+}
+
+.detalhe-receita {
+    padding: 0 18px 20px;
+}
+
+.detalhe-receita h3 {
+    color: #6684a5;
+    font-family: 'Comfortaa', sans-serif;
+    font-size: 15px;
+    margin: 24px 0 14px;
+}
+
+.detalhe-receita li {
+    color: #8199b3;
+    font-size: 13px;
+    line-height: 1.8;
+    margin-bottom: 8px;
+}
+
+.detalhe-receita small {
+    color: #a1afc2;
+}
+
+.detalhe-receita ol li {
+    padding-left: 5px;
+}
+
+.detalhe-receita ul,
+.detalhe-receita ol {
+    padding-left: 22px;
+}
+.ajuda-ingredientes {
+    display: block;
+    color: #8a9db8;
+    font-size: 12px;
+    line-height: 1.8;
+    margin-top: 8px;
+}
+
+.ajuda-ingredientes {
+    display: block;
+    background: linear-gradient(135deg, #f0eaff, #e5f4ff);
+    color: #6f78a6;
+    font-family: 'Comfortaa', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 1.8;
+    padding: 12px 15px;
+    border-radius: 14px;
+    margin-top: 12px;
+    border: 1px solid #e5e0ff;
+}

@@ -51,8 +51,13 @@ article,
     width: 100%;
     overflow-wrap: break-word;
 }
-/* ALINHAMENTO GLOBAL DO NINHO */
-body,
-body * {
-    text-align: left !important;
+body {
+    text-align: left;
+}
+
+#listaAlimentos {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 18px;
 }

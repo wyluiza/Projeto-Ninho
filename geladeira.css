@@ -996,3 +996,9 @@
     width: 100%;
   }
 }
+#listaAlimentos {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 18px;
+}

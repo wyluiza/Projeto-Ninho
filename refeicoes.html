@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Refeições | Ninho</title>
+
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="app.css">
+  <link rel="stylesheet" href="refeicoes.css">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="refeicoes.js" defer></script>
+</head>
+
+<body>
+<div class="layout-ninho">
+
+  <aside class="menu-lateral">
+    <a href="inicio.html" class="logo-ninho">Ninho<span>.</span></a>
+    <p class="menu-legenda">NOSSO LAR</p>
+
+    <nav class="links-menu">
+      <a href="inicio.html" class="link-menu"><span>⌂</span> Início</a>
+      <a href="refeicoes.html" class="link-menu ativo"><span>♨</span> Refeições</a>
+      <a href="geladeira.html" class="link-menu"><span>▤</span> Geladeira</a>
+      <a href="tarefas.html" class="link-menu"><span>✓</span> Tarefas</a>
+      <a href="calendario.html" class="link-menu"><span>▦</span> Calendário</a>
+      <a href="compras.html" class="link-menu"><span>▣</span> Lista de compras</a>
+      <a href="pontuacao.html" class="link-menu"><span>☆</span> Pontuação</a>
+      <a href="membros.html" class="link-menu"><span>𐀪</span> Membros</a>
+    </nav>
+
+    <div class="mensagem-menu">
+      <span>☁</span>
+      <p>Um lar organizado deixa mais espaço para o carinho.</p>
+    </div>
+
+    <a href="index.html" class="botao-sair">Sair do Ninho</a>
+</aside>
+
+
+
+  <main class="conteudo-ninho">
+    <section class="pagina pagina-refeicoes">
+
+      <header class="cabecalho-refeicoes">
+        <div>
+          <span class="etiqueta-refeicoes">COZINHA DO NINHO</span>
+          <h1>O que vamos comer hoje?</h1>
+          <p>Receitas pensadas com os ingredientes que você já tem em casa.</p>
+        </div>
+      </header>
+
+      <section class="resumo-geladeira">
+        <div>
+          <span>🥕</span>
+          <div>
+            <strong id="contadorIngredientes">Carregando...</strong>
+            <small>ingredientes cadastrados na geladeira</small>
+          </div>
+        </div>
+        
+        <div class="acoes-refeicoes">
+
+            <a href="geladeira.html" class="acao-refeicao">
+                Ver minha geladeira →
+            </a>
+
+            <button id="btnCadastrarRefeicao" class="acao-refeicao">
+                + Cadastrar refeição
+            </button>
+
+        </div>
+
+        
+      </section>
+
+      <section class="filtros-refeicoes">
+        
+        <input id="buscarReceita" type="search" placeholder="🔎 Procurar uma receita...">
+
+        <select id="filtroCategoria">
+          <option value="todas">Todas as categorias</option>
+          <option value="cafe">Café da manhã</option>
+          <option value="almoco">Almoço</option>
+          <option value="janta">Jantar</option>
+          <option value="lanche">Lanche</option>
+          <option value="doce">Doces</option>
+        </select>
+
+        <select id="filtroDisponibilidade">
+          <option value="completas">Tenho tudo para preparar</option>
+          <option value="todas">Todas as receitas</option>
+          <option value="faltantes">Faltam ingredientes</option>
+        </select>
+      </section>
+
+      <div class="titulo-lista">
+        <div>
+          <h2>Receitas para sua família</h2>
+          <p>As sugestões são atualizadas conforme sua geladeira.</p>
+        </div>
+      </div>
+
+      <p id="mensagemReceitas" class="mensagem-refeicoes">
+        Estamos conferindo sua geladeira...
+      </p>
+
+      <section id="listaReceitas" class="grade-receitas"></section>
+
+      <section id="semReceitas" class="estado-vazio" hidden>
+        <span>🥣</span>
+        <h3>Nenhuma receita encontrada</h3>
+        <p>Tente mudar os filtros ou adicionar ingredientes à geladeira.</p>
+      </section>
+
+    </section>
+  </main>
+
+  <nav class="menu-inferior">
+    <a href="inicio.html" class="link-inferior">
+      <span>⌂</span><small>Início</small>
+    </a>
+  </nav>
+
+</div>
+
+<dialog id="modalReceita" class="modal-refeicao">
+  <button type="button" id="fecharModal" class="fechar-modal">×</button>
+  <div id="detalheReceita"></div>
+  <button type="button" id="botaoPreparar" class="botao-preparar" hidden>
+    Preparar receita
+  </button>
+  <p id="mensagemPreparo" class="mensagem-preparo"></p>
+</dialog>
+    
+<div id="modalCadastroRefeicao" class="modal-cadastro-refeicao" style="display:none;">
+  <div class="card-cadastro-refeicao">
+
+    <button id="fecharCadastroRefeicao" class="fechar-modal">×</button>
+
+    <h2>👩‍🍳 Nova receitinha</h2>
+    <p>Compartilhe uma receita com seu Ninho!</p>
+
+    <form id="formCadastroRefeicao">
+
+      <label>Nome da receita</label>
+      <input id="nomeNovaReceita" required placeholder="Ex.: Bolo de cenoura">
+
+      <label>Categoria</label>
+      <select id="categoriaNovaReceita" required>
+        <option value="cafe">Café da manhã</option>
+        <option value="almoco">Almoço</option>
+        <option value="janta">Jantar</option>
+        <option value="lanche">Lanche</option>
+        <option value="doce">Sobremesa</option>
+      </select>
+
+      <label>Tempo (minutos)</label>
+      <input id="tempoNovaReceita" type="number" min="1" value="20" required>
+
+      <label>Descrição</label>
+      <input id="descricaoNovaReceita" placeholder="Uma receita deliciosa...">
+
+      <label>Ingredientes</label>
+      <textarea
+    id="ingredientesNovaReceita"
+    placeholder="Exemplo:
+        2 ovos
+        200 ml de leite
+        3 cenouras
+        1 xícara de farinha"
+            required
+        ></textarea>
+
+        <small class="ajuda-ingredientes">
+            💡 Escreva um ingrediente por linha, sempre começando pela quantidade.
+            <br>
+            Exemplo: 2 ovos, 200 ml de leite ou 3 cenouras.
+        </small>
+
+      <label>Modo de preparo</label>
+      <textarea id="modoNovaReceita" required
+        placeholder="Qual o passo a passo para preparar a receita?"></textarea>
+
+      <button type="submit" class="btn-salvar-receita">
+        Salvar receita
+      </button>
+
+    </form>
+  </div>
+</div>
+
+</body>
+</html>
