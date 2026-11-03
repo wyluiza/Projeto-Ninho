@@ -1214,6 +1214,7 @@ body:has(.formulario-alimento.aberto)::after {
 
 /* Caixa do formulário */
 #formularioAlimento form {
+  margin-inline: auto;
     background: white;
     border-radius: 24px;
     padding: 30px;
@@ -1397,8 +1398,8 @@ body:has(.formulario-alimento.aberto)::after {
 #formularioAlimento:not([hidden]) {
     position: fixed !important;
     inset: 0 !important;
-    width: 100vw !important;
-    height: 100dvh !important;
+  width: auto !important;
+  height: auto !important;
     margin: 0 !important;
     padding: 20px !important;
     box-sizing: border-box !important;
