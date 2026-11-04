@@ -75,7 +75,7 @@ body:has(.layout-ninho) a {
 .links-menu {
     display: flex;
     flex-direction: column;
-    gap: 7px;
+    gap: 1.8px;
 }
 
 .menu-lateral .link-menu {
@@ -93,6 +93,7 @@ body:has(.layout-ninho) a {
     width: 23px;
     text-align: center;
     font-size: 19px;
+    line-height: 1.2;
 }
 
 .menu-lateral .link-menu:hover,
@@ -101,36 +102,20 @@ body:has(.layout-ninho) a {
     color: var(--ninho-azul-escuro);
 }
 
-.mensagem-menu {
-    margin-top: auto;
-    margin-bottom: 18px;
-    padding: 17px;
-    border-radius: 17px;
-    background: var(--ninho-lilas);
-}
-
-.mensagem-menu span {
-    font-size: 22px;
-}
-
-.menu-lateral .mensagem-menu p {
-    margin: 8px 0 0;
-    font-size: 11px;
-    line-height: 1.8;
-}
-
 .menu-lateral .botao-sair {
     display: block;
+    margin-top: 18px;
     padding: 12px;
-    border: 1px solid var(--ninho-borda);
+    border: 1px solid #B80024;
     border-radius: 12px;
-    background: rgb(225, 193, 255);
+    background: #E0002B;
+    color: #FFFFFF;
     text-align: center;
     font-size: 11px;
 }
 
 .menu-lateral .botao-sair:hover {
-    background: var(--ninho-fundo);
+    background: #B80024;
 }
 
 .conteudo-ninho {

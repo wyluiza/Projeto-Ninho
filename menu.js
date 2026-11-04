@@ -62,11 +62,6 @@
 
         links.forEach(link => lista.appendChild(criarLink(link)));
 
-        const mensagem = document.createElement("div");
-        mensagem.className = "mensagem-menu";
-        mensagem.innerHTML =
-            "<span>☁</span><p>Um lar organizado começa com pequenos cuidados.</p>";
-
         const sair = document.createElement("button");
         sair.type = "button";
         sair.className = "botao-sair";
@@ -96,7 +91,7 @@
             }
         });
 
-        menu.append(logo, legenda, lista, mensagem, sair);
+        menu.append(logo, legenda, lista, sair);
 
         const conteudo = document.createElement("div");
         conteudo.className = "conteudo-ninho";
