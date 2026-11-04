@@ -128,17 +128,18 @@
     width: 100%;
     margin-top: 18px;
     padding: 14px 18px;
-    border: 0;
-    border-radius: 13px;
-    background: #a8def8;
-    color: #315d76;
+    border: 1px solid #e3eaf8;
+    border-radius: 18px;
+    background: linear-gradient(135deg, #dff3ff, #eee7ff);
+    color: #587a9c;
     font: 700 12px "Comfortaa", sans-serif;
+    box-shadow: 0 5px 15px rgba(151, 183, 220, 0.18);
     cursor: pointer;
     transition: background .2s, transform .2s;
 }
 
 .compras-formulario .botao-principal:hover {
-    background: #8dcef1;
+    background: linear-gradient(135deg, #cceaff, #e4d9ff);
     transform: translateY(-1px);
 }
 
