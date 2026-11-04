@@ -315,7 +315,7 @@ body:has(.layout-ninho) .conteudo-ninho main.painel-ninho {
 
     .conteudo-ninho {
         margin-left: 0;
-        padding-bottom: 94px;
+        padding-bottom: 140px;
     }
 
     .topo-mobile {
@@ -436,6 +436,7 @@ body:has(.layout-ninho) .conteudo-ninho main.painel-ninho {
         display: flex;
         align-items: stretch;
         justify-content: space-around;
+        flex-wrap: wrap;
         gap: 2px;
         width: 100%;
         margin: 0;
@@ -481,6 +482,23 @@ body:has(.layout-ninho) .conteudo-ninho main.painel-ninho {
     .menu-inferior .link-inferior.ativo small,
     .menu-inferior .link-inferior.ativo span {
         color: var(--ninho-azul-escuro);
+    }
+
+    .menu-inferior .botao-sair-mobile {
+        display: block;
+        flex: 0 0 100%;
+        margin: 0;
+        padding: 8px 12px;
+        border: 1px solid #B80024;
+        border-radius: 10px;
+        background: #E0002B;
+        color: #FFFFFF;
+        text-align: center;
+        font-size: 11px;
+    }
+
+    .menu-inferior .botao-sair-mobile:hover {
+        background: #B80024;
     }
 }
 
@@ -641,6 +659,10 @@ body:has(.layout-ninho) .conteudo-ninho main.painel-ninho {
     background: #FBE8F3;
 }
 
+.painel-ninho .cartao-membros::before {
+    background: #F0EAFF;
+}
+
 /* Mantém o visual confortável em telas menores */
 @media (max-width: 1100px) {
     body:has(.layout-ninho) .conteudo-ninho main.painel-ninho {
@@ -694,16 +716,20 @@ body:has(.layout-ninho) .conteudo-ninho > .pagina {
 
 @media (max-width: 760px) {
     .menu-inferior {
-        justify-content: center;
+        justify-content: space-around;
     }
 
-    .menu-inferior .link-inferior:not([href="inicio.html"]) {
+    .menu-inferior .link-inferior:not([href="inicio.html"]):not([href="membros.html"]) {
         display: none !important;
     }
 
     .menu-inferior .link-inferior[href="inicio.html"] {
-        display: flex;
-        flex: 0 0 auto;
-        min-width: 75px;
+        flex: 1 1 0;
+        min-width: 0;
+    }
+
+    .menu-inferior .link-inferior[href="membros.html"] {
+        flex: 1 1 0;
+        min-width: 0;
     }
 }
