@@ -405,21 +405,9 @@ function alternarFavorita(id) {
 ========================================== */
 
 function configurarBotaoFavoritas() {
-  let botao = $('btnVerFavoritas');
+  const botao = $('btnVerFavoritas');
 
-  if (!botao) {
-    botao = document.createElement('button');
-    botao.type = 'button';
-    botao.id = 'btnVerFavoritas';
-
-    const lista = $('listaReceitas');
-
-    if (lista && lista.parentNode) {
-      lista.parentNode.insertBefore(botao, lista);
-    }
-  }
-
-  botao.classList.add('botao-filtro-favoritas');
+  if (!botao) return;
 
   botao.textContent = mostrarFavoritas
     ? '🍽️ Todas as receitas'
@@ -435,6 +423,7 @@ function configurarBotaoFavoritas() {
     renderizar();
   });
 }
+
 
 /* ==========================================
    RENDERIZAÇÃO

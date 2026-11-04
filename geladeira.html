@@ -1,4 +1,5 @@
 
+```html
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -71,103 +72,101 @@
                 </div>
             </section>
 
-                <button
-                    id="abrirFormulario"
-                    class="botao-adicionar"
-                    type="button"
-                    onclick="document.getElementById('formularioAlimento').removeAttribute('hidden'); document.getElementById('abrirFormulario').hidden = true;">
-                    + Adicionar alimento
-        </button>
-            
-<section class="formulario-alimento" id="formularioAlimento" hidden>
+            <p class="mensagem-estoque" id="mensagemEstoque" role="status" aria-live="polite"></p>
 
-    <div class="popup-geladeira">
-
-        <button id="cancelarFormulario" type="button" class="fechar-popup"
-            onclick="document.getElementById('formularioAlimento').hidden = true; document.getElementById('abrirFormulario').hidden = false;">
-            ×
-        </button>
-
-        <div class="cabecalho-popup">
-            <span class="icone-popup">🧺</span>
-            <h2>O que chegou na geladeira?</h2>
-            <p>Vamos guardar tudo com carinho!</p>
-        </div>
-
-        <form id="formAlimento">
-
-            <label for="nomeAlimento">Nome do alimento</label>
-            <input id="nomeAlimento" type="text"
-                placeholder="Ex.: Queijo colonial"
-                required maxlength="60">
-
-            <div class="linha-formulario">
-
-                <div>
-                    <label for="quantidadeAlimento">Quantidade</label>
-                    <input id="quantidadeAlimento" type="number"
-                        min="0.01" step="any" placeholder="Ex.: 2" required>
-                </div>
-
-                <div>
-                    <label for="unidadeAlimento">Armazenado em</label>
-                    <select id="unidadeAlimento">
-                        <option value="kg">Quilos (kg)</option>
-                        <option value="g">Gramas (g)</option>
-                        <option value="L">Litros (L)</option>
-                        <option value="ml">Mililitros (ml)</option>
-                        <option value="un.">Unidades</option>
-                        <option value="cx.">Caixas</option>
-                        <option value="pct.">Pacotes</option>
-                        <option value="pote(s)">Potes</option>
-                        <option value="lata(s)">Latas</option>
-                        <option value="cacho(s)">Cachos</option>
-                    </select>
-                </div>
-
-                <div id="campoEmbalagem" style="display:none; width:100%; grid-column:1/-1;">
-                    <label for="pesoPacoteAlimento">Conteúdo de cada embalagem</label>
-
-                    <div class="linha-formulario">
-                        <input type="number" id="pesoPacoteAlimento"
-                            min="0.01" step="any" placeholder="Ex.: 500">
-
-                        <select id="unidadeConteudoAlimento">
-                            <option value="g">Gramas (g)</option>
-                            <option value="ml">Mililitros (ml)</option>
-                            <option value="un">Unidades</option>
-                        </select>
-                    </div>
-                </div>
-
-            </div>
-
-            <label for="emojiAlimento">Desenho do alimento</label>
-            <select id="emojiAlimento">
-                <option value="🥛">🥛 Leite</option>
-                <option value="🧀">🧀 Queijo</option>
-                <option value="🥚">🥚 Ovos</option>
-                <option value="🥕">🥕 Legumes</option>
-                <option value="🍎">🍎 Frutas</option>
-                <option value="🍞">🍞 Pães</option>
-                <option value="🥩">🥩 Carnes</option>
-                <option value="🧃">🧃 Bebidas</option>
-                <option value="🍚">🍚 Grãos</option>
-                <option value="🍪">🍪 Doces</option>
-                <option value="🧊">🧊 Outros</option>
-            </select>
-
-            <button class="botao-salvar" type="submit">
-                Guardar na geladeira
+            <button
+                id="abrirFormulario"
+                class="botao-adicionar"
+                type="button">
+                + Adicionar alimento
             </button>
 
-            <p class="mensagem-estoque" id="mensagemEstoque"></p>
+            <section class="formulario-alimento" id="formularioAlimento" hidden>
 
-        </form>
+                <div class="popup-geladeira">
 
-    </div>
-</section>
+                    <button id="cancelarFormulario" type="button" class="fechar-popup">
+                        ×
+                    </button>
 
+                    <div class="cabecalho-popup">
+                        <span class="icone-popup">🧺</span>
+                        <h2>O que chegou na geladeira?</h2>
+                        <p>Vamos guardar tudo com carinho!</p>
+                    </div>
+
+                    <form id="formAlimento">
+
+                        <label for="nomeAlimento">Nome do alimento</label>
+                        <input id="nomeAlimento" type="text"
+                            placeholder="Ex.: Queijo colonial"
+                            required maxlength="60">
+
+                        <div class="linha-formulario">
+
+                            <div>
+                                <label for="quantidadeAlimento">Quantidade</label>
+                                <input id="quantidadeAlimento" type="number"
+                                    min="0.01" step="any" placeholder="Ex.: 2" required>
+                            </div>
+
+                            <div>
+                                <label for="unidadeAlimento">Armazenado em</label>
+                                <select id="unidadeAlimento">
+                                    <option value="kg">Quilos (kg)</option>
+                                    <option value="g">Gramas (g)</option>
+                                    <option value="L">Litros (L)</option>
+                                    <option value="ml">Mililitros (ml)</option>
+                                    <option value="un.">Unidades</option>
+                                    <option value="cx.">Caixas</option>
+                                    <option value="pct.">Pacotes</option>
+                                    <option value="pote(s)">Potes</option>
+                                    <option value="lata(s)">Latas</option>
+                                    <option value="cacho(s)">Cachos</option>
+                                </select>
+                            </div>
+
+                            <div id="campoEmbalagem" style="display:none; width:100%; grid-column:1/-1;">
+                                <label for="pesoPacoteAlimento">Conteúdo de cada embalagem</label>
+
+                                <div class="linha-formulario">
+                                    <input type="number" id="pesoPacoteAlimento"
+                                        min="0.01" step="any" placeholder="Ex.: 500">
+
+                                    <select id="unidadeConteudoAlimento">
+                                        <option value="g">Gramas (g)</option>
+                                        <option value="ml">Mililitros (ml)</option>
+                                        <option value="un">Unidades</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <label for="emojiAlimento">Desenho do alimento</label>
+                        <select id="emojiAlimento">
+                            <option value="🥛">🥛 Leite</option>
+                            <option value="🧀">🧀 Queijo</option>
+                            <option value="🥚">🥚 Ovos</option>
+                            <option value="🥕">🥕 Legumes</option>
+                            <option value="🍎">🍎 Frutas</option>
+                            <option value="🍞">🍞 Pães</option>
+                            <option value="🥩">🥩 Carnes</option>
+                            <option value="🧃">🧃 Bebidas</option>
+                            <option value="🍚">🍚 Grãos</option>
+                            <option value="🍪">🍪 Doces</option>
+                            <option value="🧊">🧊 Outros</option>
+                        </select>
+
+                        <button class="botao-salvar" type="submit">
+                            Guardar na geladeira
+                        </button>
+
+                    </form>
+                </div>
+            </section>
+
+        </section>
     </div>
 
     <nav class="menu-inferior">
@@ -184,3 +183,4 @@
 
 </body>
 </html>
+```

@@ -1469,3 +1469,15 @@ body:has(.formulario-alimento.aberto)::after {
     align-items: center;
     justify-content: center;
 }
+.mensagem-estoque {
+    text-align: center;
+    min-height: 0;
+    margin: 0 auto;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+.mensagem-estoque.mensagem-visivel {
+    opacity: 1;
+    margin: 12px auto;
+}

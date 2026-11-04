@@ -62,10 +62,9 @@
 
                 <div class="campo" id="campoNomeNinho">
                     <label for="nomeNinho">Nome do Ninho</label>
-                    <input type="text" id="nomeNinho" name="nomeNinho" 
+                    <input type="text" id="nomeNinho" name="nomeNinho"
                     placeholder="Ex.: Ninho da Familia" required>
                 </div>
-
 
                 <div class="campo">
                     <label for="nome">Seu nome</label>
@@ -78,19 +77,19 @@
                     <input type="email" id="email" name="email"
                         placeholder="voce@exemplo.com" required>
                 </div>
-                    
-                    <div class="campo">
-                        <label for="senha">Senha</label>
-                        <div class="campo-senha">
-                            <input type="password" id="senha"
-                                placeholder="Crie uma senha" required>
-                            <button type="button" id="mostrarSenha"
-                                    class="botao-olho" aria-label="Mostrar senha">👁</button>
-                        </div>
-                    </div>
 
-                
-                    <input type="hidden" id="papel" name="papel" value="RESPONSAVEL">
+                <div class="campo">
+                    <label for="senha">Senha</label>
+                    <div class="campo-senha">
+                        <input type="password" id="senha"
+                            placeholder="Crie uma senha" required>
+
+                        <button type="button" id="mostrarSenha"
+                            class="botao-olho" aria-label="Mostrar senha">👁</button>
+                    </div>
+                </div>
+
+                <input type="hidden" id="papel" name="papel" value="RESPONSAVEL">
 
                 <button type="submit" class="botao-principal">
                     ♥ &nbsp; Formar meu Ninho
@@ -108,29 +107,20 @@
 
     </main>
 
-    <script src="script.js">
-        
-            document.getElementById("mostrarSenha").addEventListener("click", function() {
-                const campo = document.getElementById("senha");
+    <script src="script.js"></script>
 
-                if (campo.type === "password") {
-                    campo.type = "text";
-                    this.textContent = "👁";
-                    this.setAttribute("aria-label", "Esconder senha");
-                } else {
-                    campo.type = "password";
-                    this.textContent = "👁";
-                    this.setAttribute("aria-label", "Mostrar senha");
-                }
-            });
+    <script>
+        document.getElementById("mostrarSenha").addEventListener("click", function() {
+            const campo = document.getElementById("senha");
 
-                </script>
-                <script>
-            document.getElementById("mostrarSenha").addEventListener("click", function() {
-                const campo = document.getElementById("senha");
+            campo.type = campo.type === "password" ? "text" : "password";
 
-                campo.type = campo.type === "password" ? "text" : "password";
-            });
-            </script>
+            this.setAttribute(
+                "aria-label",
+                campo.type === "password" ? "Mostrar senha" : "Esconder senha"
+            );
+        });
+    </script>
+
 </body>
 </html>

@@ -11,16 +11,10 @@ body.pagina-acesso {
     align-items: center;
     justify-content: center;
     font-family: 'Comfortaa', sans-serif;
-    background: linear-gradient(
-    135deg,
-    #e5f5ff 0%,
-    #f5f0ff 55%,
-    #e7f6ff 100%
-);
+    background: linear-gradient(135deg, #e5f5ff 0%, #f5f0ff 55%, #e7f6ff 100%);
 }
 
-/* ===== BOTÃO VOLTAR ===== */
-
+/* BOTÃO VOLTAR */
 body.pagina-acesso .botao-voltar {
     position: fixed;
     top: 28px;
@@ -47,8 +41,7 @@ body.pagina-acesso .botao-voltar:hover {
     transform: translateX(-3px);
 }
 
-/* ===== CARTÃO PRINCIPAL ===== */
-
+/* CARTÃO PRINCIPAL */
 body.pagina-acesso .cartao-acesso {
     width: 100%;
     max-width: 940px;
@@ -64,8 +57,7 @@ body.pagina-acesso .cartao-acesso {
     box-shadow: 0 25px 70px rgba(91, 130, 177, 0.16);
 }
 
-/* ===== ÁREA AZUL DO CÉU ===== */
-
+/* ÁREA AZUL */
 body.pagina-acesso .apresentacao-acesso {
     position: relative;
     display: flex;
@@ -77,17 +69,9 @@ body.pagina-acesso .apresentacao-acesso {
     border-radius: 28px;
     overflow: hidden;
     background:
-    radial-gradient(
-        circle at 20% 15%,
-        rgba(255, 255, 255, 0.8),
-        transparent 35%
-    ),
-    radial-gradient(
-        circle at 85% 85%,
-        rgba(255, 255, 255, 0.5),
-        transparent 30%
-    ),
-    linear-gradient(155deg, #d9f0ff, #e9e4ff);
+        radial-gradient(circle at 20% 15%, rgba(255, 255, 255, 0.8), transparent 35%),
+        radial-gradient(circle at 85% 85%, rgba(255, 255, 255, 0.5), transparent 30%),
+        linear-gradient(155deg, #d9f0ff, #e9e4ff);
 }
 
 body.pagina-acesso .texto-apresentacao {
@@ -104,8 +88,7 @@ body.pagina-acesso .texto-apresentacao h1 {
     line-height: 1.45;
 }
 
-/* ===== FORMULÁRIO ===== */
-
+/* FORMULÁRIO */
 body.pagina-acesso .formulario-acesso {
     align-self: center;
     width: 100%;
@@ -185,8 +168,88 @@ body.pagina-acesso .formulario-acesso button:hover {
     box-shadow: 0 11px 24px rgba(140, 167, 219, 0.32);
 }
 
-/* ===== TABLET ===== */
+/* CAMPO DE SENHA */
+body.pagina-acesso .campo-senha {
+    position: relative;
+    width: 100%;
+    display: block;
+}
 
+body.pagina-acesso .campo-senha input {
+    width: 100%;
+    height: 48px;
+    margin-bottom: 10px;
+    padding: 0 45px 0 16px;
+}
+
+/* ESCONDE O OLHO NATIVO DO NAVEGADOR */
+body.pagina-acesso input[type="password"]::-ms-reveal,
+body.pagina-acesso input[type="password"]::-ms-clear {
+    display: none;
+}
+
+/* ÚNICO OLHINHO PERSONALIZADO */
+body.pagina-acesso .campo-senha .botao-olho {
+    position: absolute;
+    top: 24px;
+    right: 12px;
+    transform: translateY(-50%);
+    width: 30px;
+    height: 30px;
+    min-height: 30px;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+    color: #58758c;
+    font-size: 17px;
+    cursor: pointer;
+}
+
+body.pagina-acesso .campo-senha .botao-olho:hover {
+    transform: translateY(-50%);
+    background: transparent;
+    box-shadow: none;
+}
+
+/* ESQUECI MINHA SENHA */
+body.pagina-acesso .link-recuperar {
+    align-self: flex-end;
+    margin: 3px 0 15px;
+    color: #8b79bd;
+    font-size: 11px;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+body.pagina-acesso .link-recuperar:hover {
+    text-decoration: underline;
+}
+
+/* BOTÃO ENTRAR */
+body.pagina-acesso .formulario-acesso #botaoEntrar {
+    width: 100%;
+    height: 49px;
+    min-height: 49px;
+    max-height: 49px;
+    margin-top: 5px;
+    padding: 0 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: "Comfortaa", sans-serif;
+    font-size: 13px;
+    line-height: 1;
+    white-space: nowrap;
+    box-sizing: border-box;
+}
+
+/* TABLET */
 @media (max-width: 760px) {
     body.pagina-acesso {
         padding: 90px 20px 30px;
@@ -214,8 +277,7 @@ body.pagina-acesso .formulario-acesso button:hover {
     }
 }
 
-/* ===== CELULAR ===== */
-
+/* CELULAR */
 @media (max-width: 480px) {
     body.pagina-acesso {
         padding: 82px 14px 24px;
@@ -252,133 +314,4 @@ body.pagina-acesso .formulario-acesso button:hover {
     body.pagina-acesso .formulario-acesso h2 {
         font-size: 21px;
     }
-}
-
-/* ===== CAMPO DE SENHA E OLHINHO ===== */
-
-body.pagina-acesso .campo-senha {
-    position: relative;
-    width: 100%;
-}
-
-body.pagina-acesso .campo-senha input {
-    padding-right: 52px;
-    margin-bottom: 10px;
-}
-
-
-body.pagina-acesso .campo-senha .botao-olho {
-    position: absolute;
-    right: 12px;
-    top: 24px;
-    transform: translateY(-50%);
-
-    width: 30px;
-    height: 30px;
-    min-height: 30px;
-    margin: 0;
-    padding: 0;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    border: none;
-    border-radius: 0;
-    background: transparent;
-    box-shadow: none;
-
-    color: #58758c;
-    font-size: 17px;
-    cursor: pointer;
-}
-
-body.pagina-acesso .campo-senha .botao-olho:hover {
-    transform: translateY(-50%);
-    background: transparent;
-    box-shadow: none;
-}
-
-
-body.pagina-acesso .campo-senha .botao-olho:hover {
-    transform: translateY(-50%);
-    box-shadow: none;
-}
-
-/* ===== ESQUECI MINHA SENHA ===== */
-
-body.pagina-acesso .link-recuperar {
-    align-self: flex-end;
-    margin: 3px 0 15px;
-    color: #8b79bd;
-    font-size: 11px;
-    font-weight: 700;
-    text-decoration: none;
-}
-
-body.pagina-acesso .link-recuperar:hover {
-    text-decoration: underline;
-}
-
-.campo-senha {
-    position: relative;
-    width: 100%;
-}
-
-.campo-senha input {
-    width: 100%;
-    box-sizing: border-box;
-    padding-right: 45px;
-}
-
-.campo-senha {
-    position: relative !important;
-    width: 100% !important;
-    display: block !important;
-}
-
-.campo-senha input {
-    width: 100% !important;
-    height: 48px !important;
-    box-sizing: border-box !important;
-    padding: 0 45px 0 16px !important;
-}
-
-.campo-senha .botao-olho {
-    position: absolute !important;
-    top: 24px !important;
-    right: 12px !important;
-    transform: translateY(-50%) !important;
-
-    width: 30px !important;
-    height: 30px !important;
-    padding: 0 !important;
-
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-
-    border: none !important;
-    background: transparent !important;
-    box-shadow: none !important;
-    cursor: pointer !important;
-}
-
-body.pagina-acesso .formulario-acesso #botaoEntrar {
-    width: 100%;
-    height: 49px;
-    min-height: 49px;
-    max-height: 49px;
-    margin-top: 5px;
-    padding: 0 14px;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    font-family: "Comfortaa", sans-serif;
-    font-size: 13px;
-    line-height: 1;
-    white-space: nowrap;
-    box-sizing: border-box;
 }
