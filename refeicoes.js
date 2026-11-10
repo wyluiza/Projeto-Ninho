@@ -4,13 +4,18 @@
 
 const $ = id => document.getElementById(id);
 
+const SUPABASE_URL = 'https://ncqimbutzmngrkgvtnqt.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_kM4EsVr5Y22pWEgpn8CTdg_ag3m7aDE';
+
+const banco = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
 const CHAVE_RECEITAS_PERSONALIZADAS = 'ninhoReceitasPersonalizadas';
-const CHAVE_GELADEIRA = 'ninhoGeladeira';
 const CHAVE_FAVORITAS = 'ninhoReceitasFavoritas';
 
 let alimentos = [];
 let receitaAberta = null;
 let mostrarFavoritas = false;
+let ninhoId = null;
 
 const receitas = [
 {
@@ -160,14 +165,15 @@ function normalizar(texto) {
 }
 
 function chaveAlimento(nome) {
-  const n = normalizar(nome).replace(/[^a-z0-9]/g, '').replace(/s$/, '');
+  const n = normalizar(nome)
+    .replace(/[^a-z0-9]/g, '')
+    .replace(/s$/, '');
 
   if (n.includes('leite')) return 'leite';
 
   const mapa = {
     ovo: ['ovo','ovos'],
     pao: ['pao','paes'],
-    leite: ['leite'],
     queijo: ['queijo'],
     banana: ['banana'],
     manteiga: ['manteiga','margarina'],
@@ -187,7 +193,10 @@ function chaveAlimento(nome) {
     tapioca: ['tapioca','gomadetapioca'],
     farinha: ['farinha','farinhadetrigo'],
     fermento: ['fermento'],
-    milho: ['milho','milhoparapipoca']
+    milho: ['milho','milhoparapipoca'],
+    limao: ['limao','limoes'],
+    maca: ['maca','macas'],
+    cenoura: ['cenoura','cenouras']
   };
 
   for (const [key, values] of Object.entries(mapa)) {
@@ -224,7 +233,6 @@ function converterQuantidade(valor, unidadeOrigem, unidadeDestino, chave = '') {
   if (origem === 'l' && destino === 'ml') return quantidade * 1000;
   if (origem === 'ml' && destino === 'l') return quantidade / 1000;
 
-  // Caixa de leite padrão = 1 litro
   if (chave === 'leite' && origem === 'cx' && destino === 'ml')
     return quantidade * 1000;
 
@@ -240,28 +248,65 @@ function converterQuantidade(valor, unidadeOrigem, unidadeDestino, chave = '') {
   return null;
 }
 
+/*
+ * Lê a quantidade primeiro e só reconhece uma unidade
+ * quando ela estiver separada do nome do ingrediente.
+ *
+ * Exemplos:
+ * 1 Limão       -> Limão, 1 un
+ * 1 L de leite  -> Leite, 1 l
+ * 200 ml leite  -> Leite, 200 ml
+ */
 function converterIngredienteTexto(texto) {
-  const partes = String(texto).trim().match(
-    /^(\d+(?:[.,]\d+)?)\s*(kg|g|ml|l|un|unidade|unidades|xícara|xícaras|colher|colheres)?\s*(?:de\s+)?(.+)$/i
+  const entrada = String(texto || '').trim();
+
+  const quantidadeMatch = entrada.match(/^(\d+(?:[.,]\d+)?)\s+(.+)$/);
+
+  if (!quantidadeMatch) return null;
+
+  const quantidade = Number(quantidadeMatch[1].replace(',', '.'));
+
+  if (!Number.isFinite(quantidade) || quantidade <= 0) return null;
+
+  let restante = quantidadeMatch[2].trim();
+  let unidade = 'un';
+
+  const unidadeMatch = restante.match(
+    /^(kg|g|ml|l|litros?|unidades?|un|und|gramas?|quilos?|cx\.?|caixas?|pct\.?|pacotes?|xícaras?|colheres?)\s+(?:de\s+)?(.+)$/i
   );
 
-  if (!partes) return null;
-
-  const quantidade = Number(partes[1].replace(',', '.'));
-  let unidade = normalizar(partes[2] || 'un');
-  let nome = partes[3].trim();
-
-  if (unidade.startsWith('xicara')) {
-    unidade = 'un';
-    nome = 'Xícara de ' + nome;
-  } else if (unidade.startsWith('colher')) {
-    unidade = 'un';
-    nome = 'Colher de ' + nome;
-  } else {
-    unidade = unidadeNormalizada(unidade);
+  if (unidadeMatch) {
+    unidade = unidadeNormalizada(unidadeMatch[1]);
+    restante = unidadeMatch[2].trim();
   }
 
-  return [chaveAlimento(nome), nome, quantidade, unidade];
+  if (!restante) return null;
+
+  // "1 xícara de farinha" e "1 colher de açúcar"
+  const medidaCaseira = restante.match(
+    /^(xícara|xícaras|colher|colheres)\s+(?:de\s+)?(.+)$/i
+  );
+
+  if (medidaCaseira) {
+    const medida = normalizar(medidaCaseira[1]);
+    restante = medidaCaseira[2].trim();
+    unidade = 'un';
+
+    if (medida.startsWith('xicara')) {
+      restante = 'Xícara de ' + restante;
+    } else {
+      restante = 'Colher de ' + restante;
+    }
+  }
+
+  if (!restante) return null;
+
+  return [
+    chaveAlimento(restante),
+    restante,
+    quantidade,
+    unidade
+  ];
 }
 
 /* ==========================================
@@ -270,9 +315,11 @@ function converterIngredienteTexto(texto) {
 
 function carregarReceitasPersonalizadas() {
   try {
-    return JSON.parse(
+    const dados = JSON.parse(
       localStorage.getItem(CHAVE_RECEITAS_PERSONALIZADAS) || '[]'
     );
+
+    return Array.isArray(dados) ? dados : [];
   } catch {
     return [];
   }
@@ -304,8 +351,57 @@ function atualizarReceitasPersonalizadas() {
 }
 
 /* ==========================================
-   GELADEIRA E DISPONIBILIDADE
+   SUPABASE E GELADEIRA
 ========================================== */
+
+async function identificarNinho() {
+  const { data: usuarioData, error: usuarioErro } =
+    await banco.auth.getUser();
+
+  if (usuarioErro) throw usuarioErro;
+
+  const usuario = usuarioData?.user;
+
+  if (!usuario) {
+    throw new Error('Você precisa entrar no Ninho para consultar a geladeira.');
+  }
+
+  const { data: membro, error: membroErro } = await banco
+    .from('membros')
+    .select('ninho_id')
+    .eq('id', usuario.id)
+    .single();
+
+  if (membroErro) throw membroErro;
+
+  if (!membro?.ninho_id) {
+    throw new Error('Não foi possível identificar o Ninho deste membro.');
+  }
+
+  ninhoId = membro.ninho_id;
+}
+
+async function carregarAlimentos() {
+  if (!ninhoId) {
+    await identificarNinho();
+  }
+
+  const { data, error } = await banco
+    .from('alimentos')
+    .select('*')
+    .eq('ninho_id', ninhoId)
+    .order('criado_em', { ascending: true });
+
+  if (error) throw error;
+
+  alimentos = Array.isArray(data) ? data : [];
+
+  const contador = $('contadorIngredientes');
+
+  if (contador) {
+    contador.textContent = `${alimentos.length} ingredientes`;
+  }
+}
 
 function encontrarAlimento(chave) {
   return alimentos.find(item => chaveAlimento(item.nome) === chave);
@@ -331,36 +427,6 @@ function verificarReceita(receita) {
     disponivel: faltantes.length === 0
   };
 }
-
-const unidadeAlimento = document.getElementById("unidadeAlimento");
-const campoEmbalagem = document.getElementById("campoEmbalagem");
-
-if (unidadeAlimento && campoEmbalagem) {
-    unidadeAlimento.addEventListener("change", () => {
-        const unidadesEmbaladas = [
-            "cx.", "pct.", "pote(s)", "lata(s)"
-        ];
-
-        const mostrar = unidadesEmbaladas.includes(unidadeAlimento.value);
-
-        campoEmbalagem.style.display = mostrar ? "block" : "none";
-    });
-}
-
-
-async function carregarAlimentos() {
-  const dados = localStorage.getItem(CHAVE_GELADEIRA);
-  alimentos = dados ? JSON.parse(dados) : [];
-
-  if (!Array.isArray(alimentos)) alimentos = [];
-
-  const contador = $('contadorIngredientes');
-
-  if (contador) {
-    contador.textContent = `${alimentos.length} ingredientes`;
-  }
-}
-
 
 /* ==========================================
    UTILITÁRIOS
@@ -423,7 +489,6 @@ function configurarBotaoFavoritas() {
     renderizar();
   });
 }
-
 
 /* ==========================================
    RENDERIZAÇÃO
@@ -576,8 +641,6 @@ function abrirReceita(id) {
     `;
   }).join('');
 
-  const favorita = carregarFavoritas().includes(String(receitaAberta.id));
-
   $('detalheReceita').innerHTML = `
     <div class="detalhe-cabecalho">
       <span class="icone-receita">${receitaAberta.emoji || '👩‍🍳'}</span>
@@ -697,7 +760,7 @@ function excluirReceitaPersonalizada() {
 ========================================== */
 
 async function prepararReceita() {
-  if (!receitaAberta) return;
+  if (!receitaAberta || !ninhoId) return;
 
   const botao = $('botaoPreparar');
 
@@ -705,6 +768,7 @@ async function prepararReceita() {
   $('mensagemPreparo').textContent = 'Conferindo novamente seu estoque...';
 
   try {
+    // Atualiza os dados reais do Supabase antes de consumir.
     await carregarAlimentos();
 
     const estado = verificarReceita(receitaAberta);
@@ -719,10 +783,18 @@ async function prepararReceita() {
       return;
     }
 
-    const alteracoes = [];
+    /*
+     * Agrupa ingredientes que usam o mesmo alimento.
+     * Assim, dois ingredientes iguais não sobrescrevem o consumo.
+     */
+    const consumos = new Map();
 
     for (const [chave,nome,qtd,un] of receitaAberta.ingredientes) {
       const item = encontrarAlimento(chave);
+
+      if (!item) {
+        throw new Error(`Alimento não encontrado: ${nome}.`);
+      }
 
       const consumo = converterQuantidade(qtd,un,item.unidade,chave);
 
@@ -730,20 +802,36 @@ async function prepararReceita() {
         throw new Error(`Unidade incompatível para ${nome}.`);
       }
 
-      alteracoes.push({
+      const anterior = consumos.get(item.id);
+
+      consumos.set(item.id, {
         item,
-        nova: Math.max(
-          0,
-          Number((Number(item.quantidade) - consumo).toFixed(3))
-        )
+        consumoTotal: (anterior?.consumoTotal || 0) + consumo
       });
     }
 
-    alteracoes.forEach(a => {
-      a.item.quantidade = a.nova;
-    });
+    // Confere novamente os totais agrupados.
+    for (const { item, consumoTotal } of consumos.values()) {
+      if (Number(item.quantidade) < consumoTotal) {
+        throw new Error(`Quantidade insuficiente de ${item.nome}.`);
+      }
+    }
 
-    localStorage.setItem(CHAVE_GELADEIRA, JSON.stringify(alimentos));
+    // Atualiza cada alimento diretamente no banco.
+    for (const { item, consumoTotal } of consumos.values()) {
+      const novaQuantidade = Math.max(
+        0,
+        Number((Number(item.quantidade) - consumoTotal).toFixed(3))
+      );
+
+      const { error } = await banco
+        .from('alimentos')
+        .update({ quantidade: novaQuantidade })
+        .eq('id', item.id)
+        .eq('ninho_id', ninhoId);
+
+      if (error) throw error;
+    }
 
     await carregarAlimentos();
     renderizar();
@@ -758,10 +846,11 @@ async function prepararReceita() {
     }, 1400);
 
   } catch (erro) {
-    console.error(erro);
+    console.error('Erro ao preparar receita:', erro);
 
     $('mensagemPreparo').textContent =
-      'Não foi possível descontar os ingredientes. Atualize a página e tente novamente.';
+      'Não foi possível descontar os ingredientes. ' +
+      (erro.message || 'Atualize a página e tente novamente.');
 
     botao.disabled = false;
   }
@@ -814,7 +903,9 @@ function salvarReceita(event) {
   const ingredientes = ingredientesTexto.map(converterIngredienteTexto);
 
   if (ingredientes.some(x => !x)) {
-    alert('Confira os ingredientes. Exemplos: 2 ovos; 200 ml de leite; 1 xícara de farinha.');
+    alert(
+      'Confira os ingredientes. Exemplos: 2 ovos; 200 ml de leite; 1 xícara de farinha.'
+    );
     return;
   }
 
@@ -869,18 +960,8 @@ function salvarReceita(event) {
    INICIALIZAÇÃO
 ========================================== */
 
-function iniciar() {
+async function iniciar() {
   atualizarReceitasPersonalizadas();
-
-  carregarAlimentos()
-    .then(renderizar)
-    .catch(erro => {
-      console.error(erro);
-
-      if ($('mensagemReceitas')) {
-        $('mensagemReceitas').textContent = erro.message;
-      }
-    });
 
   configurarBotaoFavoritas();
 
@@ -927,6 +1008,31 @@ function iniciar() {
       abrirReceita(receitaAberta.id);
     }
   });
+
+  try {
+    await identificarNinho();
+    await carregarAlimentos();
+    renderizar();
+
+    if ($('mensagemReceitas')) {
+      $('mensagemReceitas').textContent =
+        `${alimentos.length} ingredientes encontrados na geladeira do seu Ninho.`;
+    }
+  } catch (erro) {
+    console.error('Erro ao carregar geladeira nas receitas:', erro);
+
+    if ($('mensagemReceitas')) {
+      $('mensagemReceitas').textContent =
+        'Não foi possível conectar à geladeira. ' +
+        (erro.message || 'Verifique se você está conectado ao Ninho.');
+    }
+
+    if ($('contadorIngredientes')) {
+      $('contadorIngredientes').textContent = 'Geladeira indisponível';
+    }
+
+    renderizar();
+  }
 }
 
 iniciar();

@@ -620,3 +620,34 @@ h2 {
         font-size: 75px;
     }
 }
+
+/* BOTÃO PRINCIPAL PADRÃO DO NINHO */
+
+.pagina-tarefas .botao-principal {
+    width: auto;
+    min-width: 190px;
+    padding: 14px 24px;
+    border: 1px solid #dcecf8;
+    border-radius: 15px;
+    background: linear-gradient(135deg, #dff2ff, #eee9ff);
+    color: #557a98;
+    box-shadow: 0 5px 14px rgba(135, 177, 211, 0.13);
+    font: 700 12px "Comfortaa", sans-serif;
+    transition: all 0.25s ease;
+}
+
+.pagina-tarefas .botao-principal:hover {
+    background: linear-gradient(135deg, #d2eaff, #e6dcff);
+    box-shadow: 0 7px 18px rgba(135, 177, 211, 0.2);
+    transform: translateY(-2px);
+}
+
+.pagina-tarefas .botao-principal:active {
+    transform: translateY(0);
+}
+
+.pagina-tarefas .botao-principal:disabled {
+    opacity: 0.6;
+    cursor: wait;
+    transform: none;
+}
